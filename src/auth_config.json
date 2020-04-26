@@ -1,4 +1,5 @@
 {
     "domain": "eventhorizon.auth0.com",
-    "clientId": "ZIXFJUktoBaxESrJnzup4oezAhpD9iWI"
+    "clientId": "ZIXFJUktoBaxESrJnzup4oezAhpD9iWI",
+    "audience": "https://event-horizon-app.herokuapp.com/"
 }

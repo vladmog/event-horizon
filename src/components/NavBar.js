@@ -9,7 +9,10 @@ const NavBar = () => {
   return (
     <div>
       {!isAuthenticated && (
-        <button onClick={() => loginWithRedirect({})}>Log in</button>
+        <div>
+          <button onClick={() => loginWithRedirect({})}>Log in</button>
+          <Link to="/external-api">External API</Link>
+        </div>
       )}
 
         {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
@@ -19,6 +22,7 @@ const NavBar = () => {
         <span>
             <Link to="/">Home</Link>&nbsp;
             <Link to="/profile">Profile</Link>
+            <Link to="/external-api">External API</Link>
         </span>
         )}
     </div>
