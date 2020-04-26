@@ -4,7 +4,7 @@ import { useAuth0 } from "../react-auth0-spa";
 const ExternalApi = () => {
   const [showResult, setShowResult] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
-  const {   } = useAuth0();
+  const { getTokenSilently } = useAuth0();
 
   const callApi = async () => {
     try {
