@@ -4,13 +4,13 @@ import { useAuth0 } from "../react-auth0-spa";
 const ExternalApi = () => {
   const [showResult, setShowResult] = useState(false);
   const [apiMessage, setApiMessage] = useState("");
-  const { getTokenSilently } = useAuth0();
+  const {   } = useAuth0();
 
   const callApi = async () => {
     try {
       const token = await getTokenSilently();
 
-      const response = await fetch("http://localhost:5000/api/users", {
+      const response = await fetch("https://event-horizon-app.herokuapp.com/api/users", {
         headers: {
           Authorization: `Bearer ${token}`
         }
