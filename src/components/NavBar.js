@@ -14,12 +14,10 @@ const NavBar = () => {
 
       {isAuthenticated && <button onClick={() => logout()}>Log out</button>}
 
-      {/* NEW - add a link to the home and profile pages */}
       {isAuthenticated && (
         <span>
           <Link to="/">Home</Link>&nbsp;
           <Link to="/profile">Profile</Link>
-          {/* NEW - Add a link to the /external-api route */}
           <Link to="/external-api">External API</Link>
         </span>
       )}
