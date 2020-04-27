@@ -7,6 +7,12 @@ import { Router, Route, Switch } from "react-router-dom";
 import Profile from "./components/Profile";
 import history from "./utils/history";
 
+// NEW - import the PrivateRoute component
+import PrivateRoute from "./components/PrivateRoute";
+
+// NEW - import the ExternalApi component
+import ExternalApi from "./views/ExternalApi";
+
 function App() {
   const { loading } = useAuth0();
 
@@ -22,7 +28,8 @@ function App() {
         </header>
         <Switch>
           <Route path="/" exact />
-          <Route path="/profile" component={Profile} />
+          <PrivateRoute path="/profile" component={Profile} />
+          <PrivateRoute path="/external-api" component={ExternalApi} />
         </Switch>
       </Router>
     </div>

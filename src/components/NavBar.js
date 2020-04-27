@@ -19,6 +19,8 @@ const NavBar = () => {
         <span>
           <Link to="/">Home</Link>&nbsp;
           <Link to="/profile">Profile</Link>
+          {/* NEW - Add a link to the /external-api route */}
+          <Link to="/external-api">External API</Link>
         </span>
       )}
     </div>
