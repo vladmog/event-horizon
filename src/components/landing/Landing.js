@@ -20,7 +20,7 @@ const Landing = () => {
             <h3>CHECKLIST</h3>
             <div>Ensure nothing is forgotten</div>
         </section>
-        <button onClick={() => loginWithRedirect({})}>SIGN IN</button>
+        <button onClick={() => loginWithRedirect({redirect_uri: 'http://localhost:3000/events'})}>SIGN IN</button>
         
     </div>
   );
