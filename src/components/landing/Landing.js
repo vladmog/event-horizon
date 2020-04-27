@@ -1,7 +1,14 @@
 import React from "react";
 import { useAuth0 } from "../../react-auth0-spa";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators, compose } from "redux";
 
-const Landing = () => {
+
+import {getUser} from "../../redux/actions";
+
+const Landing = (props) => {
+    console.log("isUserRetrieved", props.isUserRetrieved)
     const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 
   return (
@@ -26,4 +33,19 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+const mapStateToProps = ({ imap, user, contacts, inbox, searchbar }) => ({
+    isUserRetrieved: user.isUserRetrieved,
+  });
+  
+const mapDispatchToProps = dispatch =>
+bindActionCreators(
+    {
+    getUser
+    },
+    dispatch
+);
+
+export default compose(
+withRouter,
+connect(mapStateToProps, mapDispatchToProps)
+)(Landing);
