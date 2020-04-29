@@ -5,6 +5,8 @@ const url = process.env.REACT_APP_BACKENDURL
 	? process.env.REACT_APP_BACKENDURL
 	: "http://localhost:5000";
 
+console.log("BE URL: ", url);
+
 //====================================================
 export const GET_USER_START = "GET_USER_START";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
