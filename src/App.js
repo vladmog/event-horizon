@@ -8,28 +8,31 @@ import history from "./utils/history";
 import PrivateRoute from "./components/PrivateRoute";
 import ExternalApi from "./views/ExternalApi";
 import Landing from "./components/landing/Landing";
+import Events from "./components/events/Events";
 
 function App() {
-  const { loading } = useAuth0();
+	const { loading } = useAuth0();
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+	if (loading) {
+		return <div>Loading...</div>;
+	}
 
-  return (
-    <div className="App">
-      <Router history={history}>
-        <header>
-          {/* <NavBar /> */}
-        </header>
-        <Switch>
-          <Route path="/" exact component = {Landing}/>
-          <PrivateRoute path="/profile" component={Profile} />
-          <PrivateRoute path="/external-api" component={ExternalApi} />
-        </Switch>
-      </Router>
-    </div>
-  );
+	return (
+		<div className="App">
+			<Router history={history}>
+				<header>{/* <NavBar /> */}</header>
+				<Switch>
+					<Route path="/" exact component={Landing} />
+					<PrivateRoute path="/events" component={Events} />
+					<PrivateRoute path="/profile" component={Profile} />
+					<PrivateRoute
+						path="/external-api"
+						component={ExternalApi}
+					/>
+				</Switch>
+			</Router>
+		</div>
+	);
 }
 
 export default App;

@@ -4,7 +4,6 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 
-
 import {getUser} from "../../redux/actions";
 
 const Landing = (props) => {
@@ -33,19 +32,19 @@ const Landing = (props) => {
   );
 };
 
-const mapStateToProps = ({ imap, user, contacts, inbox, searchbar }) => ({
+const mapStateToProps = ({ user, events }) => ({
     isUserRetrieved: user.isUserRetrieved,
   });
   
 const mapDispatchToProps = dispatch =>
 bindActionCreators(
     {
-    getUser
+        getUser
     },
     dispatch
 );
 
 export default compose(
-withRouter,
-connect(mapStateToProps, mapDispatchToProps)
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps)
 )(Landing);
