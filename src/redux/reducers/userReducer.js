@@ -8,6 +8,7 @@ export const userReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case GET_USER_SUCCESS:
 			if (payload) {
+				// IF USER IN DB
 				let user = payload;
 				return {
 					...state,
@@ -18,6 +19,7 @@ export const userReducer = (state = initialState, { type, payload }) => {
 					userId: user.id,
 				};
 			} else {
+				// IF USER NOT IN DB
 				return {
 					...state,
 					isUserRetrieved: true,
