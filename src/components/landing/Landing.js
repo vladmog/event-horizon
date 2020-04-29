@@ -7,7 +7,6 @@ import { bindActionCreators, compose } from "redux";
 import { getUser } from "../../redux/actions";
 
 const Landing = props => {
-	console.log("isUserRetrieved", props.isUserRetrieved);
 	const { isAuthenticated, loginWithRedirect, logout } = useAuth0();
 	const currentUrl = window.location.href;
 	console.log("redirect uri: ", `${currentUrl}events`);
