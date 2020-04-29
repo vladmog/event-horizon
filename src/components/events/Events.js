@@ -5,6 +5,7 @@ import { bindActionCreators, compose } from "redux";
 import { useAuth0 } from "../../react-auth0-spa";
 
 import { getUser } from "../../redux/actions";
+import FirstLogin from "./FirstLogin";
 
 const Events = props => {
 	const { user, getTokenSilently } = useAuth0();
@@ -20,7 +21,7 @@ const Events = props => {
 	}
 
 	if (props.isNewUser) {
-		return <h1>Pick a username</h1>;
+		return <FirstLogin />;
 	}
 
 	return (
