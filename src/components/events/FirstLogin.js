@@ -38,8 +38,7 @@ const FirstLogin = props => {
 	);
 };
 
-const mapStateToProps = ({ user, events }) => ({
-	isUserRetrieved: user.isUserRetrieved,
+const mapStateToProps = ({ user }) => ({
 	authToken: user.authToken,
 });
 

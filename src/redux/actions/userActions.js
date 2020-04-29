@@ -63,6 +63,7 @@ export const createUser = (token, user) => {
 				payload: response.data,
 			});
 		} catch (err) {
+			console.log(err);
 			dispatch({
 				type: CREATE_USER_FAILURE,
 				payload: err,
