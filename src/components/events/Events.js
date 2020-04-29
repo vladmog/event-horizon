@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { useAuth0 } from "../../react-auth0-spa";
 
-import { getUser } from "../../redux/actions";
+import { getUser, saveToken } from "../../redux/actions";
 import FirstLogin from "./FirstLogin";
 
 const Events = props => {
@@ -13,6 +13,7 @@ const Events = props => {
 	useEffect(() => {
 		getTokenSilently().then(token => {
 			props.getUser(token, user.email);
+			props.saveToken(token);
 		});
 	}, []);
 
@@ -41,6 +42,7 @@ const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
 			getUser,
+			saveToken,
 		},
 		dispatch
 	);

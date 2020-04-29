@@ -2,22 +2,34 @@ import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
+import { useAuth0 } from "../../react-auth0-spa";
 
-import { getUser } from "../../redux/actions";
+import { getUser, createUser } from "../../redux/actions";
 
 const FirstLogin = props => {
-	const [username, setUsername] = useState("");
-	console.log("username: ", username);
+	const [userName, setUserName] = useState("");
+	const { user } = useAuth0();
+
+	const handleSubmit = e => {
+		e.preventDefault();
+
+		let userObj = {
+			userName: userName,
+			emailAddress: user.email,
+		};
+
+		props.createUser(props.authToken, userObj);
+	};
 
 	return (
 		<div>
-			<form>
+			<form onSubmit={e => handleSubmit(e)}>
 				<h1>Choose a username</h1>
 				<input
-					name="username"
-					value={username}
+					name="userName"
+					value={userName}
 					onChange={e => {
-						setUsername(e.target.value);
+						setUserName(e.target.value);
 					}}
 				/>
 				<button>CONTINUE</button>
@@ -28,12 +40,14 @@ const FirstLogin = props => {
 
 const mapStateToProps = ({ user, events }) => ({
 	isUserRetrieved: user.isUserRetrieved,
+	authToken: user.authToken,
 });
 
 const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
 			getUser,
+			createUser,
 		},
 		dispatch
 	);

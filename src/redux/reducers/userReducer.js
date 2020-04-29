@@ -1,4 +1,4 @@
-import { GET_USER_SUCCESS } from "../actions";
+import { GET_USER_SUCCESS, SAVE_TOKEN } from "../actions";
 
 const initialState = {
 	isUserRetrieved: false,
@@ -17,6 +17,12 @@ export const userReducer = (state = initialState, { type, payload }) => {
 				...state,
 				isUserRetrieved: true,
 				isNewUser: isNewUser,
+			};
+
+		case SAVE_TOKEN:
+			return {
+				...state,
+				authToken: payload,
 			};
 
 		default:
