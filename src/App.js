@@ -9,7 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import ExternalApi from "./views/ExternalApi";
 import Landing from "./components/landing/Landing";
 import Events from "./components/events/Events";
-import CreateEvent from "./components/events/CreateEvent";
+import CreateEvent from "./components/createEvent/CreateEvent";
 
 function App() {
 	const { loading } = useAuth0();

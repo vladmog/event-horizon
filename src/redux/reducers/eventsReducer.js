@@ -1,19 +1,18 @@
-import {
-    // GET_USER_SUCCESS,
-} from "../actions";
-  
-  const initialState = {};
-  
-  export const eventsReducer = (state = initialState, {type, payload}) => {
-    switch (type) {
+import { CREATE_EVENT_SUCCESS } from "../actions";
 
-        // case GET_USER_SUCCESS:
-        // return {
-        //     ...state,
-        //     isUserRetrieved: true,
-        // };
-        
-        default:
-            return state;
-    }
-  };
+const initialState = {
+	events: [],
+};
+
+export const eventsReducer = (state = initialState, { type, payload }) => {
+	switch (type) {
+		case CREATE_EVENT_SUCCESS:
+			return {
+				...state,
+				events: [...state.events, payload[0]],
+			};
+
+		default:
+			return state;
+	}
+};
