@@ -12,6 +12,7 @@ export const GET_USER_START = "GET_USER_START";
 export const GET_USER_SUCCESS = "GET_USER_SUCCESS";
 export const GET_USER_FAILURE = "GET_USER_FAILURE";
 
+// Retrieves user and user events from DB. Returns false if user not found
 export const getUser = (token, emailAddress) => {
 	return async dispatch => {
 		dispatch({

@@ -9,6 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import ExternalApi from "./views/ExternalApi";
 import Landing from "./components/landing/Landing";
 import Events from "./components/events/Events";
+import CreateEvent from "./components/createEvent/CreateEvent";
 
 function App() {
 	const { loading } = useAuth0();
@@ -23,7 +24,11 @@ function App() {
 				<header>{/* <NavBar /> */}</header>
 				<Switch>
 					<Route path="/" exact component={Landing} />
-					<PrivateRoute path="/events" component={Events} />
+					<PrivateRoute path="/events" exact component={Events} />
+					<PrivateRoute
+						path="/events/create"
+						component={CreateEvent}
+					/>
 					<PrivateRoute path="/profile" component={Profile} />
 					<PrivateRoute
 						path="/external-api"
