@@ -36,6 +36,7 @@ const CreateEvent = props => {
 		};
 
 		let event = {
+			adminId: props.userId,
 			name: eventName,
 			inviteUrl: Math.random().toString(),
 		};

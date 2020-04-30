@@ -11,6 +11,7 @@ export const CREATE_EVENT_SUCCESS = "CREATE_EVENT_SUCCESS";
 export const CREATE_EVENT_FAILURE = "CREATE_EVENT_FAILURE";
 
 export const createEvent = (token, eventAndUser) => {
+	console.log("eventAndUser: ", eventAndUser);
 	return async dispatch => {
 		dispatch({
 			type: CREATE_EVENT_START,

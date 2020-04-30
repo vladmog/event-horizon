@@ -31,6 +31,14 @@ const Events = props => {
 			<h1>Events</h1>
 			<h2>Hello {user.email}</h2>
 			<Link to="/events/create">+NEW EVENT</Link>
+			<h3>Your events:</h3>
+			{props.events.map(event => {
+				return (
+					<div key={event.id}>
+						<span>{event.name}</span>
+					</div>
+				);
+			})}
 		</div>
 	);
 };
@@ -38,6 +46,7 @@ const Events = props => {
 const mapStateToProps = ({ user, events }) => ({
 	isUserRetrieved: user.isUserRetrieved,
 	isNewUser: user.isNewUser,
+	events: events.events,
 });
 
 const mapDispatchToProps = dispatch =>
