@@ -11,17 +11,6 @@ import FirstLogin from "./FirstLogin";
 const Events = props => {
 	const { user, getTokenSilently } = useAuth0();
 
-	// useEffect(() => {
-	// 	getTokenSilently().then(token => {
-	// 		props.getUser(token, user.email);
-	// 		props.saveToken(token);
-	// 	});
-	// }, []);
-
-	if (!props.isUserRetrieved) {
-		return <div>Getting user info</div>;
-	}
-
 	if (props.isNewUser) {
 		return <FirstLogin />;
 	}

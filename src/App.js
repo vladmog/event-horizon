@@ -17,27 +17,24 @@ import CreateEvent from "./components/createEvent/CreateEvent";
 
 function App(props) {
 	const { user, loading, isAuthenticated, getTokenSilently } = useAuth0();
-	console.log("isUserRetrieved: ", props.isUserRetrieved);
-	console.log("isAuthenticated: ", isAuthenticated);
 
 	useEffect(() => {
-		if (isAuthenticated) {
+		if (user) {
 			getTokenSilently().then(token => {
-				console.log("user: ", user);
-				console.log("token: ", token);
-				// props.getUser(token, user.email);
-				// props.saveToken(token);
+				props.getUser(token, user.email);
+				props.saveToken(token);
 			});
 		}
-	}, [isAuthenticated]);
+	}, [user]);
 
 	// If auth is loading
 	if (loading) {
 		return <div>Loading...</div>;
 	}
 
-	if (isAuthenticated && !props.isUserRetrieved) {
-		return <div>Getting user info app.js</div>;
+	// If logged in via auth but user data not pulled from BE
+	if (user && !props.isUserRetrieved) {
+		return <div>Getting user info</div>;
 	}
 
 	return (
