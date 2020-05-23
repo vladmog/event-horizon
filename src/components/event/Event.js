@@ -2,13 +2,16 @@ import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 const Event = props => {
 	let eventHash = props.match.params.eventHash;
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
 	console.log("event in event: ", event);
+	if (!event) {
+		return <Redirect to={`/events/join/${eventHash}`} />;
+	}
 
 	return (
 		<div>
