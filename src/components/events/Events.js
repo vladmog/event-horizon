@@ -25,14 +25,7 @@ const Events = props => {
 				console.log("events event: ", event);
 				return (
 					<div key={event.id}>
-						<Link
-							to={{
-								pathname: `/events/${event.id}`,
-								state: event,
-							}}
-						>
-							{event.name}
-						</Link>
+						<Link to={`/events/${event.id}`}>{event.name}</Link>
 					</div>
 				);
 			})}

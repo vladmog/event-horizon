@@ -14,6 +14,7 @@ import Landing from "./components/landing/Landing";
 import Events from "./components/events/Events";
 import Event from "./components/event/Event";
 import CreateEvent from "./components/createEvent/CreateEvent";
+import Invite from "./components/invite/Invite";
 
 function App(props) {
 	const { user, loading, getTokenSilently } = useAuth0();
@@ -48,7 +49,11 @@ function App(props) {
 						path="/events/create"
 						component={CreateEvent}
 					/>
-					<PrivateRoute path="/events/:id" component={Event} />
+					<PrivateRoute exact path="/events/:id" component={Event} />
+					<PrivateRoute
+						path="/events/:id/invite"
+						component={Invite}
+					/>
 					<PrivateRoute path="/profile" component={Profile} />
 					<PrivateRoute
 						path="/external-api"

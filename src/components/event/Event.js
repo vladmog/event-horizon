@@ -16,6 +16,20 @@ const Event = props => {
 			<div>{event.name}</div>
 			<div>Date: {event.startDate || "To be determined"}</div>
 			<div>Invited (come back to this)</div>
+			<ul>
+				<li>
+					<Link to={``}>Availabilities</Link>
+				</li>
+				<li>
+					<Link to={``}>Cost Split</Link>
+				</li>
+				<li>
+					<Link to={``}>Check-list</Link>
+				</li>
+				<li>
+					<Link to={`/events/${event.id}/invite`}>Invite</Link>
+				</li>
+			</ul>
 		</div>
 	);
 };
