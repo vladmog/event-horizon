@@ -39,9 +39,9 @@ const CreateEvent = props => {
 			userName: props.userName,
 		};
 
-		// Create unique inviteHash from creation time, user email, and a secret
+		// Create unique eventHash from creation time, user email, and a secret
 		let timestamp = new Date().getTime().toString();
-		let inviteHash = sha256(
+		let eventHash = sha256(
 			`${timestamp}${auth0User.email}${process.env.REACT_APP_INVITE_SECRET}`
 		);
 
@@ -49,7 +49,7 @@ const CreateEvent = props => {
 		let event = {
 			adminId: props.userId,
 			name: eventName,
-			inviteUrl: inviteHash,
+			eventHash: eventHash,
 		};
 
 		// Add dates depending if date is given and if date is a single day or a range
