@@ -8,6 +8,7 @@ const Event = props => {
 	let eventHash = props.match.params.eventHash;
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
+	console.log("event in event: ", event);
 
 	return (
 		<div>

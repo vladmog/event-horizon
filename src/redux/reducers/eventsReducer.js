@@ -8,9 +8,19 @@ const initialState = {
 export const eventsReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
 		case CREATE_EVENT_SUCCESS:
+			console.log("Create event payload", payload); // should be events
+			let events = payload;
+			//  Create object that maps event IDs to their index in array for efficient access
+			let eventHashIndexes = {};
+			for (let i = 0; i < events.length; i++) {
+				let eventHash = events[i].eventHash;
+				let eventIndex = i;
+				eventHashIndexes[eventHash] = eventIndex;
+			}
 			return {
 				...state,
-				events: [...state.events, payload[0]],
+				events: events,
+				eventHashIndexes: eventHashIndexes,
 			};
 		case GET_USER_SUCCESS:
 			// IF USER IN DB
