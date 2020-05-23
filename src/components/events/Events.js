@@ -33,9 +33,17 @@ const Events = props => {
 			<Link to="/events/create">+NEW EVENT</Link>
 			<h3>Your events:</h3>
 			{props.events.map(event => {
+				console.log("events event: ", event);
 				return (
 					<div key={event.id}>
-						<span>{event.name}</span>
+						<Link
+							to={{
+								pathname: `/events/${event.name}`,
+								state: event,
+							}}
+						>
+							{event.name}
+						</Link>
 					</div>
 				);
 			})}

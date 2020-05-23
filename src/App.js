@@ -9,6 +9,7 @@ import PrivateRoute from "./components/PrivateRoute";
 import ExternalApi from "./views/ExternalApi";
 import Landing from "./components/landing/Landing";
 import Events from "./components/events/Events";
+import Event from "./components/event/Event";
 import CreateEvent from "./components/createEvent/CreateEvent";
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
 						path="/events/create"
 						component={CreateEvent}
 					/>
+					<PrivateRoute path="/events/:eventName" component={Event} />
 					<PrivateRoute path="/profile" component={Profile} />
 					<PrivateRoute
 						path="/external-api"
