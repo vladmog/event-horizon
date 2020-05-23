@@ -10,8 +10,13 @@ const Invite = props => {
 	let event = props.events[eventIndex];
 	return (
 		<div>
-			Invite to {event.name}
-			<Link to={`/events/${event.id}`}>BACK</Link>
+			<Link to={`/events/${event.id}`}>{`< ${event.name}`}</Link>
+			<h1>INVITE:</h1>
+			<input placeholder="search users..." />
+			<div /> {/* temporary line break */}
+			<button>Get shareable link</button>
+			<h2>Invited:</h2>
+			<ul></ul>
 		</div>
 	);
 };
