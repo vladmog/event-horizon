@@ -5,12 +5,13 @@ import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
 
 const Invite = props => {
-	let eventId = props.match.params.id;
-	let eventIndex = props.eventIdIndexes[eventId];
+	let eventHash = props.match.params.eventHash;
+	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
+
 	return (
 		<div>
-			<Link to={`/events/${event.id}`}>{`< ${event.name}`}</Link>
+			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
 			<h1>INVITE:</h1>
 			<input placeholder="search users..." />
 			<div /> {/* temporary line break */}
@@ -23,7 +24,7 @@ const Invite = props => {
 
 const mapStateToProps = ({ user, events }) => ({
 	events: events.events,
-	eventIdIndexes: events.eventIdIndexes,
+	eventHashIndexes: events.eventHashIndexes,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);

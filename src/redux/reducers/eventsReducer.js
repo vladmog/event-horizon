@@ -2,7 +2,7 @@ import { CREATE_EVENT_SUCCESS, GET_USER_SUCCESS } from "../actions";
 
 const initialState = {
 	events: [],
-	eventIdIndexes: {},
+	eventHashIndexes: {},
 };
 
 export const eventsReducer = (state = initialState, { type, payload }) => {
@@ -17,16 +17,16 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 			if (payload) {
 				let events = payload.events;
 				//  Create object that maps event IDs to their index in array for efficient access
-				let eventIdIndexes = {};
+				let eventHashIndexes = {};
 				for (let i = 0; i < events.length; i++) {
-					let eventId = events[i].id;
+					let eventHash = events[i].eventHash;
 					let eventIndex = i;
-					eventIdIndexes[eventId] = eventIndex;
+					eventHashIndexes[eventHash] = eventIndex;
 				}
 				return {
 					...state,
 					events: events,
-					eventIdIndexes: eventIdIndexes,
+					eventHashIndexes: eventHashIndexes,
 				};
 			} else {
 				// IF USER NOT IN DB

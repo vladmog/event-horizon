@@ -49,9 +49,13 @@ function App(props) {
 						path="/events/create"
 						component={CreateEvent}
 					/>
-					<PrivateRoute exact path="/events/:id" component={Event} />
 					<PrivateRoute
-						path="/events/:id/invite"
+						exact
+						path="/events/:eventHash"
+						component={Event}
+					/>
+					<PrivateRoute
+						path="/events/:eventHash/invite"
 						component={Invite}
 					/>
 					<PrivateRoute path="/profile" component={Profile} />

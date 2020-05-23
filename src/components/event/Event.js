@@ -5,8 +5,8 @@ import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
 
 const Event = props => {
-	let eventId = props.match.params.id;
-	let eventIndex = props.eventIdIndexes[eventId];
+	let eventHash = props.match.params.eventHash;
+	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
 
 	return (
@@ -26,7 +26,7 @@ const Event = props => {
 					<Link to={``}>Check-list</Link>
 				</li>
 				<li>
-					<Link to={`/events/${event.id}/invite`}>Invite</Link>
+					<Link to={`/events/${event.eventHash}/invite`}>Invite</Link>
 				</li>
 			</ul>
 		</div>
@@ -35,7 +35,7 @@ const Event = props => {
 
 const mapStateToProps = ({ user, events }) => ({
 	events: events.events,
-	eventIdIndexes: events.eventIdIndexes,
+	eventHashIndexes: events.eventHashIndexes,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
