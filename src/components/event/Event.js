@@ -6,7 +6,10 @@ import { useAuth0 } from "../../react-auth0-spa";
 import { Link } from "react-router-dom";
 
 const Event = props => {
-	let event = props.location.state;
+	let eventId = props.match.params.id;
+	let eventIndex = props.eventIdIndexes[eventId];
+	let event = props.events[eventIndex];
+
 	return (
 		<div>
 			<Link to={"/events"}>BACK</Link>
@@ -17,7 +20,10 @@ const Event = props => {
 	);
 };
 
-const mapStateToProps = ({ user, events }) => ({});
+const mapStateToProps = ({ user, events }) => ({
+	events: events.events,
+	eventIdIndexes: events.eventIdIndexes,
+});
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 

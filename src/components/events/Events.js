@@ -27,7 +27,7 @@ const Events = props => {
 					<div key={event.id}>
 						<Link
 							to={{
-								pathname: `/events/${event.name}`,
+								pathname: `/events/${event.id}`,
 								state: event,
 							}}
 						>

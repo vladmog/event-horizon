@@ -16,7 +16,7 @@ import Event from "./components/event/Event";
 import CreateEvent from "./components/createEvent/CreateEvent";
 
 function App(props) {
-	const { user, loading, isAuthenticated, getTokenSilently } = useAuth0();
+	const { user, loading, getTokenSilently } = useAuth0();
 
 	useEffect(() => {
 		if (user) {
@@ -48,7 +48,7 @@ function App(props) {
 						path="/events/create"
 						component={CreateEvent}
 					/>
-					<PrivateRoute path="/events/:eventName" component={Event} />
+					<PrivateRoute path="/events/:id" component={Event} />
 					<PrivateRoute path="/profile" component={Profile} />
 					<PrivateRoute
 						path="/external-api"
