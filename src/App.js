@@ -17,7 +17,7 @@ import CreateEvent from "./components/createEvent/CreateEvent";
 import Invite from "./components/invite/Invite";
 
 function App(props) {
-	const { user, loading, getTokenSilently } = useAuth0();
+	const { user, loading, getTokenSilently, logout } = useAuth0();
 
 	useEffect(() => {
 		if (user) {
@@ -40,6 +40,7 @@ function App(props) {
 
 	return (
 		<div className="App">
+			<button onClick={() => logout()}>LOGOUT</button>
 			<Router history={history}>
 				<header>{/* <NavBar /> */}</header>
 				<Switch>
@@ -49,15 +50,8 @@ function App(props) {
 						path="/events/create"
 						component={CreateEvent}
 					/>
-					<PrivateRoute
-						exact
-						path="/events/:eventHash"
-						component={Event}
-					/>
-					<PrivateRoute
-						path="/events/:eventHash/invite"
-						component={Invite}
-					/>
+					<PrivateRoute exact path="/event" component={Event} />
+					<PrivateRoute path="/event/invite" component={Invite} />
 					<PrivateRoute path="/profile" component={Profile} />
 					<PrivateRoute
 						path="/external-api"

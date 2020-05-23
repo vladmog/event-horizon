@@ -5,13 +5,13 @@ import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
 
 const Invite = props => {
-	let eventHash = props.match.params.eventHash;
+	let eventHash = window.location.hash.substr(1); // grabs eventHash and removes leading "#";
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
 
 	return (
 		<div>
-			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
+			<Link to={`/event/#${event.eventHash}`}>{`< ${event.name}`}</Link>
 			<h1>INVITE:</h1>
 			<input placeholder="search users..." />
 			<div /> {/* temporary line break */}
