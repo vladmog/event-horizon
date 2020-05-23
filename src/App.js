@@ -1,7 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import NavBar from "./components/NavBar";
 import { useAuth0 } from "./react-auth0-spa";
 import { Router, Route, Switch } from "react-router-dom";
+import { connect } from "react-redux";
+import { bindActionCreators, compose } from "redux";
+import { getUser, saveToken } from "./redux/actions";
 
 import Profile from "./components/Profile";
 import history from "./utils/history";
@@ -9,13 +12,30 @@ import PrivateRoute from "./components/PrivateRoute";
 import ExternalApi from "./views/ExternalApi";
 import Landing from "./components/landing/Landing";
 import Events from "./components/events/Events";
+import Event from "./components/event/Event";
 import CreateEvent from "./components/createEvent/CreateEvent";
+import Invite from "./components/invite/Invite";
 
-function App() {
-	const { loading } = useAuth0();
+function App(props) {
+	const { user, loading, getTokenSilently } = useAuth0();
 
+	useEffect(() => {
+		if (user) {
+			getTokenSilently().then(token => {
+				props.getUser(token, user.email);
+				props.saveToken(token);
+			});
+		}
+	}, [user]);
+
+	// If auth is loading
 	if (loading) {
 		return <div>Loading...</div>;
+	}
+
+	// If logged in via auth but user data not pulled from BE
+	if (user && !props.isUserRetrieved) {
+		return <div>Getting user info</div>;
 	}
 
 	return (
@@ -29,6 +49,11 @@ function App() {
 						path="/events/create"
 						component={CreateEvent}
 					/>
+					<PrivateRoute exact path="/events/:id" component={Event} />
+					<PrivateRoute
+						path="/events/:id/invite"
+						component={Invite}
+					/>
 					<PrivateRoute path="/profile" component={Profile} />
 					<PrivateRoute
 						path="/external-api"
@@ -40,4 +65,19 @@ function App() {
 	);
 }
 
-export default App;
+const mapStateToProps = ({ user, events }) => ({
+	isUserRetrieved: user.isUserRetrieved,
+	isNewUser: user.isNewUser,
+	events: events.events,
+});
+
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+			getUser,
+			saveToken,
+		},
+		dispatch
+	);
+
+export default compose(connect(mapStateToProps, mapDispatchToProps))(App);

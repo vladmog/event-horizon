@@ -11,17 +11,6 @@ import FirstLogin from "./FirstLogin";
 const Events = props => {
 	const { user, getTokenSilently } = useAuth0();
 
-	useEffect(() => {
-		getTokenSilently().then(token => {
-			props.getUser(token, user.email);
-			props.saveToken(token);
-		});
-	}, []);
-
-	if (!props.isUserRetrieved) {
-		return <div>Getting user info</div>;
-	}
-
 	if (props.isNewUser) {
 		return <FirstLogin />;
 	}
@@ -33,9 +22,10 @@ const Events = props => {
 			<Link to="/events/create">+NEW EVENT</Link>
 			<h3>Your events:</h3>
 			{props.events.map(event => {
+				console.log("events event: ", event);
 				return (
 					<div key={event.id}>
-						<span>{event.name}</span>
+						<Link to={`/events/${event.id}`}>{event.name}</Link>
 					</div>
 				);
 			})}

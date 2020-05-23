@@ -47,6 +47,7 @@ const CreateEvent = props => {
 			event.endDate = endDate;
 		}
 
+		console.log("EVENT:", event);
 		props.createEvent(props.authToken, { event, user }).then(res => {
 			if (res) {
 				props.history.push("/events");
