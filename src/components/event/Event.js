@@ -2,16 +2,13 @@ import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
-import { Link, Redirect } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const Event = props => {
-	console.log("Event url hash: ", window.location.hash);
-	let eventHash = window.location.hash.substr(1); // grabs eventHash and removes leading "#"
+	let eventHash = props.match.params.eventHash;
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
-	if (!event) {
-		console.log("forward to invitee flow");
-	}
+	console.log("event in event: ", event);
 
 	return (
 		<div>
@@ -30,15 +27,7 @@ const Event = props => {
 					<Link to={``}>Check-list</Link>
 				</li>
 				<li>
-					{/* <Link to={`/event/${event.eventHash}/invite`}>Invite</Link> */}
-					<Link
-						to={{
-							pathname: `/event/invite`,
-							hash: event.eventHash,
-						}}
-					>
-						Invite
-					</Link>
+					<Link to={`/events/${event.eventHash}/invite`}>Invite</Link>
 				</li>
 			</ul>
 		</div>

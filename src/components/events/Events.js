@@ -22,14 +22,10 @@ const Events = props => {
 			<Link to="/events/create">+NEW EVENT</Link>
 			<h3>Your events:</h3>
 			{props.events.map(event => {
+				console.log("events event: ", event);
 				return (
 					<div key={event.id}>
-						<Link
-							to={{
-								pathname: "/event",
-								hash: event.eventHash,
-							}}
-						>
+						<Link to={`/events/${event.eventHash}`}>
 							{event.name}
 						</Link>
 					</div>
