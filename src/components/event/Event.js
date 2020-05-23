@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
-import { useAuth0 } from "../../react-auth0-spa";
 import { Link } from "react-router-dom";
 
 const Event = props => {
