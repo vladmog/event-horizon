@@ -4,19 +4,17 @@ import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
 
+import { joinEvent } from "../../redux/actions";
+
 const Join = props => {
 	const joinEvent = () => {
 		const eventHash = props.match.params.eventHash;
-		const userAndHash = {
+		const userIdAndHash = {
 			userId: props.userId,
 			eventHash: eventHash,
 		};
-		console.log("userAndHash: ", userAndHash);
-	};
-
-	const exit = () => {
-		console.log("exit");
-		return <Redirect to="/events" />;
+		console.log("userIdAndHash: ", userIdAndHash);
+		props.joinEvent(props.authToken, userIdAndHash);
 	};
 
 	return (
@@ -35,9 +33,11 @@ const mapStateToProps = ({ user, events }) => ({
 	userId: user.userId,
 	events: events.events,
 	eventHashIndexes: events.eventHashIndexes,
+	authToken: user.authToken,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = dispatch =>
+	bindActionCreators({ joinEvent }, dispatch);
 
 export default compose(
 	withRouter,
