@@ -11,10 +11,6 @@ import FirstLogin from "./FirstLogin";
 const Events = props => {
 	const { user, getTokenSilently } = useAuth0();
 
-	if (props.isNewUser) {
-		return <FirstLogin />;
-	}
-
 	return (
 		<div>
 			<h1>Events</h1>
@@ -25,7 +21,9 @@ const Events = props => {
 				console.log("events event: ", event);
 				return (
 					<div key={event.id}>
-						<Link to={`/events/${event.id}`}>{event.name}</Link>
+						<Link to={`/events/${event.eventHash}`}>
+							{event.name}
+						</Link>
 					</div>
 				);
 			})}

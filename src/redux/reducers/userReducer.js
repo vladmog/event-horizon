@@ -27,7 +27,8 @@ export const userReducer = (state = initialState, { type, payload }) => {
 				};
 			}
 		case CREATE_USER_SUCCESS:
-			let user = payload;
+			let user = payload.user;
+			console.log("user in reducer on successful create: ", user);
 			return {
 				...state,
 				isUserRetrieved: true,

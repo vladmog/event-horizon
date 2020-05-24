@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { useAuth0 } from "../../react-auth0-spa";
@@ -51,7 +50,6 @@ const mapDispatchToProps = dispatch =>
 		dispatch
 	);
 
-export default compose(
-	withRouter,
-	connect(mapStateToProps, mapDispatchToProps)
-)(FirstLogin);
+export default compose(connect(mapStateToProps, mapDispatchToProps))(
+	FirstLogin
+);

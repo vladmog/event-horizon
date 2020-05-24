@@ -15,9 +15,11 @@ import Events from "./components/events/Events";
 import Event from "./components/event/Event";
 import CreateEvent from "./components/createEvent/CreateEvent";
 import Invite from "./components/invite/Invite";
+import Join from "./components/invite/Join";
+import FirstLogin from "./components/events/FirstLogin";
 
 function App(props) {
-	const { user, loading, getTokenSilently } = useAuth0();
+	const { user, loading, getTokenSilently, logout } = useAuth0();
 
 	useEffect(() => {
 		if (user) {
@@ -38,8 +40,19 @@ function App(props) {
 		return <div>Getting user info</div>;
 	}
 
+	// If logged in via auth but user hasn't created an account
+	if (user && props.isNewUser) {
+		return (
+			<div>
+				<button onClick={() => logout()}>LOGOUT</button>
+				<FirstLogin />
+			</div>
+		);
+	}
+
 	return (
 		<div className="App">
+			<button onClick={() => logout()}>LOGOUT</button>
 			<Router history={history}>
 				<header>{/* <NavBar /> */}</header>
 				<Switch>
@@ -49,9 +62,18 @@ function App(props) {
 						path="/events/create"
 						component={CreateEvent}
 					/>
-					<PrivateRoute exact path="/events/:id" component={Event} />
 					<PrivateRoute
-						path="/events/:id/invite"
+						exact
+						path="/events/:eventHash"
+						component={Event}
+					/>
+					<PrivateRoute
+						exact
+						path="/events/join/:eventHash"
+						component={Join}
+					/>
+					<PrivateRoute
+						path="/events/:eventHash/invite"
 						component={Invite}
 					/>
 					<PrivateRoute path="/profile" component={Profile} />
