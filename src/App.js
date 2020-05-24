@@ -16,6 +16,7 @@ import Event from "./components/event/Event";
 import CreateEvent from "./components/createEvent/CreateEvent";
 import Invite from "./components/invite/Invite";
 import Join from "./components/invite/Join";
+import FirstLogin from "./components/events/FirstLogin";
 
 function App(props) {
 	const { user, loading, getTokenSilently, logout } = useAuth0();
@@ -37,6 +38,12 @@ function App(props) {
 	// If logged in via auth but user data not pulled from BE
 	if (user && !props.isUserRetrieved) {
 		return <div>Getting user info</div>;
+	}
+
+	// If logged in via auth but user hasn't created an account
+	if (user && props.isNewUser) {
+		// return <div>NewUser</div>;
+		return <FirstLogin />;
 	}
 
 	return (

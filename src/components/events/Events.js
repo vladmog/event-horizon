@@ -11,10 +11,6 @@ import FirstLogin from "./FirstLogin";
 const Events = props => {
 	const { user, getTokenSilently } = useAuth0();
 
-	if (props.isNewUser) {
-		return <FirstLogin />;
-	}
-
 	return (
 		<div>
 			<h1>Events</h1>
