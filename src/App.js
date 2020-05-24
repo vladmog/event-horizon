@@ -42,7 +42,6 @@ function App(props) {
 
 	// If logged in via auth but user hasn't created an account
 	if (user && props.isNewUser) {
-		// return <div>NewUser</div>;
 		return (
 			<div>
 				<button onClick={() => logout()}>LOGOUT</button>

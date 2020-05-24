@@ -1,4 +1,8 @@
-import { CREATE_EVENT_SUCCESS, GET_USER_SUCCESS } from "../actions";
+import {
+	CREATE_EVENT_SUCCESS,
+	GET_USER_SUCCESS,
+	JOIN_EVENT_SUCCESS,
+} from "../actions";
 
 const initialState = {
 	events: [],
@@ -44,6 +48,22 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					...state,
 				};
 			}
+		case JOIN_EVENT_SUCCESS:
+			if (payload) {
+				let events = payload;
+				let eventHashIndexes = {};
+				for (let i = 0; i < events.length; i++) {
+					let eventHash = events[i].eventHash;
+					let eventIndex = i;
+					eventHashIndexes[eventHash] = eventIndex;
+				}
+				return {
+					...state,
+					events: events,
+					eventHashIndexes: eventHashIndexes,
+				};
+			}
+
 		default:
 			return state;
 	}

@@ -14,7 +14,13 @@ const Join = props => {
 			eventHash: eventHash,
 		};
 		console.log("userIdAndHash: ", userIdAndHash);
-		props.joinEvent(props.authToken, userIdAndHash);
+		props.joinEvent(props.authToken, userIdAndHash).then(res => {
+			if (res) {
+				props.history.push("/events");
+			} else {
+				console.log("maybe try logging in and out");
+			}
+		});
 	};
 
 	return (
