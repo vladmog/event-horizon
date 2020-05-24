@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
@@ -14,6 +14,11 @@ const Join = props => {
 		console.log("userAndHash: ", userAndHash);
 	};
 
+	const exit = () => {
+		console.log("exit");
+		return <Redirect to="/events" />;
+	};
+
 	return (
 		<div>
 			<h1>
@@ -21,7 +26,7 @@ const Join = props => {
 				join?
 			</h1>
 			<button onClick={() => joinEvent()}>YES</button>
-			<button>NO</button>
+			<Link to="/events">NO</Link>
 		</div>
 	);
 };
