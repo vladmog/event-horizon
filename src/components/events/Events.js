@@ -6,7 +6,6 @@ import { useAuth0 } from "../../react-auth0-spa";
 import { Link } from "react-router-dom";
 
 import { getUser, saveToken } from "../../redux/actions";
-import FirstLogin from "./FirstLogin";
 
 const Events = props => {
 	const { user, getTokenSilently } = useAuth0();
@@ -15,18 +14,38 @@ const Events = props => {
 		<div>
 			<h1>Events</h1>
 			<h2>Hello {user.email}</h2>
+
 			<Link to="/events/create">+NEW EVENT</Link>
+
 			<h3>Your events:</h3>
-			{props.events.map(event => {
-				console.log("events event: ", event);
-				return (
-					<div key={event.id}>
-						<Link to={`/events/${event.eventHash}`}>
-							{event.name}
-						</Link>
-					</div>
-				);
-			})}
+			{props.events
+				.filter(event => {
+					return event.isAdmin == true;
+				})
+				.map(event => {
+					return (
+						<div key={event.id}>
+							<Link to={`/events/${event.eventHash}`}>
+								{event.name}
+							</Link>
+						</div>
+					);
+				})}
+
+			<h3>Other's events:</h3>
+			{props.events
+				.filter(event => {
+					return event.isAdmin == false;
+				})
+				.map(event => {
+					return (
+						<div key={event.id}>
+							<Link to={`/events/${event.eventHash}`}>
+								{event.name}
+							</Link>
+						</div>
+					);
+				})}
 		</div>
 	);
 };
