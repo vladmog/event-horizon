@@ -57,8 +57,8 @@ function App(props) {
 			<Router history={history}>
 				<header>{/* <NavBar /> */}</header>
 				<Switch>
-					<Route path="/" exact component={Landing} />
-					{/* <Route path="/" exact component={Calendar} /> */}
+					{/* <Route path="/" exact component={Landing} /> */}
+					<Route path="/" exact component={Calendar} />
 					<PrivateRoute path="/events" exact component={Events} />
 					<PrivateRoute
 						path="/events/create"
