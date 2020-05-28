@@ -7,6 +7,7 @@ import {
 const initialState = {
 	events: [],
 	eventHashIndexes: {},
+	eventParticipants: {},
 };
 
 export const eventsReducer = (state = initialState, { type, payload }) => {
@@ -30,17 +31,33 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 			// IF USER IN DB
 			if (payload) {
 				let events = payload.events;
-				//  Create object that maps event IDs to their index in array for efficient access
+				//  Create object that maps event hashes to their index in array for efficient access
 				let eventHashIndexes = {};
 				for (let i = 0; i < events.length; i++) {
 					let eventHash = events[i].eventHash;
 					let eventIndex = i;
 					eventHashIndexes[eventHash] = eventIndex;
 				}
+				// Create object of eventId's paired to participant arrays
+				let participants = payload.usersMet;
+				let eventParticipants = {};
+				for (let i = 0; i < participants.length; i++) {
+					let participant = participants[i];
+					let eventId = participant.eventId;
+					// Handle placement
+					if (!(eventId in eventParticipants)) {
+						// If event array not created, create event array
+						eventParticipants[eventId] = [participant];
+					} else {
+						// If event array created, push participant to event array
+						eventParticipants[eventId].push(participant);
+					}
+				}
 				return {
 					...state,
 					events: events,
 					eventHashIndexes: eventHashIndexes,
+					eventParticipants: eventParticipants,
 				};
 			} else {
 				// IF USER NOT IN DB
