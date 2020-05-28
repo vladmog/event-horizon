@@ -31,7 +31,6 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 			// IF USER IN DB
 			if (payload) {
 				let events = payload.events;
-				let participants = payload.usersMet;
 				//  Create object that maps event hashes to their index in array for efficient access
 				let eventHashIndexes = {};
 				for (let i = 0; i < events.length; i++) {
@@ -40,6 +39,7 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					eventHashIndexes[eventHash] = eventIndex;
 				}
 				// Create object of eventId's paired to participant arrays
+				let participants = payload.usersMet;
 				let eventParticipants = {};
 				for (let i = 0; i < participants.length; i++) {
 					let participant = participants[i];

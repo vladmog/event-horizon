@@ -17,6 +17,7 @@ import CreateEvent from "./components/createEvent/CreateEvent";
 import Invite from "./components/invite/Invite";
 import Join from "./components/invite/Join";
 import FirstLogin from "./components/events/FirstLogin";
+import Calendar from "./components/calendar/Calendar";
 
 function App(props) {
 	const { user, loading, getTokenSilently, logout } = useAuth0();
@@ -57,6 +58,7 @@ function App(props) {
 				<header>{/* <NavBar /> */}</header>
 				<Switch>
 					<Route path="/" exact component={Landing} />
+					{/* <Route path="/" exact component={Calendar} /> */}
 					<PrivateRoute path="/events" exact component={Events} />
 					<PrivateRoute
 						path="/events/create"
