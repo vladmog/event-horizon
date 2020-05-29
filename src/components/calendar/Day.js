@@ -17,7 +17,10 @@ const Day = props => {
 
 	let dayNumber = props.day.split(" ")[2];
 	return (
-		<S.Container dayHeight={props.dayHeight}>
+		<S.Container
+			dayHeight={props.dayHeight}
+			onClick={() => console.log(props.day)}
+		>
 			<span>{dayNumber}</span>
 		</S.Container>
 	);

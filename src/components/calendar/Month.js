@@ -22,6 +22,7 @@ const S = {
 	`,
 };
 
+// Adds blank days to beginning of month grid based on first day of month
 const daysToAdd = {
 	Sun: 0,
 	Mon: 1,
@@ -36,19 +37,25 @@ const Month = props => {
 	const monthString = props.month[0].split(" ")[1];
 	const firstWeekDay = props.month[0].split(" ")[0];
 
+	let monthYearString = monthString + props.yearNumber;
+
+	// Add blank days to beginning of month array depending on first day of week
+	let month = [...props.month];
 	for (let i = 0; i < daysToAdd[firstWeekDay]; i++) {
-		props.month.unshift("blank");
+		month.unshift("blank");
 	}
 
 	return (
-		<S.Container>
+		<S.Container ref={props.refs[`${monthYearString}`]}>
 			<h3>
 				{monthString} {props.yearNumber}
 			</h3>
 			<S.Month>
-				{props.month.map(day => {
+				{month.map(day => {
+					// If month occupies 5 weeks, make height of day square 1/5 of 100%
 					let dayHeight = "20%";
-					if (props.month.length > 35) {
+					if (month.length > 35) {
+						// If month occupies 6 weeks, make height of day square 1/6 of 100%
 						dayHeight = "16.6%";
 					}
 					return <Day day={day} dayHeight={dayHeight} />;
