@@ -11,29 +11,31 @@ let currMonth = currDateArr[1];
 let currMonthIndex = monthIndexes[currMonth];
 let currDay = currDateArr[2];
 
-// console.log(cal[currYearIndex][currMonthIndex]);
-
 // Segment calendar to show only 2 years back and 5 years forward
 let displayYears = cal.slice(currYearIndex - 2, currYearIndex + 6);
 
 const S = {
 	TempContainer: styled.div`
-		height: 80vh;
-		width: 80vh;
+		height: 35vh;
+		width: 35vh;
 		box-sizing: border-box;
 	`,
 	Container: styled.div`
-		border: solid red 5px;
+		// border: solid red 5px;
 		height: 100%;
 		width: 100%;
 		box-sizing: border-box;
 		overflow: scroll;
+		::-webkit-scrollbar {
+			display: none;
+		}
 	`,
 };
 
 const Calendar = () => {
 	const [refs, setRefs] = useState({});
 	const createRefs = () => {
+		// Create ref for each month to allow scrolling
 		let refObj = {};
 		for (let i = 0; i < displayYears.length; i++) {
 			let year = displayYears[i];
@@ -52,12 +54,20 @@ const Calendar = () => {
 		createRefs();
 	}, []);
 
-	const scrollTo = () => {
-		refs["May2020"].current.scrollIntoView({
+	// Scroll to current date on render
+	useEffect(() => {
+		// If ref defined for current month, scroll to current month
+		if (refs[`${currMonth}${currYear}`]) {
+			scrollTo(currMonth, currYear);
+		}
+	}, [refs]);
+
+	const scrollTo = (month, year) => {
+		// Month format: 3 character string i.e. Jan, Feb, Mar
+		refs[`${month}${year}`].current.scrollIntoView({
 			behavior: "smooth",
 			block: "start",
 		});
-		console.log(refs["May2020"]);
 	};
 
 	return (
@@ -67,7 +77,6 @@ const Calendar = () => {
 					return <Year year={year} refs={refs} />;
 				})}
 			</S.Container>
-			<button onClick={() => scrollTo()}>Scroll to May 2020</button>
 		</S.TempContainer>
 	);
 };

@@ -8,11 +8,16 @@ const S = {
 		border: solid black 1px;
 		box-sizing: border-box;
 	`,
+	Blank: styled.div`
+		width: 14.2%;
+		height: ${props => props.dayHeight};
+		box-sizing: border-box;
+	`,
 };
 
 const Day = props => {
 	if (props.day === "blank") {
-		return <S.Container />;
+		return <S.Blank />;
 	}
 
 	let dayNumber = props.day.split(" ")[2];

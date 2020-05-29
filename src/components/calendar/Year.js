@@ -6,7 +6,7 @@ const S = {
 	Container: styled.div`
 		height: 1200%;
 		width: 100%;
-		border: solid blue 5px;
+		// border: solid blue 5px;
 		box-sizing: border-box;
 	`,
 };

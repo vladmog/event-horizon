@@ -6,7 +6,7 @@ const S = {
 	Container: styled.div`
 		height: 8.3%;
 		width: 100%;
-		border: solid green 5px;
+		// border: solid green 5px;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
