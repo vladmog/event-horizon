@@ -12,7 +12,7 @@ const S = {
 };
 
 const Year = props => {
-	const yearNumber = props.year[0][7].split(" ")[3];
+	const yearNumber = props.year[0][7].date.split(" ")[3];
 
 	return (
 		<S.Container>

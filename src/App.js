@@ -18,6 +18,7 @@ import Invite from "./components/invite/Invite";
 import Join from "./components/invite/Join";
 import FirstLogin from "./components/events/FirstLogin";
 import Calendar from "./components/calendar/Calendar";
+import Availabilities from "./components/availabilities/Availabilities";
 
 function App(props) {
 	const { user, loading, getTokenSilently, logout } = useAuth0();
@@ -57,8 +58,8 @@ function App(props) {
 			<Router history={history}>
 				<header>{/* <NavBar /> */}</header>
 				<Switch>
-					{/* <Route path="/" exact component={Landing} /> */}
-					<Route path="/" exact component={Calendar} />
+					<Route path="/" exact component={Landing} />
+					{/* <Route path="/" exact component={Calendar} /> */}
 					<PrivateRoute path="/events" exact component={Events} />
 					<PrivateRoute
 						path="/events/create"
@@ -77,6 +78,10 @@ function App(props) {
 					<PrivateRoute
 						path="/events/:eventHash/invite"
 						component={Invite}
+					/>
+					<PrivateRoute
+						path="/events/:eventHash/availabilities"
+						component={Availabilities}
 					/>
 					<PrivateRoute path="/profile" component={Profile} />
 					<PrivateRoute

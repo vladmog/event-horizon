@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { cal, yearIndexes, monthIndexes } from "../../utils/Cal";
+import { cal, yearsIndexes, monthIndexes } from "../../utils/Cal";
 import Year from "./Year";
 import styled from "styled-components";
 
 const currDateString = new Date().toDateString();
 let currDateArr = currDateString.split(" ");
 let currYear = currDateArr[3];
-let currYearIndex = yearIndexes[currYear];
+let currYearIndex = yearsIndexes[currYear];
 let currMonth = currDateArr[1];
 let currMonthIndex = monthIndexes[currMonth];
 let currDay = currDateArr[2];
@@ -33,16 +33,17 @@ const S = {
 };
 
 const Calendar = () => {
+	console.log("years", cal);
 	const [refs, setRefs] = useState({});
 	const createRefs = () => {
 		// Create ref for each month to allow scrolling
 		let refObj = {};
 		for (let i = 0; i < displayYears.length; i++) {
 			let year = displayYears[i];
-			let yearNum = year[0][7].split(" ")[3];
+			let yearNum = year[0][7].date.split(" ")[3];
 			for (let j = 0; j < year.length; j++) {
 				let month = year[j];
-				let monthStr = month[7].split(" ")[1];
+				let monthStr = month[7].date.split(" ")[1];
 				// console.log(`${monthStr}${yearNum}`);
 				refObj[`${monthStr}${yearNum}`] = React.createRef();
 			}

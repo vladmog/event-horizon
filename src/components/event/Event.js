@@ -30,7 +30,9 @@ const Event = props => {
 			</div>
 			<ul>
 				<li>
-					<Link to={``}>Availabilities</Link>
+					<Link to={`/events/${event.eventHash}/availabilities`}>
+						Availabilities
+					</Link>
 				</li>
 				<li>
 					<Link to={``}>Cost Split</Link>

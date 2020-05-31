@@ -20,7 +20,7 @@ const Day = props => {
 		return <S.Blank />;
 	}
 
-	let dayNumber = props.day.split(" ")[2];
+	let dayNumber = props.day.date.split(" ")[2];
 	return (
 		<S.Container
 			dayHeight={props.dayHeight}
