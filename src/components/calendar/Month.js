@@ -34,8 +34,8 @@ const daysToAdd = {
 };
 
 const Month = props => {
-	const monthString = props.month[0].date.split(" ")[1];
-	const firstWeekDay = props.month[0].date.split(" ")[0];
+	const monthString = props.month[0].month;
+	const firstWeekDay = props.month[0].weekDay;
 
 	let monthYearString = monthString + props.yearNumber;
 

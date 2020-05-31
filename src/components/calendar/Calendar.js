@@ -40,10 +40,10 @@ const Calendar = () => {
 		let refObj = {};
 		for (let i = 0; i < displayYears.length; i++) {
 			let year = displayYears[i];
-			let yearNum = year[0][7].date.split(" ")[3];
+			let yearNum = year[0][7].year;
 			for (let j = 0; j < year.length; j++) {
 				let month = year[j];
-				let monthStr = month[7].date.split(" ")[1];
+				let monthStr = month[7].month;
 				// console.log(`${monthStr}${yearNum}`);
 				refObj[`${monthStr}${yearNum}`] = React.createRef();
 			}

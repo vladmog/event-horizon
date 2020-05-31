@@ -5,30 +5,21 @@ import { Link, Redirect } from "react-router-dom";
 import styled from "styled-components";
 import Calendar from "../calendar/Calendar";
 
-const Availabilities = props => {
-	let eventHash = props.match.params.eventHash;
-	let eventIndex = props.eventHashIndexes[eventHash];
-	let event = props.events[eventIndex];
-
+const Participants = props => {
 	return (
 		<div>
-			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
-
-			<h1>Availabilities</h1>
+			<h1>Participants</h1>
 			<Calendar />
 		</div>
 	);
 };
 
-const mapStateToProps = ({ user, events }) => ({
-	events: events.events,
-	eventHashIndexes: events.eventHashIndexes,
-});
+const mapStateToProps = ({ user, events }) => ({});
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(
-	Availabilities
+	Participants
 );
 
 // TODO

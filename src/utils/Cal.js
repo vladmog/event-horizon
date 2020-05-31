@@ -29,6 +29,7 @@ for (let i = 0; i < daysToCreate; i++) {
 	let year = dArr[3];
 	let month = dArr[1];
 	let day = dArr[2];
+	let weekDay = dArr[0];
 
 	// Handle new year
 	if (year !== currYear) {
@@ -52,7 +53,14 @@ for (let i = 0; i < daysToCreate; i++) {
 	// Store date string
 	let yearIndex = yearIndexes[year];
 	let monthIndex = monthIndexes[month];
-	years[yearIndex][monthIndex].push({ date: d });
+	years[yearIndex][monthIndex].push({
+		date: d,
+		month: month,
+		year: year,
+		day: day,
+		weekDay: weekDay,
+		availabilities: {},
+	});
 
 	// Add a day's worth of milliseconds to date
 	ms += 86400000;
