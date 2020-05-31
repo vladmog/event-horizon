@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import NavBar from "./components/NavBar";
 import { useAuth0 } from "./react-auth0-spa";
 import { Router, Route, Switch } from "react-router-dom";
 import { connect } from "react-redux";
@@ -17,20 +16,21 @@ import CreateEvent from "./components/createEvent/CreateEvent";
 import Invite from "./components/invite/Invite";
 import Join from "./components/invite/Join";
 import FirstLogin from "./components/events/FirstLogin";
-import Calendar from "./components/calendar/Calendar";
 import Availabilities from "./components/availabilities/Availabilities";
 
 function App(props) {
 	const { user, loading, getTokenSilently, logout } = useAuth0();
+	const getUser = props.getUser;
+	const saveToken = props.saveToken;
 
 	useEffect(() => {
 		if (user) {
 			getTokenSilently().then(token => {
-				props.getUser(token, user.email);
-				props.saveToken(token);
+				getUser(token, user.email);
+				saveToken(token);
 			});
 		}
-	}, [user]);
+	}, [user, getTokenSilently, getUser, saveToken]);
 
 	// If auth is loading
 	if (loading) {

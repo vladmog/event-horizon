@@ -54,6 +54,7 @@ for (let i = 0; i < daysToCreate; i++) {
 	let yearIndex = yearIndexes[year];
 	let monthIndex = monthIndexes[month];
 	years[yearIndex][monthIndex].push({
+		id: i,
 		date: d,
 		month: month,
 		year: year,

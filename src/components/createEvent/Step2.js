@@ -1,8 +1,7 @@
-import React, { useState } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
-import { Link } from "react-router-dom";
 
 const Step2 = props => {
 	return (

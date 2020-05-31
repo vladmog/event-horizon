@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { cal, yearsIndexes, monthIndexes } from "../../utils/Cal";
+import React, { useState, useEffect, useCallback } from "react";
+import { cal, yearsIndexes } from "../../utils/Cal";
 import Year from "./Year";
 import styled from "styled-components";
 
@@ -8,8 +8,6 @@ let currDateArr = currDateString.split(" ");
 let currYear = currDateArr[3];
 let currYearIndex = yearsIndexes[currYear];
 let currMonth = currDateArr[1];
-let currMonthIndex = monthIndexes[currMonth];
-let currDay = currDateArr[2];
 
 // Segment calendar to show only 2 years back and 5 years forward
 let displayYears = cal.slice(currYearIndex - 2, currYearIndex + 6);
@@ -33,7 +31,6 @@ const S = {
 };
 
 const Calendar = () => {
-	console.log("years", cal);
 	const [refs, setRefs] = useState({});
 	const createRefs = () => {
 		// Create ref for each month to allow scrolling
@@ -51,6 +48,16 @@ const Calendar = () => {
 		}
 	};
 
+	const scrollTo = useCallback(
+		(month, year) => {
+			refs[`${month}${year}`].current.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+			});
+		},
+		[refs]
+	);
+
 	useEffect(() => {
 		createRefs();
 	}, []);
@@ -61,21 +68,21 @@ const Calendar = () => {
 		if (refs[`${currMonth}${currYear}`]) {
 			scrollTo(currMonth, currYear);
 		}
-	}, [refs]);
+	}, [refs, scrollTo]);
 
-	const scrollTo = (month, year) => {
-		// Month format: 3 character string i.e. Jan, Feb, Mar
-		refs[`${month}${year}`].current.scrollIntoView({
-			behavior: "smooth",
-			block: "start",
-		});
-	};
+	// const scrollTo = (month, year) => {
+	// 	// Month format: 3 character string i.e. Jan, Feb, Mar
+	// 	refs[`${month}${year}`].current.scrollIntoView({
+	// 		behavior: "smooth",
+	// 		block: "start",
+	// 	});
+	// };
 
 	return (
 		<S.TempContainer>
 			<S.Container>
 				{displayYears.map(year => {
-					return <Year year={year} refs={refs} />;
+					return <Year year={year} refs={refs} key={year[0][0].id} />;
 				})}
 			</S.Container>
 		</S.TempContainer>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
@@ -8,7 +8,7 @@ import { Link } from "react-router-dom";
 import { getUser, saveToken } from "../../redux/actions";
 
 const Events = props => {
-	const { user, getTokenSilently } = useAuth0();
+	const { user } = useAuth0();
 
 	return (
 		<div>

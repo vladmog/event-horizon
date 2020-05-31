@@ -22,6 +22,7 @@ const Year = props => {
 						month={month}
 						yearNumber={yearNumber}
 						refs={props.refs}
+						key={month[0].id}
 					/>
 				);
 			})}

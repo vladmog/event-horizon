@@ -1,14 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
-import { Link, Redirect } from "react-router-dom";
-import styled from "styled-components";
+import { Link } from "react-router-dom";
 import Calendar from "../calendar/Calendar";
+import Participants from "./Participants";
 
 const Availabilities = props => {
 	let eventHash = props.match.params.eventHash;
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
+	let eventParticipants = props.eventParticipants[event.id];
+	console.log("event id", event.id);
 
 	return (
 		<div>
@@ -16,6 +18,7 @@ const Availabilities = props => {
 
 			<h1>Availabilities</h1>
 			<Calendar />
+			<Participants eventParticipants={eventParticipants} />
 		</div>
 	);
 };
@@ -23,6 +26,7 @@ const Availabilities = props => {
 const mapStateToProps = ({ user, events }) => ({
 	events: events.events,
 	eventHashIndexes: events.eventHashIndexes,
+	eventParticipants: events.eventParticipants,
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);

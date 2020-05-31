@@ -1,15 +1,19 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
-import { Link, Redirect } from "react-router-dom";
-import styled from "styled-components";
-import Calendar from "../calendar/Calendar";
 
 const Participants = props => {
 	return (
 		<div>
 			<h1>Participants</h1>
-			<Calendar />
+			{props.eventParticipants.map(participant => {
+				console.log("participant", participant);
+				return (
+					<div key={participant.id}>
+						<div>{participant.userName}</div>
+					</div>
+				);
+			})}
 		</div>
 	);
 };

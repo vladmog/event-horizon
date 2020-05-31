@@ -80,7 +80,7 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					eventHashIndexes: eventHashIndexes,
 				};
 			}
-
+			break; // added this to quell an error. hopefully it's cool
 		default:
 			return state;
 	}

@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useAuth0 } from "../../react-auth0-spa";
 
 const url = process.env.REACT_APP_BACKENDURL
 	? process.env.REACT_APP_BACKENDURL
