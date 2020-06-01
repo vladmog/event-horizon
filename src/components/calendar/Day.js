@@ -17,7 +17,7 @@ const S = {
 };
 
 const Day = props => {
-	if (props.day === "blank") {
+	if (props.day.date === "blank") {
 		return <S.Blank />;
 	}
 
