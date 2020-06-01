@@ -12,7 +12,7 @@ const S = {
 };
 
 const Year = props => {
-	const yearNumber = props.year[0][7].split(" ")[3];
+	const yearNumber = props.year[0][7].year;
 
 	return (
 		<S.Container>
@@ -22,6 +22,7 @@ const Year = props => {
 						month={month}
 						yearNumber={yearNumber}
 						refs={props.refs}
+						key={Math.random()}
 					/>
 				);
 			})}

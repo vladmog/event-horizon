@@ -1,18 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { cal, yearIndexes, monthIndexes } from "../../utils/Cal";
+import React, { useState, useEffect, useCallback } from "react";
 import Year from "./Year";
 import styled from "styled-components";
 
-const currDateString = new Date().toDateString();
-let currDateArr = currDateString.split(" ");
-let currYear = currDateArr[3];
-let currYearIndex = yearIndexes[currYear];
-let currMonth = currDateArr[1];
-let currMonthIndex = monthIndexes[currMonth];
-let currDay = currDateArr[2];
-
-// Segment calendar to show only 2 years back and 5 years forward
-let displayYears = cal.slice(currYearIndex - 2, currYearIndex + 6);
+// Define current date and index of year in calendar array
 
 const S = {
 	TempContainer: styled.div`
@@ -32,23 +22,41 @@ const S = {
 	`,
 };
 
-const Calendar = () => {
+const Calendar = props => {
+	let { years, yearIndexes } = props.calendar;
+
+	const currDateString = new Date().toDateString();
+	let currDateArr = currDateString.split(" ");
+	let currYear = currDateArr[3];
+	let currYearIndex = yearIndexes[currYear];
+	let currMonth = currDateArr[1];
+
 	const [refs, setRefs] = useState({});
 	const createRefs = () => {
 		// Create ref for each month to allow scrolling
 		let refObj = {};
-		for (let i = 0; i < displayYears.length; i++) {
-			let year = displayYears[i];
-			let yearNum = year[0][7].split(" ")[3];
+		for (let i = 0; i < years.length; i++) {
+			let year = years[i];
+			let yearNum = year[0][7].year;
 			for (let j = 0; j < year.length; j++) {
 				let month = year[j];
-				let monthStr = month[7].split(" ")[1];
+				let monthStr = month[7].month;
 				// console.log(`${monthStr}${yearNum}`);
 				refObj[`${monthStr}${yearNum}`] = React.createRef();
 			}
 			setRefs(refObj);
 		}
 	};
+
+	const scrollTo = useCallback(
+		(month, year) => {
+			refs[`${month}${year}`].current.scrollIntoView({
+				behavior: "smooth",
+				block: "start",
+			});
+		},
+		[refs]
+	);
 
 	useEffect(() => {
 		createRefs();
@@ -60,21 +68,13 @@ const Calendar = () => {
 		if (refs[`${currMonth}${currYear}`]) {
 			scrollTo(currMonth, currYear);
 		}
-	}, [refs]);
-
-	const scrollTo = (month, year) => {
-		// Month format: 3 character string i.e. Jan, Feb, Mar
-		refs[`${month}${year}`].current.scrollIntoView({
-			behavior: "smooth",
-			block: "start",
-		});
-	};
+	}, [refs, scrollTo]);
 
 	return (
 		<S.TempContainer>
 			<S.Container>
-				{displayYears.map(year => {
-					return <Year year={year} refs={refs} />;
+				{years.map(year => {
+					return <Year year={year} refs={refs} key={Math.random()} />;
 				})}
 			</S.Container>
 		</S.TempContainer>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
@@ -25,12 +25,19 @@ const Event = props => {
 			<div>
 				Invited:
 				{eventParticipants.map(participant => {
-					return <span> {participant.userName},</span>;
+					return (
+						<span key={participant.id}>
+							{" "}
+							{participant.userName},
+						</span>
+					);
 				})}
 			</div>
 			<ul>
 				<li>
-					<Link to={``}>Availabilities</Link>
+					<Link to={`/events/${event.eventHash}/availabilities`}>
+						Availabilities
+					</Link>
 				</li>
 				<li>
 					<Link to={``}>Cost Split</Link>

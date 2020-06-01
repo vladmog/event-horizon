@@ -7,6 +7,7 @@ const S = {
 		height: ${props => props.dayHeight};
 		border: solid black 1px;
 		box-sizing: border-box;
+		background-color: ${props => props.backgroundColor};
 	`,
 	Blank: styled.div`
 		width: 14.2%;
@@ -20,10 +21,14 @@ const Day = props => {
 		return <S.Blank />;
 	}
 
-	let dayNumber = props.day.split(" ")[2];
+	let dayNumber = props.day.day;
+
 	return (
 		<S.Container
 			dayHeight={props.dayHeight}
+			backgroundColor={
+				props.day.availabilitiesCount > 0 ? "green" : "white"
+			}
 			onClick={() => console.log(props.day)}
 		>
 			<span>{dayNumber}</span>

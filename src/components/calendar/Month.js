@@ -34,15 +34,20 @@ const daysToAdd = {
 };
 
 const Month = props => {
-	const monthString = props.month[0].split(" ")[1];
-	const firstWeekDay = props.month[0].split(" ")[0];
+	const monthString = props.month[0].month;
+	const firstWeekDay = props.month[0].weekDay;
 
 	let monthYearString = monthString + props.yearNumber;
 
 	// Add blank days to beginning of month array depending on first day of week
 	let month = [...props.month];
+	let blankId = -1;
 	for (let i = 0; i < daysToAdd[firstWeekDay]; i++) {
-		month.unshift("blank");
+		month.unshift({
+			date: "blank",
+			id: blankId,
+		});
+		blankId++;
 	}
 
 	return (
@@ -58,7 +63,13 @@ const Month = props => {
 						// If month occupies 6 weeks, make height of day square 1/6 of 100%
 						dayHeight = "16.6%";
 					}
-					return <Day day={day} dayHeight={dayHeight} />;
+					return (
+						<Day
+							day={day}
+							dayHeight={dayHeight}
+							key={Math.random()}
+						/>
+					);
 				})}
 			</S.Month>
 		</S.Container>
