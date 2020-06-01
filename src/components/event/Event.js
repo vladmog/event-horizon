@@ -25,7 +25,12 @@ const Event = props => {
 			<div>
 				Invited:
 				{eventParticipants.map(participant => {
-					return <span> {participant.userName},</span>;
+					return (
+						<span key={participant.id}>
+							{" "}
+							{participant.userName},
+						</span>
+					);
 				})}
 			</div>
 			<ul>

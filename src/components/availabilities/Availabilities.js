@@ -10,7 +10,6 @@ const Availabilities = props => {
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
 	let eventParticipants = props.eventParticipants[event.id];
-	console.log("event id", event.id);
 
 	return (
 		<div>

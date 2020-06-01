@@ -3,6 +3,7 @@ import { useAuth0 } from "../../react-auth0-spa";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
+import { Cal } from "../../utils/Cal";
 
 import { getUser } from "../../redux/actions";
 
@@ -10,6 +11,11 @@ const Landing = props => {
 	const { loginWithRedirect } = useAuth0();
 	const currentUrl = window.location.href;
 	console.log("redirect uri: ", `${currentUrl}events`);
+
+	const calendar = new Cal();
+	console.log("Cal: ", calendar);
+	calendar.initCal();
+	console.log("Cal: ", calendar);
 
 	return (
 		<div>

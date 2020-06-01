@@ -63,7 +63,13 @@ const Month = props => {
 						// If month occupies 6 weeks, make height of day square 1/6 of 100%
 						dayHeight = "16.6%";
 					}
-					return <Day day={day} dayHeight={dayHeight} key={day.id} />;
+					return (
+						<Day
+							day={day}
+							dayHeight={dayHeight}
+							key={Math.random()}
+						/>
+					);
 				})}
 			</S.Month>
 		</S.Container>

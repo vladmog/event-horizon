@@ -1,16 +1,35 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { cal, yearsIndexes } from "../../utils/Cal";
+import { Cal } from "../../utils/Cal";
 import Year from "./Year";
 import styled from "styled-components";
 
+// Generate calendar array
+const calendar = new Cal();
+calendar.initCal();
+
+// Add event availabilities
+calendar.addAvails(
+	[
+		{ availabilityStart: "Wed Jan 01 2020" },
+		{ availabilityStart: "Sat Feb 01 2020" },
+	],
+	2
+);
+
+console.log("added avails: ", calendar);
+// calendar.removeAllAvails();
+// console.log("removed avails: ", calendar);
+
+// Define current date and index of year in calendar array
 const currDateString = new Date().toDateString();
 let currDateArr = currDateString.split(" ");
 let currYear = currDateArr[3];
-let currYearIndex = yearsIndexes[currYear];
+let currYearIndex = calendar.yearIndexes[currYear];
 let currMonth = currDateArr[1];
 
-// Segment calendar to show only 2 years back and 5 years forward
-let displayYears = cal.slice(currYearIndex - 2, currYearIndex + 6);
+// Segment calendar to show only current year and next 3 years
+// let displayYears = calendar.years.slice(currYearIndex - 2, currYearIndex + 6);
+let displayYears = calendar.years;
 
 const S = {
 	TempContainer: styled.div`
@@ -82,7 +101,7 @@ const Calendar = () => {
 		<S.TempContainer>
 			<S.Container>
 				{displayYears.map(year => {
-					return <Year year={year} refs={refs} key={year[0][0].id} />;
+					return <Year year={year} refs={refs} key={Math.random()} />;
 				})}
 			</S.Container>
 		</S.TempContainer>
