@@ -100,7 +100,6 @@ export class Cal {
 	}
 	removeAllAvails() {
 		this.availabilities.forEach(avail => {
-			console.log("removing: ", avail.date);
 			delete this.years[avail.yearIndex][avail.monthIndex][avail.dayIndex]
 				.availabilities[`${avail.userId}`];
 		});
