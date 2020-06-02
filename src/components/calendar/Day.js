@@ -1,5 +1,7 @@
 import React from "react";
 import styled from "styled-components";
+import { connect } from "react-redux";
+import { bindActionCreators, compose } from "redux";
 
 const S = {
 	Container: styled.div`
@@ -23,17 +25,29 @@ const Day = props => {
 
 	let dayNumber = props.day.day;
 
+	const handleClick = day => {
+		if (props.updateMode) {
+			console.log(day);
+		}
+	};
+
 	return (
 		<S.Container
 			dayHeight={props.dayHeight}
 			backgroundColor={
 				props.day.availabilitiesCount > 0 ? "green" : "white"
 			}
-			onClick={() => console.log(props.day)}
+			onClick={() => handleClick(props.day)}
 		>
 			<span>{dayNumber}</span>
 		</S.Container>
 	);
 };
 
-export default Day;
+const mapStateToProps = ({ user, events, calendar }) => ({
+	updateMode: calendar.updateMode,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Day);
