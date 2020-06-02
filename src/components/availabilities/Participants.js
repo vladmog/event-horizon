@@ -18,16 +18,13 @@ const Participants = props => {
 							<button
 								onClick={() => {
 									props.toggleUpdateMode();
-									console.log(participant);
 								}}
 							>
 								{participant.userName}
 							</button>
 						) : (
 							// Participant availability
-							<button onClick={() => console.log(participant)}>
-								{participant.userName}
-							</button>
+							<button>{participant.userName}</button>
 						)}
 					</div>
 				);

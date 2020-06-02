@@ -19,6 +19,7 @@ export class Cal {
 		};
 	}
 	initCal() {
+		console.log("init call");
 		let ms = 1577936800000; // Set milliseconds of Jan 01 of a year. If date is not Jan 01, app will break.
 		let yearsToCreate = 3;
 		let daysToCreate = 365 * yearsToCreate;
@@ -97,6 +98,21 @@ export class Cal {
 				dayIndex: dayIndex,
 			});
 		}
+	}
+	isolateUserAvails(userId) {
+		let userAvails = [];
+		this.availabilities.forEach(avail => {
+			if (avail.userId !== userId) {
+				delete this.years[avail.yearIndex][avail.monthIndex][
+					avail.dayIndex
+				].availabilities[`${avail.userId}`];
+				this.years[avail.yearIndex][avail.monthIndex][avail.dayIndex]
+					.availabilitiesCount--;
+			} else {
+				userAvails.push(avail);
+			}
+		});
+		this.availabilities = userAvails;
 	}
 	removeAllAvails() {
 		this.availabilities.forEach(avail => {

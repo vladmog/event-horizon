@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
@@ -19,6 +19,15 @@ const S = {
 };
 
 const Day = props => {
+	const [color, setColor] = useState("white");
+	useEffect(() => {
+		if (props.day.date !== "blank" && props.day.availabilitiesCount) {
+			setColor("green");
+		} else if (color === "green" && !props.day.availabilitiesCount) {
+			setColor("white");
+		}
+	}, [props.day.availabilitiesCount]);
+
 	if (props.day.date === "blank") {
 		return <S.Blank />;
 	}
@@ -34,9 +43,7 @@ const Day = props => {
 	return (
 		<S.Container
 			dayHeight={props.dayHeight}
-			backgroundColor={
-				props.day.availabilitiesCount > 0 ? "green" : "white"
-			}
+			backgroundColor={color}
 			onClick={() => handleClick(props.day)}
 		>
 			<span>{dayNumber}</span>
