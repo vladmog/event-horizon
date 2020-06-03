@@ -19,7 +19,7 @@ export class Cal {
 		};
 	}
 	initCal() {
-		console.log("init call");
+		console.log("init cal");
 		let ms = 1577936800000; // Set milliseconds of Jan 01 of a year. If date is not Jan 01, app will break.
 		let yearsToCreate = 3;
 		let daysToCreate = 365 * yearsToCreate;

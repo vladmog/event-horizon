@@ -26,7 +26,7 @@ const Day = props => {
 		} else if (color === "green" && !props.day.availabilitiesCount) {
 			setColor("white");
 		}
-	}, [props.day.availabilitiesCount]);
+	}, [props.day.availabilitiesCount, props.cal]);
 
 	if (props.day.date === "blank") {
 		return <S.Blank />;
@@ -37,6 +37,10 @@ const Day = props => {
 	const handleClick = day => {
 		if (props.updateMode) {
 			console.log(day);
+			props.setAddedAvails([
+				...props.addedAvails,
+				{ availabilityStart: day.date },
+			]);
 		}
 	};
 

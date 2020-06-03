@@ -13,31 +13,46 @@ const Availabilities = props => {
 	let eventParticipants = props.eventParticipants[event.id];
 	const [cal, setCal] = useState([[{ date: "blank" }]]);
 	const [isCalInit, setIsCalInit] = useState(false);
+	const [addedAvails, setAddedAvails] = useState([]);
 
 	// Generate calendar array
 
+	const calendar = new Cal();
 	useEffect(() => {
 		if (!isCalInit) {
-			const calendar = new Cal();
 			calendar.initCal();
 			calendar.addAvails([{ availabilityStart: "Wed Jan 01 2020" }], 1);
 			calendar.addAvails([{ availabilityStart: "Thu Jan 02 2020" }], 2);
 			setCal(calendar);
 			setIsCalInit(true);
 		}
-	}, []);
+	}, [cal]);
 
 	useEffect(() => {
 		if (props.updateMode) {
-			console.log("before: ", cal);
+			console.log("iso cal.addAvails", cal.__proto__);
+			console.log("iso calendar.addAvails", calendar.__proto__);
 			cal.isolateUserAvails(props.userId);
-			setCal(cal);
+			// setCal(cal);
 			// calendar.addAvails([{ availabilityStart: "Fri Jan 03 2020" }], 1);
-			console.log("after: ", cal);
+			console.log("after: ", cal.__proto__);
 		} else {
 			// re-add all avails to cal
 		}
 	}, [props.updateMode]);
+
+	// const addAvail = date => {
+	// 	cal.addAvails([{ availabilityStart: date }], props.userId);
+	// 	setCal(cal);
+	// };
+
+	useEffect(() => {
+		console.log("cal.addAvails", cal.__proto__);
+		console.log("calendar.addAvails", calendar.__proto__);
+		if (isCalInit) {
+			cal.addAvails(addedAvails, props.userId);
+		}
+	}, [addedAvails]);
 
 	if (cal.length === 1) {
 		return <div>init cal in process</div>;
@@ -48,7 +63,11 @@ const Availabilities = props => {
 			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
 
 			<h1>Availabilities</h1>
-			<Calendar calendar={cal} />
+			<Calendar
+				calendar={cal}
+				setAddedAvails={setAddedAvails}
+				addedAvails={addedAvails}
+			/>
 			<Participants eventParticipants={eventParticipants} />
 		</div>
 	);
