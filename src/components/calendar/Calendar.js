@@ -23,6 +23,7 @@ const S = {
 };
 
 const Calendar = props => {
+	console.log("props.calendar", props.calendar);
 	let { years, yearIndexes } = props.calendar;
 
 	const currDateString = new Date().toDateString();
@@ -74,7 +75,15 @@ const Calendar = props => {
 		<S.TempContainer>
 			<S.Container>
 				{years.map(year => {
-					return <Year year={year} refs={refs} key={Math.random()} />;
+					return (
+						<Year
+							year={year}
+							refs={refs}
+							key={Math.random()}
+							setAddedAvails={props.setAddedAvails}
+							addedAvails={props.addedAvails}
+						/>
+					);
 				})}
 			</S.Container>
 		</S.TempContainer>

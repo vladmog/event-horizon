@@ -19,10 +19,13 @@ const Year = props => {
 			{props.year.map(month => {
 				return (
 					<Month
+						cal={props.cal}
 						month={month}
 						yearNumber={yearNumber}
 						refs={props.refs}
 						key={Math.random()}
+						setAddedAvails={props.setAddedAvails}
+						addedAvails={props.addedAvails}
 					/>
 				);
 			})}

@@ -65,9 +65,12 @@ const Month = props => {
 					}
 					return (
 						<Day
+							cal={props.cal}
 							day={day}
 							dayHeight={dayHeight}
 							key={Math.random()}
+							setAddedAvails={props.setAddedAvails}
+							addedAvails={props.addedAvails}
 						/>
 					);
 				})}
