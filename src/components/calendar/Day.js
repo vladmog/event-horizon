@@ -26,7 +26,7 @@ const Day = props => {
 		} else if (color === "green" && !props.day.availabilitiesCount) {
 			setColor("white");
 		}
-	}, [props.day.availabilitiesCount, props.cal]);
+	}, [props.day.availabilitiesCount, props.cal, color, props.day.date]);
 
 	if (props.day.date === "blank") {
 		return <S.Blank />;

@@ -32,7 +32,7 @@ const Availabilities = props => {
 			setCal(calendar);
 			setIsCalInit(true);
 		}
-	}, [cal]);
+	}, [cal, calendar, isCalInit]);
 
 	useEffect(() => {
 		if (props.updateMode) {
@@ -40,13 +40,13 @@ const Availabilities = props => {
 		} else {
 			// re-add all avails to cal
 		}
-	}, [props.updateMode]);
+	}, [props.updateMode, cal, props.userId]);
 
 	useEffect(() => {
 		if (isCalInit && addedAvails) {
 			setDispCal(cal.addAvails(addedAvails, props.userId));
 		}
-	}, [addedAvails]);
+	}, [addedAvails, cal, isCalInit, props.userId]);
 
 	if (cal.length === 1) {
 		return <div>init cal in process</div>;
