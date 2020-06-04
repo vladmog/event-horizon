@@ -71,6 +71,12 @@ export class Cal {
 			// Add a day's worth of milliseconds to date
 			ms += 86400000;
 		}
+		return {
+			years: this.years,
+			availabilities: this.availabilities,
+			yearIndexes: this.yearIndexes,
+			monthIndexes: this.monthIndexes,
+		};
 	}
 	addAvails(dates, userId) {
 		for (let i = 0; i < dates.length; i++) {
@@ -98,6 +104,12 @@ export class Cal {
 				dayIndex: dayIndex,
 			});
 		}
+		return {
+			years: this.years,
+			availabilities: this.availabilities,
+			yearIndexes: this.yearIndexes,
+			monthIndexes: this.monthIndexes,
+		};
 	}
 	isolateUserAvails(userId) {
 		let userAvails = [];
@@ -113,6 +125,12 @@ export class Cal {
 			}
 		});
 		this.availabilities = userAvails;
+		return {
+			years: this.years,
+			availabilities: this.availabilities,
+			yearIndexes: this.yearIndexes,
+			monthIndexes: this.monthIndexes,
+		};
 	}
 	removeAllAvails() {
 		this.availabilities.forEach(avail => {

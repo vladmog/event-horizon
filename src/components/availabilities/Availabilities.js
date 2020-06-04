@@ -11,7 +11,8 @@ const Availabilities = props => {
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
 	let eventParticipants = props.eventParticipants[event.id];
-	const [cal, setCal] = useState([[{ date: "blank" }]]);
+	const [cal, setCal] = useState([[{ date: "blank" }]]); // for methods
+	const [dispCal, setDispCal] = useState([[{ date: "blank" }]]); // for methods
 	const [isCalInit, setIsCalInit] = useState(false);
 	const [addedAvails, setAddedAvails] = useState([]);
 
@@ -22,7 +23,12 @@ const Availabilities = props => {
 		if (!isCalInit) {
 			calendar.initCal();
 			calendar.addAvails([{ availabilityStart: "Wed Jan 01 2020" }], 1);
-			calendar.addAvails([{ availabilityStart: "Thu Jan 02 2020" }], 2);
+			setDispCal(
+				calendar.addAvails(
+					[{ availabilityStart: "Thu Jan 02 2020" }],
+					2
+				)
+			);
 			setCal(calendar);
 			setIsCalInit(true);
 		}
@@ -30,27 +36,15 @@ const Availabilities = props => {
 
 	useEffect(() => {
 		if (props.updateMode) {
-			console.log("iso cal.addAvails", cal.__proto__);
-			console.log("iso calendar.addAvails", calendar.__proto__);
-			cal.isolateUserAvails(props.userId);
-			// setCal(cal);
-			// calendar.addAvails([{ availabilityStart: "Fri Jan 03 2020" }], 1);
-			console.log("after: ", cal.__proto__);
+			setDispCal(cal.isolateUserAvails(props.userId));
 		} else {
 			// re-add all avails to cal
 		}
 	}, [props.updateMode]);
 
-	// const addAvail = date => {
-	// 	cal.addAvails([{ availabilityStart: date }], props.userId);
-	// 	setCal(cal);
-	// };
-
 	useEffect(() => {
-		console.log("cal.addAvails", cal.__proto__);
-		console.log("calendar.addAvails", calendar.__proto__);
-		if (isCalInit) {
-			cal.addAvails(addedAvails, props.userId);
+		if (isCalInit && addedAvails) {
+			setDispCal(cal.addAvails(addedAvails, props.userId));
 		}
 	}, [addedAvails]);
 
@@ -64,7 +58,7 @@ const Availabilities = props => {
 
 			<h1>Availabilities</h1>
 			<Calendar
-				calendar={cal}
+				calendar={dispCal}
 				setAddedAvails={setAddedAvails}
 				addedAvails={addedAvails}
 			/>
@@ -87,7 +81,7 @@ export default compose(connect(mapStateToProps, mapDispatchToProps))(
 	Availabilities
 );
 
-// TODO
+// // TODO
 
-// If date determined, scroll to event date
-// else scroll to current date
+// // If date determined, scroll to event date
+// // else scroll to current date

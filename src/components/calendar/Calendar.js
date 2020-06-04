@@ -23,6 +23,7 @@ const S = {
 };
 
 const Calendar = props => {
+	console.log("props.calendar", props.calendar);
 	let { years, yearIndexes } = props.calendar;
 
 	const currDateString = new Date().toDateString();
