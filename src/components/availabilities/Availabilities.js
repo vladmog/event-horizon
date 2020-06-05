@@ -30,15 +30,19 @@ const Availabilities = props => {
 	}, []);
 
 	useEffect(() => {
-		if (!isCalInit) {
+		// Init calendar if cal is not init and events have been pulled
+		if (!isCalInit && event.id in props.allEventsAvailabilities) {
 			calendar.initCal();
+			let avails = props.allEventsAvailabilities[event.id];
 			calendar.addAvails([{ availabilityStart: "Wed Jan 01 2020" }], 1);
-			setDispCal(
-				calendar.addAvails(
-					[{ availabilityStart: "Thu Jan 02 2020" }],
-					2
-				)
-			);
+			avails.forEach(avail => {
+				setDispCal(
+					calendar.addAvails(
+						[{ availabilityStart: avail.availabilityStart }],
+						avail.userId
+					)
+				);
+			});
 			setCal(calendar);
 			setIsCalInit(true);
 		}
@@ -60,6 +64,19 @@ const Availabilities = props => {
 
 	if (cal.length === 1) {
 		return <div>init cal in process</div>;
+	}
+
+	if (!(event.id in props.allEventsAvailabilities)) {
+		console.log(
+			"not in props.allEventsAvailabilities",
+			props.allEventsAvailabilities
+		);
+		return <div>retrieving avails</div>;
+	} else {
+		console.log(
+			"in props.allEventsAvailabilities",
+			props.allEventsAvailabilities
+		);
 	}
 
 	const handleSubmit = () => {
@@ -111,6 +128,7 @@ const mapStateToProps = ({ user, events, calendar }) => ({
 	userId: user.userId,
 	updateMode: calendar.updateMode,
 	authToken: user.authToken,
+	allEventsAvailabilities: events.allEventsAvailabilities,
 });
 
 const mapDispatchToProps = dispatch =>
