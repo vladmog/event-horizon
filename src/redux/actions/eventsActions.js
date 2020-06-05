@@ -74,3 +74,72 @@ export const joinEvent = (token, userIdAndHash) => {
 		}
 	};
 };
+
+export const UPDATE_AVAILABILITY_START = "UPDATE_AVAILABILITY_START";
+export const UPDATE_AVAILABILITY_SUCCESS = "UPDATE_AVAILABILITY_SUCCESS";
+export const UPDATE_AVAILABILITY_FAILURE = "UPDATE_AVAILABILITY_FAILURE";
+
+export const updateAvailability = (token, eventId, add, remove) => {
+	console.log("updateAvailability", token, eventId, add, remove);
+	return async dispatch => {
+		dispatch({
+			type: UPDATE_AVAILABILITY_START,
+		});
+		try {
+			const response = await axios.put(
+				`${url}/api/events/availabilities/${eventId}`,
+				{ add, remove },
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			dispatch({
+				type: UPDATE_AVAILABILITY_SUCCESS,
+				payload: response.data,
+			});
+			return true;
+		} catch (err) {
+			dispatch({
+				type: UPDATE_AVAILABILITY_FAILURE,
+				payload: err,
+			});
+			return false;
+		}
+	};
+};
+
+export const GET_AVAILABILITIES_START = "GET_AVAILABILITIES_START";
+export const GET_AVAILABILITIES_SUCCESS = "GET_AVAILABILITIES_SUCCESS";
+export const GET_AVAILABILITIES_FAILURE = "GET_AVAILABILITIES_FAILURE";
+
+export const getAvailabilities = (token, eventId) => {
+	console.log("getAvailability", token, eventId);
+	return async dispatch => {
+		dispatch({
+			type: GET_AVAILABILITIES_START,
+		});
+		try {
+			const response = await axios.get(
+				`${url}/api/events/availabilities/${eventId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			dispatch({
+				type: GET_AVAILABILITIES_SUCCESS,
+				payload: response.data,
+			});
+			return true;
+		} catch (err) {
+			dispatch({
+				type: GET_AVAILABILITIES_FAILURE,
+				payload: err,
+			});
+			return false;
+		}
+	};
+};

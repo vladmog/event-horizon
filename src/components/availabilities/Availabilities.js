@@ -5,7 +5,11 @@ import { Link } from "react-router-dom";
 import Calendar from "../calendar/Calendar";
 import Participants from "./Participants";
 import { Cal } from "../../utils/Cal";
-import { setUpdateMode } from "../../redux/actions";
+import {
+	setUpdateMode,
+	updateAvailability,
+	getAvailabilities,
+} from "../../redux/actions";
 
 const Availabilities = props => {
 	let eventHash = props.match.params.eventHash;
@@ -20,6 +24,11 @@ const Availabilities = props => {
 	// Generate calendar array
 
 	const calendar = new Cal();
+
+	useEffect(() => {
+		props.getAvailabilities(props.authToken, event.id);
+	}, []);
+
 	useEffect(() => {
 		if (!isCalInit) {
 			calendar.initCal();
@@ -53,6 +62,23 @@ const Availabilities = props => {
 		return <div>init cal in process</div>;
 	}
 
+	const handleSubmit = () => {
+		// come back to this and only add availabilities that aren't in the backend
+		let add = cal.availabilities.map(availability => {
+			return {
+				eventId: event.id,
+				userId: props.userId,
+				availabilityStart: availability.date,
+				durationMinutes: 1440,
+			};
+		});
+
+		let remove = [];
+		// and then build out the remove availabilities functionality
+		console.log("add", add);
+		props.updateAvailability(props.authToken, event.id, add, remove);
+	};
+
 	return (
 		<div>
 			<Link
@@ -69,7 +95,7 @@ const Availabilities = props => {
 			{props.updateMode ? (
 				<div>
 					<h3>Select days you're available</h3>
-					<button>SAVE</button>
+					<button onClick={() => handleSubmit()}>SAVE</button>
 				</div>
 			) : (
 				<Participants eventParticipants={eventParticipants} />
@@ -84,12 +110,15 @@ const mapStateToProps = ({ user, events, calendar }) => ({
 	eventParticipants: events.eventParticipants,
 	userId: user.userId,
 	updateMode: calendar.updateMode,
+	authToken: user.authToken,
 });
 
 const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
 			setUpdateMode,
+			updateAvailability,
+			getAvailabilities,
 		},
 		dispatch
 	);

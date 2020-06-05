@@ -2,12 +2,14 @@ import {
 	CREATE_EVENT_SUCCESS,
 	GET_USER_SUCCESS,
 	JOIN_EVENT_SUCCESS,
+	GET_AVAILABILITIES_SUCCESS,
 } from "../actions";
 
 const initialState = {
 	events: [],
 	eventHashIndexes: {},
 	eventParticipants: {},
+	allEventsAvailabilities: {},
 };
 
 export const eventsReducer = (state = initialState, { type, payload }) => {
@@ -65,19 +67,18 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					...state,
 				};
 			}
-		case JOIN_EVENT_SUCCESS:
+
+		case GET_AVAILABILITIES_SUCCESS:
 			if (payload) {
-				let events = payload;
-				let eventHashIndexes = {};
-				for (let i = 0; i < events.length; i++) {
-					let eventHash = events[i].eventHash;
-					let eventIndex = i;
-					eventHashIndexes[eventHash] = eventIndex;
-				}
+				let availabilities = payload;
+				let eventId = availabilities[0].eventId;
+				let allEventsAvailabilities = {
+					...state.allEventsAvailabilities,
+					[eventId]: availabilities,
+				};
 				return {
 					...state,
-					events: events,
-					eventHashIndexes: eventHashIndexes,
+					allEventsAvailabilities: allEventsAvailabilities,
 				};
 			}
 			break; // added this to quell an error. hopefully it's cool
