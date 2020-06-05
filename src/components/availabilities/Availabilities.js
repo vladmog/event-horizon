@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import Calendar from "../calendar/Calendar";
 import Participants from "./Participants";
 import { Cal } from "../../utils/Cal";
+import { setUpdateMode } from "../../redux/actions";
 
 const Availabilities = props => {
 	let eventHash = props.match.params.eventHash;
@@ -54,7 +55,10 @@ const Availabilities = props => {
 
 	return (
 		<div>
-			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
+			<Link
+				to={`/events/${event.eventHash}`}
+				onClick={() => props.setUpdateMode(false)}
+			>{`< ${event.name}`}</Link>
 
 			<h1>Availabilities</h1>
 			<Calendar
@@ -62,7 +66,14 @@ const Availabilities = props => {
 				setAddedAvails={setAddedAvails}
 				addedAvails={addedAvails}
 			/>
-			<Participants eventParticipants={eventParticipants} />
+			{props.updateMode ? (
+				<div>
+					<h3>Select days you're available</h3>
+					<button>SAVE</button>
+				</div>
+			) : (
+				<Participants eventParticipants={eventParticipants} />
+			)}
 		</div>
 	);
 };
@@ -75,7 +86,13 @@ const mapStateToProps = ({ user, events, calendar }) => ({
 	updateMode: calendar.updateMode,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = dispatch =>
+	bindActionCreators(
+		{
+			setUpdateMode,
+		},
+		dispatch
+	);
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(
 	Availabilities

@@ -1,4 +1,4 @@
-import { TOGGLE_UPDATE_MODE } from "../actions";
+import { SET_UPDATE_MODE } from "../actions";
 
 const initialState = {
 	updateMode: false,
@@ -6,10 +6,10 @@ const initialState = {
 
 export const calendarReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
-		case TOGGLE_UPDATE_MODE:
+		case SET_UPDATE_MODE:
 			return {
 				...state,
-				updateMode: !state.updateMode,
+				updateMode: payload,
 			};
 
 		default:

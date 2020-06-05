@@ -2,7 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { useAuth0 } from "../../react-auth0-spa";
-import { toggleUpdateMode } from "../../redux/actions";
+import { setUpdateMode } from "../../redux/actions";
 
 const Participants = props => {
 	const { user } = useAuth0();
@@ -17,7 +17,7 @@ const Participants = props => {
 							// Host availability
 							<button
 								onClick={() => {
-									props.toggleUpdateMode();
+									props.setUpdateMode(true);
 								}}
 							>
 								{participant.userName}
@@ -38,7 +38,7 @@ const mapStateToProps = ({ user, events, calendar }) => ({
 });
 
 const mapDispatchToProps = dispatch =>
-	bindActionCreators({ toggleUpdateMode }, dispatch);
+	bindActionCreators({ setUpdateMode }, dispatch);
 
 export default compose(connect(mapStateToProps, mapDispatchToProps))(
 	Participants
