@@ -10,6 +10,7 @@ const initialState = {
 	eventHashIndexes: {},
 	eventParticipants: {},
 	allEventsAvailabilities: {},
+	availabilitiesObj: {},
 };
 
 export const eventsReducer = (state = initialState, { type, payload }) => {
@@ -70,15 +71,46 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 
 		case GET_AVAILABILITIES_SUCCESS:
 			if (payload) {
+				// Create availabilities array to map over to render in calendar
 				let availabilities = payload;
+				availabilities = availabilities;
 				let eventId = availabilities[0].eventId;
 				let allEventsAvailabilities = {
 					...state.allEventsAvailabilities,
 					[eventId]: availabilities,
 				};
+
+				// Create availability object for efficient reference
+				let availabilitiesObj = {};
+				payload.forEach(avail => {
+					console.log("forEach");
+					let eventId = avail.eventId;
+					let userId = avail.userId;
+
+					if (availabilitiesObj[`${eventId}`]) {
+						if (availabilitiesObj[`${eventId}`][`${userId}`]) {
+							availabilitiesObj[`${eventId}`][`${userId}`][
+								`${avail.availabilityStart}`
+							] = true;
+						} else {
+							availabilitiesObj[`${eventId}`][`${userId}`] = {};
+							availabilitiesObj[`${eventId}`][`${userId}`][
+								`${avail.availabilityStart}`
+							] = true;
+						}
+					} else {
+						availabilitiesObj[`${eventId}`] = {};
+						availabilitiesObj[`${eventId}`][`${userId}`] = {};
+						availabilitiesObj[`${eventId}`][`${userId}`][
+							`${avail.availabilityStart}`
+						] = true;
+					}
+				});
+
 				return {
 					...state,
 					allEventsAvailabilities: allEventsAvailabilities,
+					availabilitiesObj: availabilitiesObj,
 				};
 			}
 			break; // added this to quell an error. hopefully it's cool

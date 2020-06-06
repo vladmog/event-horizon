@@ -66,35 +66,47 @@ const Availabilities = props => {
 		return <div>init cal in process</div>;
 	}
 
-	if (!(event.id in props.allEventsAvailabilities)) {
-		console.log(
-			"not in props.allEventsAvailabilities",
-			props.allEventsAvailabilities
-		);
-		return <div>retrieving avails</div>;
-	} else {
-		console.log(
-			"in props.allEventsAvailabilities",
-			props.allEventsAvailabilities
-		);
-	}
-
 	const handleSubmit = () => {
-		// come back to this and only add availabilities that aren't in the backend
-		let add = cal.availabilities.map(availability => {
-			return {
-				eventId: event.id,
-				userId: props.userId,
-				availabilityStart: availability.date,
-				durationMinutes: 1440,
-			};
+		let userAvails = props.allEventsAvailabilities;
+		console.log("userAvails", userAvails);
+		console.log("cal.availabilities", cal.availabilities);
+
+		let add = [];
+
+		cal.availabilities.forEach(calAvail => {
+			if (
+				props.availabilitiesObj[`${event.id}`][`${props.userId}`][
+					`${calAvail.date}`
+				]
+			) {
+				// If calendar availability already in avails pulled from BE, pass
+				// pass;
+			} else {
+				// If calendar availability not in backend, add to `add` array
+				add.push({
+					eventId: event.id,
+					userId: props.userId,
+					availabilityStart: calAvail.date,
+					durationMinutes: 1440,
+				});
+			}
 		});
+
+		// let add = cal.availabilities.map(availability => {
+		// 	return {
+		// 		eventId: event.id,
+		// 		userId: props.userId,
+		// 		availabilityStart: availability.date,
+		// 		durationMinutes: 1440,
+		// 	};
+		// });
 
 		let remove = [];
 		// and then build out the remove availabilities functionality
 		console.log("add", add);
-		props.updateAvailability(props.authToken, event.id, add, remove);
+		// props.updateAvailability(props.authToken, event.id, add, remove);
 	};
+	console.log("props.availabilitiesObj", props.availabilitiesObj);
 
 	return (
 		<div>
@@ -129,6 +141,7 @@ const mapStateToProps = ({ user, events, calendar }) => ({
 	updateMode: calendar.updateMode,
 	authToken: user.authToken,
 	allEventsAvailabilities: events.allEventsAvailabilities,
+	availabilitiesObj: events.availabilitiesObj,
 });
 
 const mapDispatchToProps = dispatch =>
