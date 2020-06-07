@@ -2,6 +2,7 @@ export class Cal {
 	constructor() {
 		this.years = [];
 		this.availabilities = [];
+		this.availabilitiesObj = {};
 		this.yearIndexes = {};
 		this.monthIndexes = {
 			Jan: 0,
@@ -19,6 +20,7 @@ export class Cal {
 		};
 	}
 	initCal() {
+		console.log("init");
 		let ms = 1577936800000; // Set milliseconds of Jan 01 of a year. If date is not Jan 01, app will break.
 		let yearsToCreate = 3;
 		let daysToCreate = 365 * yearsToCreate;
@@ -78,6 +80,7 @@ export class Cal {
 		};
 	}
 	addAvails(dates, userId) {
+		console.log("addAvails");
 		for (let i = 0; i < dates.length; i++) {
 			// Convert date string into indexes pointing to corresponding location in years array
 			let dateArr = dates[i].availabilityStart.split(" ");
@@ -111,6 +114,7 @@ export class Cal {
 		};
 	}
 	isolateUserAvails(userId) {
+		console.log("isolateUserAvails");
 		let userAvails = [];
 		this.availabilities.forEach(avail => {
 			if (avail.userId !== userId) {
@@ -132,6 +136,7 @@ export class Cal {
 		};
 	}
 	removeAllAvails() {
+		console.log("removeAllAvails");
 		this.availabilities.forEach(avail => {
 			delete this.years[avail.yearIndex][avail.monthIndex][avail.dayIndex]
 				.availabilities[`${avail.userId}`];

@@ -11,6 +11,7 @@ const initialState = {
 	eventParticipants: {},
 	allEventsAvailabilities: {},
 	availabilitiesObj: {},
+	areAvailsObtained: false,
 };
 
 export const eventsReducer = (state = initialState, { type, payload }) => {
@@ -69,11 +70,33 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				};
 			}
 
+		case JOIN_EVENT_SUCCESS:
+			if (payload) {
+				let events = payload;
+				let eventHashIndexes = {};
+				for (let i = 0; i < events.length; i++) {
+					let eventHash = events[i].eventHash;
+					let eventIndex = i;
+					eventHashIndexes[eventHash] = eventIndex;
+				}
+				return {
+					...state,
+					events: events,
+					eventHashIndexes: eventHashIndexes,
+				};
+			}
+
 		case GET_AVAILABILITIES_SUCCESS:
 			if (payload) {
 				// Create availabilities array to map over to render in calendar
 				let availabilities = payload;
-				availabilities = availabilities;
+
+				// If no event availabilities found, do nothing
+				if (!availabilities.length) {
+					return {
+						...state,
+					};
+				}
 				let eventId = availabilities[0].eventId;
 				let allEventsAvailabilities = {
 					...state.allEventsAvailabilities,
@@ -81,6 +104,8 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				};
 
 				// Create availability object for efficient reference
+				// each availability stored in following format:
+				// availabilityObj.eventId.userId.date = true
 				let availabilitiesObj = {};
 				payload.forEach(avail => {
 					console.log("forEach");
@@ -111,8 +136,10 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					...state,
 					allEventsAvailabilities: allEventsAvailabilities,
 					availabilitiesObj: availabilitiesObj,
+					areAvailsObtained: true,
 				};
 			}
+
 			break; // added this to quell an error. hopefully it's cool
 		default:
 			return state;

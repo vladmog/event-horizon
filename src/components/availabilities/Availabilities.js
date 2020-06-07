@@ -16,10 +16,10 @@ const Availabilities = props => {
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
 	let eventParticipants = props.eventParticipants[event.id];
-	const [cal, setCal] = useState([[{ date: "blank" }]]); // for methods
-	const [dispCal, setDispCal] = useState([[{ date: "blank" }]]); // for methods
+	const [cal, setCal] = useState([[{ date: "blank" }]]); // for methods (methods modify and return a calendar to be passed into dispCal)
+	const [dispCal, setDispCal] = useState([[{ date: "blank" }]]); // for display
 	const [isCalInit, setIsCalInit] = useState(false);
-	const [addedAvails, setAddedAvails] = useState([]);
+	const [addedAvails, setAddedAvails] = useState([]); // stores avails added on click during update mode
 
 	// Generate calendar array
 
@@ -31,38 +31,46 @@ const Availabilities = props => {
 
 	useEffect(() => {
 		// Init calendar if cal is not init and events have been pulled
-		if (!isCalInit && event.id in props.allEventsAvailabilities) {
+		// if (!isCalInit && event.id in props.allEventsAvailabilities) {
+		if (!isCalInit && props.areAvailsObtained) {
 			calendar.initCal();
 			let avails = props.allEventsAvailabilities[event.id];
-			calendar.addAvails([{ availabilityStart: "Wed Jan 01 2020" }], 1);
-			avails.forEach(avail => {
-				setDispCal(
-					calendar.addAvails(
-						[{ availabilityStart: avail.availabilityStart }],
-						avail.userId
-					)
-				);
-			});
+			// calendar.addAvails([{ availabilityStart: "Wed Jan 01 2020" }], 1);
+			// If event has availabilities, render them to the calendar
+			if (avails) {
+				// setDispCal on addAvail
+				avails.forEach(avail => {
+					setDispCal(
+						calendar.addAvails(
+							[{ availabilityStart: avail.availabilityStart }],
+							avail.userId
+						)
+					);
+				});
+			}
 			setCal(calendar);
 			setIsCalInit(true);
 		}
-	}, [cal, calendar, isCalInit]);
+	}, [cal, calendar, isCalInit, props.areAvailsObtained]);
 
 	useEffect(() => {
+		// Show only user avails when entering update-mode
 		if (props.updateMode) {
 			setDispCal(cal.isolateUserAvails(props.userId));
 		} else {
-			// re-add all avails to cal
+			// re-add all avails to cal on exiting update-mode
 		}
 	}, [props.updateMode, cal, props.userId]);
 
+	// Render avails to calendar as they are clicked on in update mode
 	useEffect(() => {
 		if (isCalInit && addedAvails) {
 			setDispCal(cal.addAvails(addedAvails, props.userId));
 		}
 	}, [addedAvails, cal, isCalInit, props.userId]);
 
-	if (cal.length === 1) {
+	if (dispCal.length === 1) {
+		console.log("cal", cal);
 		return <div>init cal in process</div>;
 	}
 
@@ -75,6 +83,7 @@ const Availabilities = props => {
 
 		cal.availabilities.forEach(calAvail => {
 			if (
+				props.availabilitiesObj[`${event.id}`] &&
 				props.availabilitiesObj[`${event.id}`][`${props.userId}`][
 					`${calAvail.date}`
 				]
@@ -133,6 +142,7 @@ const mapStateToProps = ({ user, events, calendar }) => ({
 	authToken: user.authToken,
 	allEventsAvailabilities: events.allEventsAvailabilities,
 	availabilitiesObj: events.availabilitiesObj,
+	areAvailsObtained: events.areAvailsObtained,
 });
 
 const mapDispatchToProps = dispatch =>

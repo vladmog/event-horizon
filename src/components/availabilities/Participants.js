@@ -6,6 +6,14 @@ import { setUpdateMode } from "../../redux/actions";
 
 const Participants = props => {
 	const { user } = useAuth0();
+	if (!props.eventParticipants) {
+		return (
+			<div>
+				<h1>Participants</h1>
+				<h4>No participants</h4>
+			</div>
+		);
+	}
 	return (
 		<div>
 			<h1>Participants</h1>
@@ -20,7 +28,7 @@ const Participants = props => {
 									props.setUpdateMode(true);
 								}}
 							>
-								{participant.userName}
+								{participant.userName} - ADMIN
 							</button>
 						) : (
 							// Participant availability

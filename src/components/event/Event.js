@@ -8,12 +8,12 @@ const Event = props => {
 	let eventHash = props.match.params.eventHash;
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
-	let eventParticipants = props.eventParticipants[event.id];
 
 	if (!event) {
 		// If user navigated to page and hasn't joined event, prompt to join or leave.
 		return <Redirect to={`/events/join/${eventHash}`} />;
 	}
+	let eventParticipants = props.eventParticipants[event.id];
 
 	console.log("event", event);
 
@@ -24,14 +24,15 @@ const Event = props => {
 			<div>Date: {event.startDate || "To be determined"}</div>
 			<div>
 				Invited:
-				{eventParticipants.map(participant => {
-					return (
-						<span key={participant.id}>
-							{" "}
-							{participant.userName},
-						</span>
-					);
-				})}
+				{eventParticipants &&
+					eventParticipants.map(participant => {
+						return (
+							<span key={participant.id}>
+								{" "}
+								{participant.userName},
+							</span>
+						);
+					})}
 			</div>
 			<ul>
 				<li>
