@@ -104,7 +104,7 @@ const Availabilities = props => {
 		let remove = [];
 		// and then build out the remove availabilities functionality
 		console.log("add", add);
-		props.updateAvailability(props.authToken, event.id, add, remove);
+		// props.updateAvailability(props.authToken, event.id, add, remove);
 	};
 	console.log("props.availabilitiesObj", props.availabilitiesObj);
 
