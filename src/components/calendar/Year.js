@@ -24,8 +24,7 @@ const Year = props => {
 						yearNumber={yearNumber}
 						refs={props.refs}
 						key={Math.random()}
-						setAddedAvails={props.setAddedAvails}
-						addedAvails={props.addedAvails}
+						handleSelect={props.handleSelect}
 					/>
 				);
 			})}
