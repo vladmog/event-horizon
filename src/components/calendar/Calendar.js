@@ -23,31 +23,14 @@ const S = {
 };
 
 const Calendar = props => {
-	console.log("props.calendar", props.calendar);
-	let { years, yearIndexes } = props.calendar;
+	let { years } = props.calendar;
 
 	const currDateString = new Date().toDateString();
 	let currDateArr = currDateString.split(" ");
 	let currYear = currDateArr[3];
-	let currYearIndex = yearIndexes[currYear];
 	let currMonth = currDateArr[1];
 
 	const [refs, setRefs] = useState({});
-	const createRefs = () => {
-		// Create ref for each month to allow scrolling
-		let refObj = {};
-		for (let i = 0; i < years.length; i++) {
-			let year = years[i];
-			let yearNum = year[0][7].year;
-			for (let j = 0; j < year.length; j++) {
-				let month = year[j];
-				let monthStr = month[7].month;
-				// console.log(`${monthStr}${yearNum}`);
-				refObj[`${monthStr}${yearNum}`] = React.createRef();
-			}
-			setRefs(refObj);
-		}
-	};
 
 	const scrollTo = useCallback(
 		(month, year) => {
@@ -60,8 +43,23 @@ const Calendar = props => {
 	);
 
 	useEffect(() => {
+		const createRefs = () => {
+			// Create ref for each month to allow scrolling
+			let refObj = {};
+			for (let i = 0; i < years.length; i++) {
+				let year = years[i];
+				let yearNum = year[0][7].year;
+				for (let j = 0; j < year.length; j++) {
+					let month = year[j];
+					let monthStr = month[7].month;
+					// console.log(`${monthStr}${yearNum}`);
+					refObj[`${monthStr}${yearNum}`] = React.createRef();
+				}
+				setRefs(refObj);
+			}
+		};
 		createRefs();
-	}, []);
+	}, [years]);
 
 	// Scroll to current date on render
 	useEffect(() => {
@@ -69,7 +67,7 @@ const Calendar = props => {
 		if (refs[`${currMonth}${currYear}`]) {
 			scrollTo(currMonth, currYear);
 		}
-	}, [refs, scrollTo]);
+	}, [refs, scrollTo, currMonth, currYear]);
 
 	return (
 		<S.TempContainer>

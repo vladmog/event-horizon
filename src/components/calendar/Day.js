@@ -22,11 +22,13 @@ const Day = props => {
 	const [color, setColor] = useState("white");
 	useEffect(() => {
 		if (props.day.date !== "blank" && props.day.availabilitiesCount) {
+			// If on render day is not a blank and has availabilities assigned to it, turn day green
 			setColor("green");
 		} else if (color === "green" && !props.day.availabilitiesCount) {
+			// If on render day is green and has no availabilities assigned to it, turn day white
 			setColor("white");
 		}
-	}, [props.day.availabilitiesCount, props.cal]);
+	}, [props.day.availabilitiesCount, props.cal, color, props.day.date]);
 
 	if (props.day.date === "blank") {
 		return <S.Blank />;
@@ -37,10 +39,8 @@ const Day = props => {
 	const handleClick = day => {
 		if (props.updateMode) {
 			console.log(day);
-			props.setAddedAvails([
-				...props.addedAvails,
-				{ availabilityStart: day.date },
-			]);
+			// should pass day to a function in `Availabilities.js` that does one of four things
+			props.setAddedAvails([{ availabilityStart: day.date }]);
 		}
 	};
 

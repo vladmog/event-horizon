@@ -1,9 +1,10 @@
-export const TOGGLE_UPDATE_MODE = "TOGGLE_UPDATE_MODE";
+export const SET_UPDATE_MODE = "SET_UPDATE_MODE";
 
-export const toggleUpdateMode = () => {
+export const setUpdateMode = bool => {
 	return dispatch => {
 		dispatch({
-			type: TOGGLE_UPDATE_MODE,
+			type: SET_UPDATE_MODE,
+			payload: bool,
 		});
 	};
 };
