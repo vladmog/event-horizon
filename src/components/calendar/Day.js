@@ -39,6 +39,7 @@ const Day = props => {
 	const handleClick = day => {
 		if (props.updateMode) {
 			console.log(day);
+			// should pass day to a function in `Availabilities.js` that does one of four things
 			props.setAddedAvails([{ availabilityStart: day.date }]);
 		}
 	};

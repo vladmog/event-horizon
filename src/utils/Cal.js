@@ -2,7 +2,7 @@ export class Cal {
 	constructor() {
 		this.years = [];
 		this.availabilities = [];
-		this.availabilitiesObj = {};
+		this.availabilitiesObj = {}; // availabilitiesObj[`${userId}`][`${date || availabilityStart}`] = true
 		this.yearIndexes = {};
 		this.monthIndexes = {
 			Jan: 0,
@@ -20,6 +20,7 @@ export class Cal {
 		};
 	}
 	initCal() {
+		// Generates a predefined # of year arrays, each containing month arrays, of day objects
 		console.log("init");
 		let ms = 1577936800000; // Set milliseconds of Jan 01 of a year. If date is not Jan 01, app will break.
 		let yearsToCreate = 3;
@@ -80,6 +81,7 @@ export class Cal {
 		};
 	}
 	addAvails(dates, userId) {
+		// Adds availabilities to calendar for rendering
 		console.log("addAvails");
 		for (let i = 0; i < dates.length; i++) {
 			// Convert date string into indexes pointing to corresponding location in years array
@@ -97,6 +99,22 @@ export class Cal {
 			] = true;
 			this.years[yearIndex][monthIndex][dayIndex].availabilitiesCount++;
 
+			console.log("addAvails", dates[i]);
+
+			// Add availability to hashmap-esque object
+			if (`${userId}` in this.availabilitiesObj) {
+				// if user key already in object, add date as true bool
+				this.availabilitiesObj[`${userId}`][
+					`${dates[i].availabilityStart}`
+				] = true;
+			} else {
+				// if user key not in object, add it as an object and add date as true
+				this.availabilitiesObj[`${userId}`] = {};
+				this.availabilitiesObj[`${userId}`][
+					`${dates[i].availabilityStart}`
+				] = true;
+			}
+
 			// Cache availability
 			this.availabilities.push({
 				userId: userId,
@@ -111,9 +129,11 @@ export class Cal {
 			availabilities: this.availabilities,
 			yearIndexes: this.yearIndexes,
 			monthIndexes: this.monthIndexes,
+			availabilitiesObj: this.availabilitiesObj,
 		};
 	}
 	isolateUserAvails(userId) {
+		// Removes availabilities that do not match input userId
 		console.log("isolateUserAvails");
 		let userAvails = [];
 		this.availabilities.forEach(avail => {
@@ -136,6 +156,7 @@ export class Cal {
 		};
 	}
 	removeAllAvails() {
+		// Remove all availabilities from calendar
 		console.log("removeAllAvails");
 		this.availabilities.forEach(avail => {
 			delete this.years[avail.yearIndex][avail.monthIndex][avail.dayIndex]
