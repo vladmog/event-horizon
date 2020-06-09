@@ -78,8 +78,7 @@ const Calendar = props => {
 							year={year}
 							refs={refs}
 							key={Math.random()}
-							setAddedAvails={props.setAddedAvails}
-							addedAvails={props.addedAvails}
+							handleSelect={props.handleSelect}
 						/>
 					);
 				})}

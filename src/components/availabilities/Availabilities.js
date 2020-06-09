@@ -19,7 +19,12 @@ const Availabilities = props => {
 	const [cal, setCal] = useState([[{ date: "blank" }]]); // for methods (methods modify and return a calendar to be passed into dispCal)
 	const [dispCal, setDispCal] = useState([[{ date: "blank" }]]); // for display
 	const [isCalInit, setIsCalInit] = useState(false);
-	const [addedAvails, setAddedAvails] = useState([]); // stores avails added on click during update mode
+
+	const [addedAvailsArr, setAddedAvailsArr] = useState([]); // stores avails to add on submit
+	const [addedAvailsObj, setAddedAvailsObj] = useState({}); // stores avails to add for efficient reference
+
+	const [removedAvailsArr, setRemovedAvailsArr] = useState([]); // stores avails to remove on submit
+	const [removedAvailsObj, setRemovedAvailsObj] = useState([]); // stores avails to remove for efficient reference
 
 	// Generate calendar array
 
@@ -35,7 +40,7 @@ const Availabilities = props => {
 		if (!isCalInit && props.areAvailsObtained) {
 			calendar.initCal();
 			let avails = props.allEventsAvailabilities[event.id];
-			calendar.addAvails([{ availabilityStart: "Wed Jan 01 2020" }], 1);
+			calendar.addAvails([{ availabilityStart: "Wed Jan 01 2020" }], 1); // test. comment this out for production
 			// If event has availabilities, render them to the calendar
 			if (avails) {
 				// setDispCal on addAvail
@@ -62,12 +67,12 @@ const Availabilities = props => {
 		}
 	}, [props.updateMode, cal, props.userId]);
 
-	// Render avails to calendar as they are clicked on in update mode
-	useEffect(() => {
-		if (isCalInit && addedAvails) {
-			setDispCal(cal.addAvails(addedAvails, props.userId));
-		}
-	}, [addedAvails, cal, isCalInit, props.userId]);
+	// Render avails to calendar as they are clicked on in update mode (being replaced by handleSubmit)
+	// useEffect(() => {
+	// 	if (isCalInit && addedAvails) {
+	// 		setDispCal(cal.addAvails(addedAvails, props.userId));
+	// 	}
+	// }, [addedAvails, cal, isCalInit, props.userId]);
 
 	if (dispCal.length === 1) {
 		console.log("cal", cal);
@@ -106,7 +111,79 @@ const Availabilities = props => {
 		console.log("add", add);
 		// props.updateAvailability(props.authToken, event.id, add, remove);
 	};
-	console.log("props.availabilitiesObj", props.availabilitiesObj);
+
+	const handleSelect = (date, action) => {
+		console.log("handleSelect cal obj", cal.availabilitiesObj);
+		console.log("handleSelect user obj", props.availabilitiesObj);
+		console.log("handleSelect addedAvails", addedAvailsObj);
+		console.log("handleSelect removedAvails", removedAvailsObj);
+		let dateString = date.date; // isolate date string from date object
+		console.log("date", date);
+		console.log("action", action);
+
+		if (!(dateString in addedAvailsObj) && action === "remove") {
+			// REMOVING PRE-EXISTING AVAILABILITY
+			console.log("REMOVING PRE-EXISTING AVAILABILITY");
+			setRemovedAvailsArr([...removedAvailsArr, date]); // add date object to removedAvails array
+			setRemovedAvailsObj({ ...removedAvailsObj, [dateString]: true }); // set date string as key and value true
+
+			// TODO: remove avail from cal / display
+			setDispCal(
+				cal.removeAvails(
+					[{ availabilityStart: dateString }],
+					props.userId
+				)
+			);
+		}
+		if (dateString in addedAvailsObj && action === "remove") {
+			// REMOVING AVAILABILITY THAT WAS JUST ADDED
+			console.log("REMOVING AVAILABILITY THAT WAS JUST ADDED");
+			let newAddedAvailsArr = addedAvailsArr.filter(avail => {
+				return avail.date !== dateString;
+			});
+			setAddedAvailsArr(newAddedAvailsArr); // remove avail from addedAvailsArray
+
+			let newAddedAvailsObj = { ...addedAvailsObj };
+			delete newAddedAvailsObj[`${dateString}`];
+			setAddedAvailsObj(newAddedAvailsObj); // remove avail from addedAvailsObj
+
+			// TODO: remove avail from cal / display
+			setDispCal(
+				cal.removeAvails(
+					[{ availabilityStart: dateString }],
+					props.userId
+				)
+			);
+		}
+		if (!(dateString in removedAvailsObj) && action === "add") {
+			// ADDING A NEW AVAILABILITY
+			console.log("ADDING A NEW AVAILABILITY");
+			setAddedAvailsArr([...addedAvailsArr, date]); // add date object to addedAvails array
+			setAddedAvailsObj({ ...addedAvailsObj, [dateString]: true }); // set date string as key and value as true
+
+			// TODO: add avail to cal / display
+			setDispCal(
+				cal.addAvails([{ availabilityStart: dateString }], props.userId)
+			);
+		}
+		if (dateString in removedAvailsObj && action === "add") {
+			// RE-ADDING AVAILABILITY THAT WAS JUST REMOVED
+			console.log("RE-ADDING AVAILABILITY THAT WAS JUST REMOVED");
+			let newRemovedAvailsArr = removedAvailsArr.filter(avail => {
+				return avail.date !== dateString;
+			});
+			setRemovedAvailsArr(newRemovedAvailsArr); // remove avail from removedAvails array
+
+			let newRemovedAvailsObj = { ...removedAvailsObj };
+			delete newRemovedAvailsObj[`${dateString}`];
+			setRemovedAvailsObj(newRemovedAvailsObj); // remove avail from removedAvails object
+
+			// TODO: add avail to cal / display
+			setDispCal(
+				cal.addAvails([{ availabilityStart: dateString }], props.userId)
+			);
+		}
+	};
 
 	return (
 		<div>
@@ -116,11 +193,7 @@ const Availabilities = props => {
 			>{`< ${event.name}`}</Link>
 
 			<h1>Availabilities</h1>
-			<Calendar
-				calendar={dispCal}
-				setAddedAvails={setAddedAvails}
-				addedAvails={addedAvails}
-			/>
+			<Calendar calendar={dispCal} handleSelect={handleSelect} />
 			{props.updateMode ? (
 				<div>
 					<h3>Select days you're available</h3>
