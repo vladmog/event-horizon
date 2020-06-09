@@ -154,13 +154,10 @@ export class Cal {
 				`${dates[i].availabilityStart}`
 			];
 
-			console.log("old availabilities: ", this.availabilities);
-
 			// Remove availability from cache
 			let newAvailabilities = this.availabilities.filter(availability => {
 				return availability.date !== dates[i].availabilityStart;
 			});
-			console.log("newAvailabilities", newAvailabilities);
 
 			this.availabilities = newAvailabilities;
 			// this.availabilities.push({

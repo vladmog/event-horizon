@@ -148,6 +148,12 @@ const Availabilities = props => {
 			setAddedAvailsObj(newAddedAvailsObj); // remove avail from addedAvailsObj
 
 			// TODO: remove avail from cal / display
+			setDispCal(
+				cal.removeAvails(
+					[{ availabilityStart: dateString }],
+					props.userId
+				)
+			);
 		}
 		if (!(dateString in removedAvailsObj) && action === "add") {
 			// ADDING A NEW AVAILABILITY
@@ -156,6 +162,9 @@ const Availabilities = props => {
 			setAddedAvailsObj({ ...addedAvailsObj, [dateString]: true }); // set date string as key and value as true
 
 			// TODO: add avail to cal / display
+			setDispCal(
+				cal.addAvails([{ availabilityStart: dateString }], props.userId)
+			);
 		}
 		if (dateString in removedAvailsObj && action === "add") {
 			// RE-ADDING AVAILABILITY THAT WAS JUST REMOVED
@@ -170,6 +179,9 @@ const Availabilities = props => {
 			setRemovedAvailsObj(newRemovedAvailsObj); // remove avail from removedAvails object
 
 			// TODO: add avail to cal / display
+			setDispCal(
+				cal.addAvails([{ availabilityStart: dateString }], props.userId)
+			);
 		}
 	};
 
