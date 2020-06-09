@@ -53,6 +53,7 @@ const Availabilities = props => {
 					);
 				});
 			}
+			setDispCal(calendar);
 			setCal(calendar);
 			setIsCalInit(true);
 		}
@@ -97,13 +98,14 @@ const Availabilities = props => {
 			};
 		});
 
+		console.log("add", add);
+		console.log("remove", remove);
+
 		props.updateAvailability(props.authToken, event.id, add, remove);
 	};
 
 	const handleSelect = (date, action) => {
 		let dateString = date.date; // isolate date string from date object
-		console.log("date", date);
-		console.log("action", action);
 
 		if (!(dateString in addedAvailsObj) && action === "remove") {
 			// REMOVING PRE-EXISTING AVAILABILITY
