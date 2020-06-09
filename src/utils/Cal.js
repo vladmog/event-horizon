@@ -21,7 +21,6 @@ export class Cal {
 	}
 	initCal() {
 		// Generates a predefined # of year arrays, each containing month arrays, of day objects
-		console.log("init");
 		let ms = 1577936800000; // Set milliseconds of Jan 01 of a year. If date is not Jan 01, app will break.
 		let yearsToCreate = 3;
 		let daysToCreate = 365 * yearsToCreate;
@@ -82,7 +81,6 @@ export class Cal {
 	}
 	addAvails(dates, userId) {
 		// Adds availabilities to calendar for rendering
-		console.log("addAvails");
 		for (let i = 0; i < dates.length; i++) {
 			// Convert date string into indexes pointing to corresponding location in years array
 			let dateArr = dates[i].availabilityStart.split(" ");
@@ -98,8 +96,6 @@ export class Cal {
 				`${userId}`
 			] = true;
 			this.years[yearIndex][monthIndex][dayIndex].availabilitiesCount++;
-
-			console.log("addAvails", dates[i]);
 
 			// Add availability to hashmap-esque object
 			if (`${userId}` in this.availabilitiesObj) {

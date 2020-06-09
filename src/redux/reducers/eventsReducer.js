@@ -111,7 +111,6 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				let eventParticipants = { ...state.eventParticipants };
 
 				let eventUsers = payload.eventUsers;
-				console.log("eventUsers: ", eventUsers);
 				for (let i = 0; i < eventUsers.length; i++) {
 					let participant = eventUsers[i];
 					let eventId = participant.eventId;
@@ -156,7 +155,6 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				let availabilitiesObj = { ...state.availabilitiesObj }; // experimental
 				// let availabilitiesObj = {}; //original
 				availabilities.forEach(avail => {
-					console.log("forEach");
 					let eventId = avail.eventId;
 					let userId = avail.userId;
 
