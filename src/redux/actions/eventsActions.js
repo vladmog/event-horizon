@@ -115,7 +115,6 @@ export const GET_AVAILABILITIES_SUCCESS = "GET_AVAILABILITIES_SUCCESS";
 export const GET_AVAILABILITIES_FAILURE = "GET_AVAILABILITIES_FAILURE";
 
 export const getAvailabilities = (token, eventId) => {
-	console.log("getAvailability", token, eventId);
 	return async dispatch => {
 		dispatch({
 			type: GET_AVAILABILITIES_START,
