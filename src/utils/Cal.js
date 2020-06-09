@@ -132,6 +132,53 @@ export class Cal {
 			availabilitiesObj: this.availabilitiesObj,
 		};
 	}
+	removeAvails(dates, userId) {
+		for (let i = 0; i < dates.length; i++) {
+			// Convert date string into indexes pointing to corresponding location in years array
+			let dateArr = dates[i].availabilityStart.split(" ");
+			let month = dateArr[1];
+			let monthIndex = this.monthIndexes[month];
+			let year = dateArr[3];
+			let yearIndex = this.yearIndexes[year];
+			let day = dateArr[2];
+			let dayIndex = day - 1;
+
+			// Update availabilities object for date
+			delete this.years[yearIndex][monthIndex][dayIndex].availabilities[
+				`${userId}`
+			];
+			this.years[yearIndex][monthIndex][dayIndex].availabilitiesCount--;
+
+			// Remove availability from hashmap-esque object
+			delete this.availabilitiesObj[`${userId}`][
+				`${dates[i].availabilityStart}`
+			];
+
+			// Remove availability from cache
+			let newAvailabilities = this.availabilities.filter(availability => {
+				return (
+					availability.date !== dates[i].availabilityStart &&
+					availability.userId !== userId
+				);
+			});
+
+			this.availabilities = newAvailabilities;
+			// this.availabilities.push({
+			// 	userId: userId,
+			// 	date: dates[i].availabilityStart,
+			// 	yearIndex: yearIndex,
+			// 	monthIndex: monthIndex,
+			// 	dayIndex: dayIndex,
+			// });
+		}
+		return {
+			years: this.years,
+			availabilities: this.availabilities,
+			yearIndexes: this.yearIndexes,
+			monthIndexes: this.monthIndexes,
+			availabilitiesObj: this.availabilitiesObj,
+		};
+	}
 	isolateUserAvails(userId) {
 		// Removes availabilities that do not match input userId
 		console.log("isolateUserAvails");

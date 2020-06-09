@@ -128,6 +128,12 @@ const Availabilities = props => {
 			setRemovedAvailsObj({ ...removedAvailsObj, [dateString]: true }); // set date string as key and value true
 
 			// TODO: remove avail from cal / display
+			setDispCal(
+				cal.removeAvails(
+					[{ availabilityStart: dateString }],
+					props.userId
+				)
+			);
 		}
 		if (dateString in addedAvailsObj && action === "remove") {
 			// REMOVING AVAILABILITY THAT WAS JUST ADDED
