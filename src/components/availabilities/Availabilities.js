@@ -133,6 +133,10 @@ const Availabilities = props => {
 			.updateAvailability(props.authToken, event.id, add, remove)
 			.then(res => {
 				if (res) {
+					setAddedAvailsArr([]);
+					setAddedAvailsObj({});
+					setRemovedAvailsArr([]);
+					setRemovedAvailsObj({});
 					props.setUpdateMode(false);
 				}
 			});
