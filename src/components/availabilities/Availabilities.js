@@ -30,10 +30,12 @@ const Availabilities = props => {
 
 	const calendar = new Cal();
 
+	// GET AVAILABILITIES
 	useEffect(() => {
 		props.getAvailabilities(props.authToken, event.id);
 	}, []);
 
+	// INIT CALENDAR
 	useEffect(() => {
 		// Init calendar if cal is not init and events have been pulled
 		// if (!isCalInit && event.id in props.allEventsAvailabilities) {
@@ -60,6 +62,7 @@ const Availabilities = props => {
 		}
 	}, [cal, calendar, isCalInit, props.areAvailsObtained]);
 
+	// HANDLES UPDATE MODE
 	const [counter, setCounter] = useState(0); // counter to prevent updateMode === false block from running on render
 	useEffect(() => {
 		// Show only user avails when entering update-mode
@@ -70,10 +73,9 @@ const Availabilities = props => {
 			// re-add all avails to cal on exiting update-mod
 			let avails = props.allEventsAvailabilities[event.id];
 			if (avails) {
-				// this block should only run when returning from updateMode
-				// setDispCal on addAvail
 				avails.forEach(avail => {
 					if (avail.userId !== props.userId) {
+						// re-add other participant avails to cal
 						setDispCal(
 							cal.addAvails(
 								[
@@ -92,17 +94,7 @@ const Availabilities = props => {
 		setCounter(counter + 1);
 	}, [props.updateMode, cal, props.userId]);
 
-	// Render avails to calendar as they are clicked on in update mode (being replaced by handleSubmit)
-	// useEffect(() => {
-	// 	if (isCalInit && addedAvails) {
-	// 		setDispCal(cal.addAvails(addedAvails, props.userId));
-	// 	}
-	// }, [addedAvails, cal, isCalInit, props.userId]);
-
-	useEffect(() => {
-		console.log("dispCalendar", dispCal);
-	}, [dispCal]);
-
+	// LOADER
 	if (dispCal.length === 1) {
 		return <div>init cal in process</div>;
 	}
