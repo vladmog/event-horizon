@@ -203,5 +203,13 @@ export class Cal {
 				.availabilities[`${avail.userId}`];
 		});
 		this.availabilities = [];
+		this.availabilitiesObj = {};
+		return {
+			years: this.years,
+			availabilities: this.availabilities,
+			yearIndexes: this.yearIndexes,
+			monthIndexes: this.monthIndexes,
+			availabilitiesObj: this.availabilitiesObj,
+		};
 	}
 }

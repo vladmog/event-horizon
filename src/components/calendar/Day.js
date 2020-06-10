@@ -55,6 +55,7 @@ const Day = props => {
 			onClick={() => handleClick(props.day)}
 		>
 			<span>{dayNumber}</span>
+			<div>{props.day.availabilitiesCount}</div>
 		</S.Container>
 	);
 };

@@ -20,15 +20,14 @@ const Participants = props => {
 			{props.eventParticipants.map(participant => {
 				return (
 					<div key={participant.id}>
-						{user.email === participant.emailAddress &&
-						participant.isAdmin ? (
+						{user.email === participant.emailAddress ? (
 							// Host availability
 							<button
 								onClick={() => {
 									props.setUpdateMode(true);
 								}}
 							>
-								{participant.userName} - ADMIN
+								{participant.userName} - you
 							</button>
 						) : (
 							// Participant availability
