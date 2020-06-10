@@ -45,9 +45,10 @@ const Availabilities = props => {
 			if (avails) {
 				// setDispCal on addAvail
 				avails.forEach(avail => {
+					console.log("forEach avail", avail);
 					setDispCal(
 						calendar.addAvails(
-							[{ availabilityStart: avail.availabilityStart }],
+							[{ availabilityStart: avail.availabilityStart }], // this is being handled in the else of the following useEffect, can delete
 							avail.userId
 						)
 					);
@@ -59,13 +60,36 @@ const Availabilities = props => {
 		}
 	}, [cal, calendar, isCalInit, props.areAvailsObtained]);
 
+	const [counter, setCounter] = useState(0); // counter to prevent updateMode === false block from running on render
 	useEffect(() => {
 		// Show only user avails when entering update-mode
 		if (props.updateMode) {
 			setDispCal(cal.isolateUserAvails(props.userId));
-		} else {
-			// re-add all avails to cal on exiting update-mode
 		}
+		if (!props.updateMode && counter > 1) {
+			// re-add all avails to cal on exiting update-mod
+			let avails = props.allEventsAvailabilities[event.id];
+			if (avails) {
+				// this block should only run when returning from updateMode
+				// setDispCal on addAvail
+				avails.forEach(avail => {
+					if (avail.userId !== props.userId) {
+						setDispCal(
+							cal.addAvails(
+								[
+									{
+										availabilityStart:
+											avail.availabilityStart,
+									},
+								],
+								avail.userId
+							)
+						);
+					}
+				});
+			}
+		}
+		setCounter(counter + 1);
 	}, [props.updateMode, cal, props.userId]);
 
 	// Render avails to calendar as they are clicked on in update mode (being replaced by handleSubmit)
@@ -74,6 +98,10 @@ const Availabilities = props => {
 	// 		setDispCal(cal.addAvails(addedAvails, props.userId));
 	// 	}
 	// }, [addedAvails, cal, isCalInit, props.userId]);
+
+	useEffect(() => {
+		console.log("dispCalendar", dispCal);
+	}, [dispCal]);
 
 	if (dispCal.length === 1) {
 		return <div>init cal in process</div>;
@@ -101,7 +129,13 @@ const Availabilities = props => {
 		console.log("add", add);
 		console.log("remove", remove);
 
-		props.updateAvailability(props.authToken, event.id, add, remove);
+		props
+			.updateAvailability(props.authToken, event.id, add, remove)
+			.then(res => {
+				if (res) {
+					props.setUpdateMode(false);
+				}
+			});
 	};
 
 	const handleSelect = (date, action) => {
@@ -109,6 +143,7 @@ const Availabilities = props => {
 
 		if (!(dateString in addedAvailsObj) && action === "remove") {
 			// REMOVING PRE-EXISTING AVAILABILITY
+			console.log("REMOVING PRE-EXISTING AVAILABILITY");
 			setRemovedAvailsArr([...removedAvailsArr, date]); // add date object to removedAvails array
 			setRemovedAvailsObj({ ...removedAvailsObj, [dateString]: true }); // set date string as key and value true
 
@@ -122,6 +157,7 @@ const Availabilities = props => {
 		}
 		if (dateString in addedAvailsObj && action === "remove") {
 			// REMOVING AVAILABILITY THAT WAS JUST ADDED
+			console.log("REMOVING AVAILABILITY THAT WAS JUST ADDED");
 			let newAddedAvailsArr = addedAvailsArr.filter(avail => {
 				return avail.date !== dateString;
 			});
@@ -141,6 +177,7 @@ const Availabilities = props => {
 		}
 		if (!(dateString in removedAvailsObj) && action === "add") {
 			// ADDING A NEW AVAILABILITY
+			console.log("ADDING A NEW AVAILABILITY");
 			setAddedAvailsArr([...addedAvailsArr, date]); // add date object to addedAvails array
 			setAddedAvailsObj({ ...addedAvailsObj, [dateString]: true }); // set date string as key and value as true
 
@@ -151,6 +188,7 @@ const Availabilities = props => {
 		}
 		if (dateString in removedAvailsObj && action === "add") {
 			// RE-ADDING AVAILABILITY THAT WAS JUST REMOVED
+			console.log("RE-ADDING AVAILABILITY THAT WAS JUST REMOVED");
 			let newRemovedAvailsArr = removedAvailsArr.filter(avail => {
 				return avail.date !== dateString;
 			});
@@ -206,6 +244,7 @@ const mapDispatchToProps = dispatch =>
 			setUpdateMode,
 			updateAvailability,
 			getAvailabilities,
+			setUpdateMode,
 		},
 		dispatch
 	);
