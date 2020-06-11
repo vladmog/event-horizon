@@ -20,8 +20,6 @@ const Participants = props => {
 		// console.log("participant", participant);
 		console.log("###############");
 		console.log("###############");
-		console.log("DEBUG participant.userId", participant.userId);
-		console.log("DEBUG props.dispUserIdsObj", props.dispUserIdsObj);
 		if (participant.userId in props.dispUserIdsObj) {
 			console.log("remove user clickhandler");
 			// if selected user ID being showcased, remove from showcase
@@ -51,14 +49,21 @@ const Participants = props => {
 					<div key={participant.id}>
 						{user.email === participant.emailAddress ? (
 							// Host availability
-							<button
-								onClick={() => {
-									// props.setUpdateMode(true);
-									clickHandler(participant);
-								}}
-							>
-								{participant.userName} - you
-							</button>
+							<div>
+								<button
+									onClick={() => {
+										// props.setUpdateMode(true);
+										clickHandler(participant);
+									}}
+								>
+									{participant.userName} - you
+								</button>
+								<button
+									onClick={() => props.setUpdateMode(true)}
+								>
+									update
+								</button>
+							</div>
 						) : (
 							// Participant availability
 							<button onClick={() => clickHandler(participant)}>

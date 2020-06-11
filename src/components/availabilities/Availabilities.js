@@ -117,9 +117,15 @@ const Availabilities = props => {
 				}
 			}
 
+			console.log(
+				"DEBUG Object.keys(dispCal.availabilitiesObj).length",
+				Object.keys(dispCal.availabilitiesObj).length
+			);
+
 			// removing a user leaving more than one user
 			if (
-				Object.keys(dispCal.availabilitiesObj).length > dispUserIds &&
+				Object.keys(dispCal.availabilitiesObj).length >
+					dispUserIds.length &&
 				dispUserIds.length > 1
 			) {
 				console.log("removing a user leaving more than on user");
@@ -177,7 +183,8 @@ const Availabilities = props => {
 			setDispCal(cal.isolateUserAvails(props.userId));
 		}
 		if (!props.updateMode && counter > 1) {
-			// re-add all avails to cal on exiting update-mod
+			// re-add all avails to cal on exiting update-mode
+			console.log("update mode false running");
 			let avails = props.allEventsAvailabilities[event.id];
 			if (avails) {
 				avails.forEach(avail => {
