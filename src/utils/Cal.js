@@ -21,7 +21,7 @@ export class Cal {
 	}
 	initCal() {
 		// Generates a predefined # of year arrays, each containing month arrays, of day objects
-		let ms = 1577936800000; // Set milliseconds of Jan 01 of a year. If date is not Jan 01, app will break.
+		let ms = 1577936800000; // Set milliseconds of Jan 01 2020. If date is not Jan 01 of a year, app will break.
 		let yearsToCreate = 3;
 		let daysToCreate = 365 * yearsToCreate;
 
@@ -55,7 +55,7 @@ export class Cal {
 				this.years[yearIndex].push([]);
 			}
 
-			// Store date string
+			// Store date in years array
 			let yearIndex = this.yearIndexes[year];
 			let monthIndex = this.monthIndexes[month];
 			this.years[yearIndex][monthIndex].push({
@@ -80,6 +80,7 @@ export class Cal {
 		};
 	}
 	addAvails(dates, userId) {
+		// console.log("addAvails");
 		// Adds availabilities to calendar for rendering
 		for (let i = 0; i < dates.length; i++) {
 			// Convert date string into indexes pointing to corresponding location in years array
@@ -129,6 +130,7 @@ export class Cal {
 		};
 	}
 	removeAvails(dates, userId) {
+		// console.log("removeAvails");
 		for (let i = 0; i < dates.length; i++) {
 			// Convert date string into indexes pointing to corresponding location in years array
 			let dateArr = dates[i].availabilityStart.split(" ");
@@ -149,6 +151,11 @@ export class Cal {
 			delete this.availabilitiesObj[`${userId}`][
 				`${dates[i].availabilityStart}`
 			];
+
+			// If last availability under userId, delete userId
+			if (Object.keys(this.availabilitiesObj[`${userId}`]).length === 0) {
+				delete this.availabilitiesObj[`${userId}`];
+			}
 
 			// Remove availability from cache
 			let newAvailabilities = this.availabilities.filter(availability => {

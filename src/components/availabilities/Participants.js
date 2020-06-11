@@ -14,6 +14,31 @@ const Participants = props => {
 			</div>
 		);
 	}
+	// pass in dispUserIds as props in Availabilities.js
+	// look up how to stop VS Code from autocompleting words with the wrong thing
+	const clickHandler = participant => {
+		// console.log("participant", participant);
+		if (participant.userId in props.dispUserIdsObj) {
+			// console.log("remove user clickhandler");
+			// if selected user ID being showcased, remove from showcase
+			let newDispUserIdsObj = { ...props.dispUserIdsObj };
+			delete newDispUserIdsObj[`${participant.userId}`];
+			let newDispUserIds = props.dispUserIds.filter(id => {
+				return id !== participant.userId;
+			});
+			props.setDispUserIds(newDispUserIds);
+			props.setDispUserIdsObj(newDispUserIdsObj);
+			props.setLastDispUserRemoved(participant.userId);
+		} else {
+			// console.log("add user clickhandler");
+			// if selected user ID not being showcased, showcase user
+			props.setDispUserIds([...props.dispUserIds, participant.userId]);
+			props.setDispUserIdsObj({
+				...props.dispUserIdsObj,
+				[participant.userId]: true,
+			});
+		}
+	};
 	return (
 		<div>
 			<h1>Participants</h1>
@@ -22,16 +47,26 @@ const Participants = props => {
 					<div key={participant.id}>
 						{user.email === participant.emailAddress ? (
 							// Host availability
-							<button
-								onClick={() => {
-									props.setUpdateMode(true);
-								}}
-							>
-								{participant.userName} - you
-							</button>
+							<div>
+								<button
+									onClick={() => {
+										// props.setUpdateMode(true);
+										clickHandler(participant);
+									}}
+								>
+									{participant.userName} - you
+								</button>
+								<button
+									onClick={() => props.setUpdateMode(true)}
+								>
+									update
+								</button>
+							</div>
 						) : (
 							// Participant availability
-							<button>{participant.userName}</button>
+							<button onClick={() => clickHandler(participant)}>
+								{participant.userName}
+							</button>
 						)}
 					</div>
 				);
