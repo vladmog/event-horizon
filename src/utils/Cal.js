@@ -152,6 +152,11 @@ export class Cal {
 				`${dates[i].availabilityStart}`
 			];
 
+			// If last availability under userId, delete userId
+			if (Object.keys(this.availabilitiesObj[`${userId}`]).length === 0) {
+				delete this.availabilitiesObj[`${userId}`];
+			}
+
 			// Remove availability from cache
 			let newAvailabilities = this.availabilities.filter(availability => {
 				return availability.date !== dates[i].availabilityStart;

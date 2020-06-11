@@ -96,35 +96,19 @@ const Availabilities = props => {
 					}
 				}
 			}
-			console.log(
-				"DEBUG dispUserIds[dispUserIds.length - 1]",
-				dispUserIds[dispUserIds.length - 1]
-			);
-			console.log(
-				"DEBUG dispCal.availabilitiesObj",
-				dispCal.availabilitiesObj
-			);
 
-			console.log(
-				"Object.keys(dispCal.availabilitiesObj[`${dispUserIds[dispUserIds.length - 1]}`]).length",
-				Object.keys(
-					dispCal.availabilitiesObj[
-						`${dispUserIds[dispUserIds.length - 1]}`
-					]
-				).length === 0
-			);
 			// adding a user when a user is already being displayed
+			// if (
+			// 	Object.keys(
+			// 		dispCal.availabilitiesObj[
+			// 			`${dispUserIds[dispUserIds.length - 1]}`
+			// 		]
+			// 	).length === 0
 			if (
-				Object.keys(
-					dispCal.availabilitiesObj[
-						`${dispUserIds[dispUserIds.length - 1]}`
-					]
-				).length === 0
-				// if (
-				// 	!(
-				// 		dispUserIds[dispUserIds.length - 1] in
-				// 		dispCal.availabilitiesObj
-				// 	)
+				!(
+					dispUserIds[dispUserIds.length - 1] in
+					dispCal.availabilitiesObj
+				)
 			) {
 				console.log(
 					"adding a user when a user is already being displayed"

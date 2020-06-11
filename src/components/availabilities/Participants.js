@@ -17,7 +17,7 @@ const Participants = props => {
 	// pass in dispUserIds as props in Availabilities.js
 	// look up how to stop VS Code from autocompleting words with the wrong thing
 	const clickHandler = participant => {
-		console.log("participant", participant);
+		// console.log("participant", participant);
 		if (participant.userId in props.dispUserIdsObj) {
 			// if selected user ID being showcased, remove from showcase
 			let newDispUserIdsObj = { ...props.dispUserIdsObj };
