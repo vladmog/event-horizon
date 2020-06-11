@@ -27,7 +27,8 @@ const Availabilities = props => {
 	const [removedAvailsObj, setRemovedAvailsObj] = useState([]); // stores avails to remove for efficient reference
 
 	const [dispUserIds, setDispUserIds] = useState([]); // stores userIds of users to display on cal. if empty, show all users. one step ahead of calender render
-	const [dispUserIdsObj, setDispUserIdsOb] = useState({}); // stores dispUserIds as obj for efficient reference
+	const [dispUserIdsObj, setDispUserIdsObj] = useState({}); // stores dispUserIds as obj for efficient reference
+	const [lastDispUserRemoved, setLastDispUserRemoved] = useState(null);
 
 	// Generate calendar array
 
@@ -50,7 +51,7 @@ const Availabilities = props => {
 			if (avails) {
 				// setDispCal on addAvail
 				avails.forEach(avail => {
-					console.log("forEach avail", avail);
+					// console.log("forEach avail", avail);
 					setDispCal(
 						calendar.addAvails(
 							[{ availabilityStart: avail.availabilityStart }], // this is being handled in the else of the following useEffect, can delete
@@ -68,17 +69,20 @@ const Availabilities = props => {
 	// MAINTAINS CALENDAR DISPLAY STATE BASED ON DISPLAYUSERIDS
 	const [dispUserEffectCounter, setDispUserEffectCounter] = useState(0);
 	useEffect(() => {
+		console.log("dispUserIds useEffect", dispUserIds);
 		let userId;
 		let date;
 
-		if (dispUserEffectCounter > 1 && isCalInit) {
+		if (isCalInit) {
+			console.log("passed gatekeeper if statement");
 			// (aggregate view -> single user) || (multiple users -> single user)
 			// if only one display user
 			if (dispUserIds.length === 1) {
+				console.log("only displaying one user");
 				// for every user currently displayed
 				for (userId in dispCal.availabilitiesObj) {
 					// if the user isn't the display user
-					if (userId !== dispUserIds[0]) {
+					if (parseInt(userId) !== dispUserIds[0]) {
 						// take all their availabilities
 						for (date in dispCal.availabilitiesObj[`${userId}`]) {
 							// and remove them
@@ -100,6 +104,9 @@ const Availabilities = props => {
 					dispCal.availabilitiesObj
 				)
 			) {
+				console.log(
+					"adding a user when a user is already being displayed"
+				);
 				let newUserId = dispUserIds[dispUserIds.length - 1];
 				for (date in props.availabilitiesObj[`${event.id}`][
 					`${newUserId}`
@@ -115,6 +122,7 @@ const Availabilities = props => {
 				Object.keys(dispCal.availabilitiesObj).length > dispUserIds &&
 				dispUserIds.length > 1
 			) {
+				console.log("removing a user leaving more than on user");
 				for (userId in dispCal.availabilitiesObj) {
 					if (!(userId in dispUserIdsObj)) {
 						for (date in props.availabilitiesObj[`${event.id}`][
@@ -134,12 +142,14 @@ const Availabilities = props => {
 			// return to aggregate view
 
 			if (!dispUserIds.length) {
+				console.log("return to aggregate view");
 				let avails = props.allEventsAvailabilities[event.id];
 				// If event has availabilities, render them to the calendar
 				if (avails) {
 					// setDispCal on addAvail
 					avails.forEach(avail => {
-						if (avail.userId !== dispCal.availabilities[0].userId) {
+						console.log("dispCal avails: ", dispCal.availabilities);
+						if (avail.userId !== lastDispUserRemoved) {
 							setDispCal(
 								cal.addAvails(
 									[
@@ -313,7 +323,14 @@ const Availabilities = props => {
 					<button onClick={() => handleSubmit()}>SAVE</button>
 				</div>
 			) : (
-				<Participants eventParticipants={eventParticipants} />
+				<Participants
+					eventParticipants={eventParticipants}
+					dispUserIds={dispUserIds}
+					setDispUserIds={setDispUserIds}
+					dispUserIdsObj={dispUserIdsObj}
+					setDispUserIdsObj={setDispUserIdsObj}
+					setLastDispUserRemoved={setLastDispUserRemoved}
+				/>
 			)}
 		</div>
 	);

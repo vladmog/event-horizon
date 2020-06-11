@@ -80,6 +80,7 @@ export class Cal {
 		};
 	}
 	addAvails(dates, userId) {
+		console.log("addAvails");
 		// Adds availabilities to calendar for rendering
 		for (let i = 0; i < dates.length; i++) {
 			// Convert date string into indexes pointing to corresponding location in years array
@@ -129,6 +130,7 @@ export class Cal {
 		};
 	}
 	removeAvails(dates, userId) {
+		console.log("removeAvails");
 		for (let i = 0; i < dates.length; i++) {
 			// Convert date string into indexes pointing to corresponding location in years array
 			let dateArr = dates[i].availabilityStart.split(" ");
