@@ -26,6 +26,9 @@ const Availabilities = props => {
 	const [removedAvailsArr, setRemovedAvailsArr] = useState([]); // stores avails to remove on submit
 	const [removedAvailsObj, setRemovedAvailsObj] = useState([]); // stores avails to remove for efficient reference
 
+	const [dispUserIds, setDispUserIds] = useState([]); // stores userIds of users to display on cal. if empty, show all users. one step ahead of calender render
+	const [dispUserIdsObj, setDispUserIdsOb] = useState({}); // stores dispUserIds as obj for efficient reference
+
 	// Generate calendar array
 
 	const calendar = new Cal();
@@ -61,6 +64,100 @@ const Availabilities = props => {
 			setIsCalInit(true);
 		}
 	}, [cal, calendar, isCalInit, props.areAvailsObtained]);
+
+	// MAINTAINS CALENDAR DISPLAY STATE BASED ON DISPLAYUSERIDS
+	const [dispUserEffectCounter, setDispUserEffectCounter] = useState(0);
+	useEffect(() => {
+		let userId;
+		let date;
+
+		if (dispUserEffectCounter > 1 && isCalInit) {
+			// (aggregate view -> single user) || (multiple users -> single user)
+			// if only one display user
+			if (dispUserIds.length === 1) {
+				// for every user currently displayed
+				for (userId in dispCal.availabilitiesObj) {
+					// if the user isn't the display user
+					if (userId !== dispUserIds[0]) {
+						// take all their availabilities
+						for (date in dispCal.availabilitiesObj[`${userId}`]) {
+							// and remove them
+							setDispCal(
+								cal.removeAvails(
+									[{ availabilityStart: date }],
+									userId
+								)
+							);
+						}
+					}
+				}
+			}
+
+			// adding a user when a user is already being displayed
+			if (
+				!(
+					dispUserIds[dispUserIds.length - 1] in
+					dispCal.availabilitiesObj
+				)
+			) {
+				let newUserId = dispUserIds[dispUserIds.length - 1];
+				for (date in props.availabilitiesObj[`${event.id}`][
+					`${newUserId}`
+				]) {
+					setDispCal(
+						cal.addAvails([{ availabilityStart: date }], newUserId)
+					);
+				}
+			}
+
+			// removing a user leaving more than one user
+			if (
+				Object.keys(dispCal.availabilitiesObj).length > dispUserIds &&
+				dispUserIds.length > 1
+			) {
+				for (userId in dispCal.availabilitiesObj) {
+					if (!(userId in dispUserIdsObj)) {
+						for (date in props.availabilitiesObj[`${event.id}`][
+							`${userId}`
+						]) {
+							setDispCal(
+								cal.removeAvails(
+									[{ availabilityStart: date }],
+									userId
+								)
+							);
+						}
+					}
+				}
+			}
+
+			// return to aggregate view
+
+			if (!dispUserIds.length) {
+				let avails = props.allEventsAvailabilities[event.id];
+				// If event has availabilities, render them to the calendar
+				if (avails) {
+					// setDispCal on addAvail
+					avails.forEach(avail => {
+						if (avail.userId !== dispCal.availabilities[0].userId) {
+							setDispCal(
+								cal.addAvails(
+									[
+										{
+											availabilityStart:
+												avail.availabilityStart,
+										},
+									], // this is being handled in the else of the following useEffect, can delete
+									avail.userId
+								)
+							);
+						}
+					});
+				}
+			}
+		}
+		setDispUserEffectCounter(dispUserEffectCounter + 1);
+	}, [dispUserIds]);
 
 	// HANDLES UPDATE MODE
 	const [counter, setCounter] = useState(0); // counter to prevent updateMode === false block from running on render
