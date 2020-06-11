@@ -46,7 +46,7 @@ const Availabilities = props => {
 		if (!isCalInit && props.areAvailsObtained) {
 			calendar.initCal();
 			let avails = props.allEventsAvailabilities[event.id];
-			calendar.addAvails([{ availabilityStart: "Wed Jan 01 2020" }], 1); // test. comment this out for production
+			// calendar.addAvails([{ availabilityStart: "Wed Jan 01 2020" }], 1); // test. comment this out for production
 			// If event has availabilities, render them to the calendar
 			if (avails) {
 				// setDispCal on addAvail
@@ -98,12 +98,6 @@ const Availabilities = props => {
 			}
 
 			// adding a user when a user is already being displayed
-			// if (
-			// 	Object.keys(
-			// 		dispCal.availabilitiesObj[
-			// 			`${dispUserIds[dispUserIds.length - 1]}`
-			// 		]
-			// 	).length === 0
 			if (
 				!(
 					dispUserIds[dispUserIds.length - 1] in

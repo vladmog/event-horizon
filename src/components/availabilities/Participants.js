@@ -18,7 +18,12 @@ const Participants = props => {
 	// look up how to stop VS Code from autocompleting words with the wrong thing
 	const clickHandler = participant => {
 		// console.log("participant", participant);
+		console.log("###############");
+		console.log("###############");
+		console.log("DEBUG participant.userId", participant.userId);
+		console.log("DEBUG props.dispUserIdsObj", props.dispUserIdsObj);
 		if (participant.userId in props.dispUserIdsObj) {
+			console.log("remove user clickhandler");
 			// if selected user ID being showcased, remove from showcase
 			let newDispUserIdsObj = { ...props.dispUserIdsObj };
 			delete newDispUserIdsObj[`${participant.userId}`];
@@ -29,10 +34,11 @@ const Participants = props => {
 			props.setDispUserIdsObj(newDispUserIdsObj);
 			props.setLastDispUserRemoved(participant.userId);
 		} else {
+			console.log("add user clickhandler");
 			// if selected user ID not being showcased, showcase user
 			props.setDispUserIds([...props.dispUserIds, participant.userId]);
 			props.setDispUserIdsObj({
-				...props.dispUseIdsObj,
+				...props.dispUserIdsObj,
 				[participant.userId]: true,
 			});
 		}
