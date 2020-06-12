@@ -4,6 +4,8 @@ import {
 	JOIN_EVENT_SUCCESS,
 	GET_AVAILABILITIES_SUCCESS,
 	UPDATE_AVAILABILITY_SUCCESS,
+	GET_AVAILABILITIES_START,
+	SET_ARE_AVAILS_OBTAINED,
 } from "../actions";
 
 const initialState = {
@@ -17,6 +19,12 @@ const initialState = {
 
 export const eventsReducer = (state = initialState, { type, payload }) => {
 	switch (type) {
+		case SET_ARE_AVAILS_OBTAINED:
+			return {
+				...state,
+				areAvailsObtained: payload,
+			};
+
 		case CREATE_EVENT_SUCCESS:
 			console.log("Create event payload", payload); // should be events
 			let events = payload;
@@ -187,6 +195,12 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					eventParticipants: eventParticipants,
 				};
 			}
+
+		case GET_AVAILABILITIES_START:
+			return {
+				...state,
+				areAvailsObtained: false,
+			};
 
 		case GET_AVAILABILITIES_SUCCESS:
 			if (payload) {

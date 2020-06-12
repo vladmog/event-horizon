@@ -5,6 +5,18 @@ const url = process.env.REACT_APP_BACKENDURL
 	: "http://localhost:5000";
 
 //====================================================
+
+export const SET_ARE_AVAILS_OBTAINED = "SET_ARE_AVAILS_OBTAINED";
+
+export const setAreAvailsObtained = bool => {
+	return dispatch => {
+		dispatch({
+			type: SET_ARE_AVAILS_OBTAINED,
+			payload: bool,
+		});
+	};
+};
+
 export const CREATE_EVENT_START = "CREATE_EVENT_START";
 export const CREATE_EVENT_SUCCESS = "CREATE_EVENT_SUCCESS";
 export const CREATE_EVENT_FAILURE = "CREATE_EVENT_FAILURE";

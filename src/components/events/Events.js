@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { useAuth0 } from "../../react-auth0-spa";
 import { Link } from "react-router-dom";
 
-import { getUser, saveToken } from "../../redux/actions";
+import { getUser, saveToken, setAreAvailsObtained } from "../../redux/actions";
 
 const Events = props => {
 	const { user } = useAuth0();
+
+	useEffect(() => {
+		props.setAreAvailsObtained(false);
+	}, []);
 
 	return (
 		<div>
@@ -61,6 +65,7 @@ const mapDispatchToProps = dispatch =>
 		{
 			getUser,
 			saveToken,
+			setAreAvailsObtained,
 		},
 		dispatch
 	);
