@@ -29,7 +29,7 @@ const Availabilities = props => {
 	const [dispUserIds, setDispUserIds] = useState([]); // stores userIds of users to display on cal. if empty, show all users. one step ahead of calender render
 	const [dispUserIdsObj, setDispUserIdsObj] = useState({}); // stores dispUserIds as obj for efficient reference
 	const [lastDispUserRemoved, setLastDispUserRemoved] = useState(null);
-
+	const [isShowcasing, setIsShowcasing] = useState(false);
 	// Generate calendar array
 	const calendar = new Cal();
 
@@ -70,12 +70,13 @@ const Availabilities = props => {
 	useEffect(() => {
 		let userId;
 		let date;
+		console.log("dispUserIds", dispUserIds);
 
-		if (isCalInit) {
+		if (isCalInit && isShowcasing) {
 			// (aggregate view -> single user) || (multiple users -> single user)
 			// if only one display user
 			if (dispUserIds.length === 1) {
-				// console.log("only displaying one user");
+				console.log("only displaying one user");
 				// for every user currently displayed
 				for (userId in dispCal.availabilitiesObj) {
 					// if the user isn't the display user
@@ -101,9 +102,9 @@ const Availabilities = props => {
 					dispCal.availabilitiesObj
 				)
 			) {
-				// console.log(
-				// 	"adding a user when a user is already being displayed"
-				// );
+				console.log(
+					"adding a user when a user is already being displayed"
+				);
 				let newUserId = dispUserIds[dispUserIds.length - 1];
 				for (date in props.availabilitiesObj[`${event.id}`][
 					`${newUserId}`
@@ -120,7 +121,7 @@ const Availabilities = props => {
 					dispUserIds.length &&
 				dispUserIds.length > 1
 			) {
-				// console.log("removing a user leaving more than on user");
+				console.log("removing a user leaving more than on user");
 				for (userId in dispCal.availabilitiesObj) {
 					if (!(userId in dispUserIdsObj)) {
 						for (date in props.availabilitiesObj[`${event.id}`][
@@ -140,7 +141,7 @@ const Availabilities = props => {
 			// return to aggregate view
 
 			if (!dispUserIds.length) {
-				// console.log("return to aggregate view");
+				console.log("return to aggregate view");
 				let avails = props.allEventsAvailabilities[event.id];
 				// If event has availabilities, render them to the calendar
 				if (avails) {
@@ -162,6 +163,7 @@ const Availabilities = props => {
 						}
 					});
 				}
+				setIsShowcasing(false);
 			}
 		}
 		setDispUserEffectCounter(dispUserEffectCounter + 1);
@@ -170,9 +172,42 @@ const Availabilities = props => {
 	// HANDLES UPDATE MODE
 	const [counter, setCounter] = useState(0); // counter to prevent updateMode === false block from running on render
 	useEffect(() => {
+		let userId;
+		let date;
+		let avail;
 		// Show only user avails when entering update-mode
 		if (props.updateMode) {
-			setDispCal(cal.isolateUserAvails(props.userId));
+			// setDispCal(cal.isolateUserAvails(props.userId));
+			// IF USER AVAILS NOT SHOWING, ADD USER AVAILS
+			if (!(props.userId in dispCal.availabilitiesObj)) {
+				for (avail in props.availabilitiesObj[`${event.id}`][
+					`${props.userId}`
+				]) {
+					setDispCal(
+						cal.addAvails(
+							[{ availabilityStart: avail }],
+							props.userId
+						)
+					);
+				}
+			}
+
+			// REMOVE NON USER AVAILS
+			for (userId in dispCal.availabilitiesObj) {
+				// if the user isn't the display user
+				if (parseInt(userId) !== props.userId) {
+					// take all their availabilities
+					for (date in dispCal.availabilitiesObj[`${userId}`]) {
+						// and remove them
+						setDispCal(
+							cal.removeAvails(
+								[{ availabilityStart: date }],
+								userId
+							)
+						);
+					}
+				}
+			}
 		}
 		if (!props.updateMode && counter > 1) {
 			// re-add all avails to cal on exiting update-mode
@@ -196,6 +231,9 @@ const Availabilities = props => {
 					}
 				});
 			}
+			setDispUserIdsObj({});
+			setDispUserIds([]);
+			setIsShowcasing(false);
 		}
 		setCounter(counter + 1);
 	}, [props.updateMode, cal, props.userId]);
@@ -331,6 +369,7 @@ const Availabilities = props => {
 					dispUserIdsObj={dispUserIdsObj}
 					setDispUserIdsObj={setDispUserIdsObj}
 					setLastDispUserRemoved={setLastDispUserRemoved}
+					setIsShowcasing={setIsShowcasing}
 				/>
 			)}
 		</div>
