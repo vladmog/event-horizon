@@ -112,12 +112,20 @@ const Availabilities = props => {
 					"adding a user when a user is already being displayed"
 				);
 				let newUserId = dispUserIds[dispUserIds.length - 1];
-				for (date in props.availabilitiesObj[`${event.id}`][
-					`${newUserId}`
-				]) {
-					setDispCal(
-						cal.addAvails([{ availabilityStart: date }], newUserId)
-					);
+				if (
+					props.availabilitiesObj[`${event.id}`] &&
+					props.availabilitiesObj[`${event.id}`][`${newUserId}`]
+				) {
+					for (date in props.availabilitiesObj[`${event.id}`][
+						`${newUserId}`
+					]) {
+						setDispCal(
+							cal.addAvails(
+								[{ availabilityStart: date }],
+								newUserId
+							)
+						);
+					}
 				}
 			}
 
@@ -184,8 +192,12 @@ const Availabilities = props => {
 		// Show only user avails when entering update-mode
 		if (props.updateMode) {
 			// setDispCal(cal.isolateUserAvails(props.userId));
-			// IF USER AVAILS NOT SHOWING, ADD USER AVAILS
-			if (!(props.userId in dispCal.availabilitiesObj)) {
+			// IF USER AVAILS NOT SHOWING & USER HAS AVAILS ADD USER AVAILS
+			if (
+				!(props.userId in dispCal.availabilitiesObj) &&
+				props.availabilitiesObj[`${event.id}`] &&
+				props.availabilitiesObj[`${event.id}`][`${props.userId}`]
+			) {
 				for (avail in props.availabilitiesObj[`${event.id}`][
 					`${props.userId}`
 				]) {
