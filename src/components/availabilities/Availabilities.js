@@ -170,9 +170,42 @@ const Availabilities = props => {
 	// HANDLES UPDATE MODE
 	const [counter, setCounter] = useState(0); // counter to prevent updateMode === false block from running on render
 	useEffect(() => {
+		let userId;
+		let date;
+		let avail;
 		// Show only user avails when entering update-mode
 		if (props.updateMode) {
-			setDispCal(cal.isolateUserAvails(props.userId));
+			// setDispCal(cal.isolateUserAvails(props.userId));
+			// IF USER AVAILS NOT SHOWING, ADD USER AVAILS
+			if (!(props.userId in dispCal.availabilitiesObj)) {
+				for (avail in props.availabilitiesObj[`${event.id}`][
+					`${props.userId}`
+				]) {
+					setDispCal(
+						cal.addAvails(
+							[{ availabilityStart: avail }],
+							props.userId
+						)
+					);
+				}
+			}
+
+			// REMOVE NON USER AVAILS
+			for (userId in dispCal.availabilitiesObj) {
+				// if the user isn't the display user
+				if (parseInt(userId) !== props.userId) {
+					// take all their availabilities
+					for (date in dispCal.availabilitiesObj[`${userId}`]) {
+						// and remove them
+						setDispCal(
+							cal.removeAvails(
+								[{ availabilityStart: date }],
+								userId
+							)
+						);
+					}
+				}
+			}
 		}
 		if (!props.updateMode && counter > 1) {
 			// re-add all avails to cal on exiting update-mode
