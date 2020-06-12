@@ -9,6 +9,7 @@ import {
 	setUpdateMode,
 	updateAvailability,
 	getAvailabilities,
+	setAreAvailsObtained,
 } from "../../redux/actions";
 
 const Availabilities = props => {
@@ -40,17 +41,23 @@ const Availabilities = props => {
 
 	// INIT CALENDAR
 	useEffect(() => {
+		console.log("cal init useeffect");
+		console.log("isCalInit", isCalInit);
+		console.log("props.areAvailsObtained", props.areAvailsObtained);
 		// Init calendar if cal is not init and events have been pulled
 		// if (!isCalInit && event.id in props.allEventsAvailabilities) {
 		if (!isCalInit && props.areAvailsObtained) {
+			console.log("cal init useeffect conditional pass");
 			calendar.initCal();
-			let avails = props.allEventsAvailabilities[event.id];
+			let avails = props.allEventsAvailabilities[`${event.id}`];
+			console.log("eventId", event.id);
+			console.log("avails", props.allEventsAvailabilities);
 			// calendar.addAvails([{ availabilityStart: "Wed Jan 01 2020" }], 1); // test. comment this out for production
 			// If event has availabilities, render them to the calendar
 			if (avails) {
 				// setDispCal on addAvail
 				avails.forEach(avail => {
-					// console.log("forEach avail", avail);
+					console.log("forEach adding avail", avail);
 					setDispCal(
 						calendar.addAvails(
 							[{ availabilityStart: avail.availabilityStart }], // this is being handled in the else of the following useEffect, can delete
@@ -351,7 +358,10 @@ const Availabilities = props => {
 		<div>
 			<Link
 				to={`/events/${event.eventHash}`}
-				onClick={() => props.setUpdateMode(false)}
+				onClick={() => {
+					props.setUpdateMode(false);
+					props.setAreAvailsObtained(false);
+				}}
 			>{`< ${event.name}`}</Link>
 
 			<h1>Availabilities</h1>
@@ -395,6 +405,7 @@ const mapDispatchToProps = dispatch =>
 			updateAvailability,
 			getAvailabilities,
 			setUpdateMode,
+			setAreAvailsObtained,
 		},
 		dispatch
 	);
