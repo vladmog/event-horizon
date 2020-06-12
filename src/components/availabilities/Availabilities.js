@@ -9,7 +9,6 @@ import {
 	setUpdateMode,
 	updateAvailability,
 	getAvailabilities,
-	setAreAvailsObtained,
 } from "../../redux/actions";
 
 const Availabilities = props => {
@@ -360,7 +359,6 @@ const Availabilities = props => {
 				to={`/events/${event.eventHash}`}
 				onClick={() => {
 					props.setUpdateMode(false);
-					props.setAreAvailsObtained(false);
 				}}
 			>{`< ${event.name}`}</Link>
 
@@ -405,7 +403,6 @@ const mapDispatchToProps = dispatch =>
 			updateAvailability,
 			getAvailabilities,
 			setUpdateMode,
-			setAreAvailsObtained,
 		},
 		dispatch
 	);
