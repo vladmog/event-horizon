@@ -9,6 +9,7 @@ import { getUser, saveToken, setAreAvailsObtained } from "../../redux/actions";
 
 const Events = props => {
 	const { user } = useAuth0();
+	console.log("user", user);
 
 	useEffect(() => {
 		props.setAreAvailsObtained(false);
@@ -17,7 +18,7 @@ const Events = props => {
 	return (
 		<div>
 			<h1>Events</h1>
-			<h2>Hello {user.email}</h2>
+			<h2>Hello {user.name}</h2>
 
 			<Link to="/events/create">+NEW EVENT</Link>
 
