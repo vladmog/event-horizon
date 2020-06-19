@@ -386,6 +386,7 @@ const Availabilities = props => {
 					dispUserIdsObj={dispUserIdsObj}
 					setDispUserIdsObj={setDispUserIdsObj}
 					setLastDispUserRemoved={setLastDispUserRemoved}
+					isShowcasing={isShowcasing}
 					setIsShowcasing={setIsShowcasing}
 				/>
 			)}
