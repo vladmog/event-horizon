@@ -33,9 +33,12 @@ const Participants = props => {
 		} else {
 			// console.log("add user clickhandler");
 			// if selected user ID not being showcased, showcase user
-			props.setDispUserIds([...props.dispUserIds, participant.userId]);
+			props.setDispUserIds([
+				// ...props.dispUserIds,   // uncomment to be able to isolate multiple users concurrently
+				participant.userId,
+			]);
 			props.setDispUserIdsObj({
-				...props.dispUserIdsObj,
+				// ...props.dispUserIdsObj,    // uncomment to be able to isolate multiple users concurrently
 				[participant.userId]: true,
 			});
 		}

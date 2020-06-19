@@ -31,6 +31,9 @@ const Events = props => {
 					return (
 						<div key={event.id}>
 							<Link to={`/events/${event.eventHash}`}>
+								{/* <Link
+								to={`/events/${event.eventHash}/availabilities`}
+							> */}
 								{event.name}
 							</Link>
 						</div>
@@ -46,6 +49,9 @@ const Events = props => {
 					return (
 						<div key={event.id}>
 							<Link to={`/events/${event.eventHash}`}>
+								{/* <Link
+								to={`/events/${event.eventHash}/availabilities`}
+							> */}
 								{event.name}
 							</Link>
 						</div>

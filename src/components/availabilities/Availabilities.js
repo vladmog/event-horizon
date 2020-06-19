@@ -68,6 +68,7 @@ const Availabilities = props => {
 	// MAINTAINS CALENDAR DISPLAY STATE BASED ON DISPLAYUSERIDS
 	const [dispUserEffectCounter, setDispUserEffectCounter] = useState(0);
 	useEffect(() => {
+		console.log("dispUserIds: ", dispUserIds);
 		let userId;
 		let date;
 
@@ -93,6 +94,8 @@ const Availabilities = props => {
 					}
 				}
 			}
+
+			// changing the user being displayed when displaying a user and another one is selected
 
 			// adding a user when a user is already being displayed
 			if (
@@ -362,6 +365,7 @@ const Availabilities = props => {
 		<div>
 			<Link
 				to={`/events/${event.eventHash}`}
+				// to={"/events"}
 				onClick={() => {
 					props.setUpdateMode(false);
 				}}
