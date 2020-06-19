@@ -3,6 +3,14 @@ import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { useAuth0 } from "../../react-auth0-spa";
 import { setUpdateMode } from "../../redux/actions";
+import styled from "styled-components"
+
+const S = {
+	Name: styled.button`
+		color: ${props => props.color};
+	`
+
+}
 
 const Participants = props => {
 	const { user } = useAuth0();
@@ -33,10 +41,14 @@ const Participants = props => {
 		} else {
 			// console.log("add user clickhandler");
 			// if selected user ID not being showcased, showcase user
-			props.setDispUserIds([...props.dispUserIds, participant.userId]);
+			// props.setDispUserIds([...props.dispUserIds, participant.userId]); // uncomment to isolate multiple users concurrently
+			props.setDispUserIds([participant.userId]); // uncomment to isolate a single user at a time
+			// props.setDispUserIdsObj({
+			// 	...props.dispUserIdsObj,
+			// 	[participant.userId]: true,  // uncomment to isolate multiple users concurrently
+			// });
 			props.setDispUserIdsObj({
-				...props.dispUserIdsObj,
-				[participant.userId]: true,
+				[participant.userId]: true,  // uncomment to isolate a single user at a time
 			});
 		}
 	};
@@ -44,19 +56,35 @@ const Participants = props => {
 		<div>
 			<h1>Participants</h1>
 			{props.eventParticipants.map(participant => {
+				// Default username styling
+				let color = "#242424";
+				let font = "Archivo";
+				let fontWeight = "bold"
+
+				// Handles dynamic styling of user names if in showcasing mode
+				if ((participant.id in props.dispUserIdsObj) && props.isShowcasing){
+					// If user being showcased
+					font = "Archivo Black";
+					fontWeight = "regular"
+
+				} else if (props.isShowcasing) {
+					// If user not being showcased
+					color = "#959494";
+				}
 				return (
 					<div key={participant.id}>
 						{user.email === participant.emailAddress ? (
 							// Host availability
 							<div>
-								<button
+								<S.Name
+									color = {color}
 									onClick={() => {
 										// props.setUpdateMode(true);
 										clickHandler(participant);
 									}}
 								>
 									{participant.userName} - you
-								</button>
+								</S.Name>
 								<button
 									onClick={() => props.setUpdateMode(true)}
 								>
@@ -65,9 +93,12 @@ const Participants = props => {
 							</div>
 						) : (
 							// Participant availability
-							<button onClick={() => clickHandler(participant)}>
+							<S.Name 
+								color = {color}
+								onClick={() => clickHandler(participant)}
+							>
 								{participant.userName}
-							</button>
+							</S.Name>
 						)}
 					</div>
 				);
