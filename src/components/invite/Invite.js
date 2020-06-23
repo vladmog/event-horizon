@@ -9,9 +9,10 @@ import styled from "styled-components";
 const S = {
 	InputContainer: styled.div`
 		border: solid red 1px;
+		width: 60vw;
 		input {
 			height: 100%;
-			width: 80%;
+			width: 100%;
 			border: solid green 1px;
 		}
 	`,
@@ -19,7 +20,8 @@ const S = {
 		div {
 
 			border: solid purple 1px;
-			height: ${(props) => props.height};
+			height: 100px;
+			display: ${(props) => props.display};
 		}
 	`
 }
@@ -35,7 +37,6 @@ const Invite = props => {
 	let eventParticipants = props.eventsParticipants[event.id];
 	let usersMet = props.eventsParticipants
 
-	console.log("usersMet", usersMet)
 
 
 	let currUrl = window.location.href
@@ -53,8 +54,10 @@ const Invite = props => {
 
 	const handleBlur = (e) => {
 		if (!(e.target.id === "dd")){
+			// Pseudo `onBlur` that only runs if item clicked on isn't part of dropdown
 			setIsDispDropdown(false)
-		}		  
+		}	
+			  
 	};
 
 	return (
@@ -64,11 +67,13 @@ const Invite = props => {
 			{/* usersMet that are not in given event participants */}
 			<S.InputContainer 
 				onClick = {() => setIsDispDropdown(true)} 
-				onBlur = {(e) => handleBlur(e)}
 			>
 				<input id = "dd" placeholder="search users..." />
-				<S.DropDown height = {isDispDropDown ? "200px" : "0px"}>
-					<div id = {"dd"}></div>
+				<S.DropDown display = {isDispDropDown ? "block" : "none"}>
+					<div id = {"dd"}>
+						<li id = "dd" key = "testUser1" onClick = {() => console.log("testUser1")}>testUser1</li>
+						<li id = "dd" key = "testUser2" onClick = {() => console.log("testUser2")}>testUser2</li>
+					</div>
 				</S.DropDown>
 			</S.InputContainer>
 			<div /> {/* temporary line break */}
