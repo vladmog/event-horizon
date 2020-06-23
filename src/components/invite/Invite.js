@@ -12,7 +12,11 @@ const Invite = props => {
 	let eventHash = props.match.params.eventHash;
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
-	let eventParticipants = props.eventParticipants[event.id];
+	let eventParticipants = props.eventsParticipants[event.id];
+	let usersMet = props.eventsParticipants
+
+	console.log("usersMet", usersMet)
+
 
 	let currUrl = window.location.href
 	// removes `/invite` from current url
@@ -54,7 +58,7 @@ const Invite = props => {
 const mapStateToProps = ({ user, events }) => ({
 	events: events.events,
 	eventHashIndexes: events.eventHashIndexes,
-	eventParticipants: events.eventParticipants
+	eventsParticipants: events.eventsParticipants
 });
 
 const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
