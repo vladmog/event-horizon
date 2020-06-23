@@ -1,12 +1,32 @@
-import React from "react";
+import React, {useState} from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "../../react-auth0-spa";
+import styled from "styled-components";
+
+const S = {
+	InputContainer: styled.div`
+		border: solid red 1px;
+		input {
+			height: 100%;
+			width: 80%;
+			border: solid green 1px;
+		}
+	`,
+	DropDown :styled.div`
+		div {
+
+			border: solid purple 1px;
+			height: ${(props) => props.height};
+		}
+	`
+}
 
 
 const Invite = props => {
+	const [isDispDropDown, setIsDispDropdown] = useState(false)
 	const { user } = useAuth0();
 
 	let eventHash = props.match.params.eventHash;
@@ -31,11 +51,26 @@ const Invite = props => {
 		//   alert("Copied the text: " + copyText.value);
 	}
 
+	const handleBlur = (e) => {
+		if (!(e.target.id === "dd")){
+			setIsDispDropdown(false)
+		}		  
+	};
+
 	return (
-		<div>
+		<div onClick = {e => handleBlur(e)}>
 			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
 			<h1>INVITE:</h1>
-			<input placeholder="search users..." />
+			{/* usersMet that are not in given event participants */}
+			<S.InputContainer 
+				onClick = {() => setIsDispDropdown(true)} 
+				onBlur = {(e) => handleBlur(e)}
+			>
+				<input id = "dd" placeholder="search users..." />
+				<S.DropDown height = {isDispDropDown ? "200px" : "0px"}>
+					<div id = {"dd"}></div>
+				</S.DropDown>
+			</S.InputContainer>
 			<div /> {/* temporary line break */}
 			<button>Get shareable link</button>
 
@@ -43,6 +78,7 @@ const Invite = props => {
 			<button onClick = {() => copyLink()}>Copy invite link</button>
 
 			<h2>Invited:</h2>
+			{/* users that are in given event participants */}
 			<ul>
 				{eventParticipants.map((participant) => {
 					if (participant.emailAddress !== user.email) {
