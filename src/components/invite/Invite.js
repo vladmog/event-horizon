@@ -15,7 +15,7 @@ const Invite = props => {
 	let eventParticipants = props.eventParticipants[event.id];
 
 	let currUrl = window.location.href
-	// removes `/invite` from current url
+	// removes "/invite" from current url
 	let inviteLink = currUrl.substring(0, currUrl.length - 7) 
 
 	const copyLink = () => {
