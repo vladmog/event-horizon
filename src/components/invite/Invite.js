@@ -7,7 +7,7 @@ import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
 
 const S = {
-	InputContainer: styled.div`
+	InputContainer: styled.form`
 		border: solid red 1px;
 		width: 400px;
 		box-sizing: border-box;
@@ -33,6 +33,7 @@ const S = {
 const Invite = props => {
 	const [isDispDropDown, setIsDispDropdown] = useState(false);
 	const [isDispLink, setIsDispLink] = useState(false);
+	const [searchTerm, setSearchTerm] = useState("");
 	const { user } = useAuth0();
 
 	// Get event information on render
@@ -65,9 +66,6 @@ const Invite = props => {
 		});
 	}
 
-	console.log("acquaintancesObj", acquaintancesObj);
-	console.log("eventParticipantsObj", eventParticipantsObj);
-
 	// Define invite link
 	let currUrl = window.location.href;
 	// removes `/invite` from current url
@@ -89,13 +87,29 @@ const Invite = props => {
 		}
 	};
 
+	const searchSubmit = e => {
+		e.preventDefault();
+		console.log("search: ", searchTerm);
+	};
+
 	return (
 		<div onClick={e => handleBlur(e)}>
 			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
 			<h1>INVITE:</h1>
 			{/* usersMet that are not in given event participants */}
-			<S.InputContainer onClick={() => setIsDispDropdown(true)}>
-				<input id="dd" placeholder="search users..." />
+			<S.InputContainer
+				onClick={() => setIsDispDropdown(true)}
+				onSubmit={e => {
+					searchSubmit(e);
+				}}
+			>
+				<input
+					id="dd"
+					placeholder="search users..."
+					value={searchTerm}
+					onChange={e => setSearchTerm(e.target.value)}
+					autocomplete="off"
+				/>
 				<S.DropDown display={isDispDropDown ? "block" : "none"}>
 					<div id={"dd"}>
 						{acquaintances.map(acquaintance => {
