@@ -9,15 +9,20 @@ import styled from "styled-components";
 const S = {
 	InputContainer: styled.div`
 		border: solid red 1px;
-		width: 60vw;
+		width: 400px;
+		box-sizing: border-box;
 		input {
 			height: 100%;
 			width: 100%;
 			border: solid green 1px;
+			box-sizing: border-box;
 		}
 	`,
 	DropDown: styled.div`
+		box-sizing: border-box;
+
 		div {
+			box-sizing: border-box;
 			border: solid purple 1px;
 			height: 100px;
 			display: ${props => props.display};
@@ -27,6 +32,7 @@ const S = {
 
 const Invite = props => {
 	const [isDispDropDown, setIsDispDropdown] = useState(false);
+	const [isDispLink, setIsDispLink] = useState(false);
 	const { user } = useAuth0();
 
 	// Get event information on render
@@ -108,9 +114,15 @@ const Invite = props => {
 				</S.DropDown>
 			</S.InputContainer>
 			<div /> {/* temporary line break */}
-			<button>Get shareable link</button>
-			<input id={"inviteLink"} readOnly value={inviteLink} />
-			<button onClick={() => copyLink()}>Copy invite link</button>
+			<button onClick={() => setIsDispLink(true)}>
+				Get shareable link
+			</button>
+			{isDispLink && (
+				<div>
+					<input id={"inviteLink"} readOnly value={inviteLink} />
+					<button onClick={() => copyLink()}>Copy invite link</button>
+				</div>
+			)}
 			<h2>Invited:</h2>
 			{/* users that are in given event participants */}
 			<ul>
