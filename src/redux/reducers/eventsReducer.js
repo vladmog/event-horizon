@@ -11,7 +11,7 @@ import {
 const initialState = {
 	events: [],
 	eventHashIndexes: {},
-	eventParticipants: {},
+	eventsParticipants: {},
 	allEventsAvailabilities: {},
 	availabilitiesObj: {},
 	areAvailsObtained: false,
@@ -53,24 +53,24 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				}
 				// Create object of eventId's paired to participant arrays
 				let participants = payload.usersMet;
-				let eventParticipants = {};
+				let eventsParticipants = {};
 				for (let i = 0; i < participants.length; i++) {
 					let participant = participants[i];
 					let eventId = participant.eventId;
 					// Handle placement
-					if (!(eventId in eventParticipants)) {
+					if (!(eventId in eventsParticipants)) {
 						// If event array not created, create event array
-						eventParticipants[eventId] = [participant];
+						eventsParticipants[eventId] = [participant];
 					} else {
 						// If event array created, push participant to event array
-						eventParticipants[eventId].push(participant);
+						eventsParticipants[eventId].push(participant);
 					}
 				}
 				return {
 					...state,
 					events: events,
 					eventHashIndexes: eventHashIndexes,
-					eventParticipants: eventParticipants,
+					eventsParticipants: eventsParticipants,
 				};
 			} else {
 				// IF USER NOT IN DB
@@ -98,18 +98,18 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 		case UPDATE_AVAILABILITY_SUCCESS:
 			if (payload) {
 				// #############################################################
-				// Add event participants to `eventParticipants` object if not added already (mainly for use when joining an event)
+				// Add event participants to `eventsParticipants` object if not added already (mainly for use when joining an event)
 				// #############################################################
 
 				// UTIL FUNCT for following step
 				const isParticipantAdded = (participant, eventId) => {
 					for (
 						let i = 0;
-						i < eventParticipants[eventId].length;
+						i < eventsParticipants[eventId].length;
 						i++
 					) {
 						if (
-							participant.id === eventParticipants[eventId][i].id
+							participant.id === eventsParticipants[eventId][i].id
 						) {
 							return true;
 						}
@@ -117,22 +117,22 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					return false;
 				};
 
-				let eventParticipants = { ...state.eventParticipants };
+				let eventsParticipants = { ...state.eventsParticipants };
 
 				let eventUsers = payload.eventUsers;
 				for (let i = 0; i < eventUsers.length; i++) {
 					let participant = eventUsers[i];
 					let eventId = participant.eventId;
 					// Handle placement
-					if (!(eventId in eventParticipants)) {
+					if (!(eventId in eventsParticipants)) {
 						// If event array not created, create event array
-						eventParticipants[eventId] = [participant];
+						eventsParticipants[eventId] = [participant];
 					} else {
 						// If event array created, push participant to event array
 						// But only if they weren't added prior
 						if (!isParticipantAdded(participant, eventId)) {
 							console.log("new user adddeddd");
-							eventParticipants[eventId].push(participant);
+							eventsParticipants[eventId].push(participant);
 						}
 					}
 				}
@@ -141,12 +141,12 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				// #############################################################
 				let availabilities = payload.eventAvailabilities;
 
-				// If no event availabilities found, just return eventParticipants
+				// If no event availabilities found, just return eventsParticipants
 				if (!availabilities.length) {
 					return {
 						...state,
 						areAvailsObtained: true,
-						eventParticipants: eventParticipants,
+						eventsParticipants: eventsParticipants,
 					};
 				}
 				let eventId = availabilities[0].eventId;
@@ -192,7 +192,7 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					allEventsAvailabilities: allEventsAvailabilities,
 					availabilitiesObj: availabilitiesObj,
 					areAvailsObtained: true,
-					eventParticipants: eventParticipants,
+					eventsParticipants: eventsParticipants,
 				};
 			}
 
@@ -205,18 +205,18 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 		case GET_AVAILABILITIES_SUCCESS:
 			if (payload) {
 				// #############################################################
-				// Add event participants to `eventParticipants` object if not added already (mainly for use when joining an event)
+				// Add event participants to `eventsParticipants` object if not added already (mainly for use when joining an event)
 				// #############################################################
 
 				// UTIL FUNCT for following step
 				const isParticipantAdded = (participant, eventId) => {
 					for (
 						let i = 0;
-						i < eventParticipants[eventId].length;
+						i < eventsParticipants[eventId].length;
 						i++
 					) {
 						if (
-							participant.id === eventParticipants[eventId][i].id
+							participant.id === eventsParticipants[eventId][i].id
 						) {
 							return true;
 						}
@@ -224,22 +224,22 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					return false;
 				};
 
-				let eventParticipants = { ...state.eventParticipants };
+				let eventsParticipants = { ...state.eventsParticipants };
 
 				let eventUsers = payload.eventUsers;
 				for (let i = 0; i < eventUsers.length; i++) {
 					let participant = eventUsers[i];
 					let eventId = participant.eventId;
 					// Handle placement
-					if (!(eventId in eventParticipants)) {
+					if (!(eventId in eventsParticipants)) {
 						// If event array not created, create event array
-						eventParticipants[eventId] = [participant];
+						eventsParticipants[eventId] = [participant];
 					} else {
 						// If event array created, push participant to event array
 						// But only if they weren't added prior
 						if (!isParticipantAdded(participant, eventId)) {
 							console.log("new user adddeddd");
-							eventParticipants[eventId].push(participant);
+							eventsParticipants[eventId].push(participant);
 						}
 					}
 				}
@@ -248,12 +248,12 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				// #############################################################
 				let availabilities = payload.eventAvailabilities;
 
-				// If no event availabilities found, just return eventParticipants
+				// If no event availabilities found, just return eventsParticipants
 				if (!availabilities.length) {
 					return {
 						...state,
 						areAvailsObtained: true,
-						eventParticipants: eventParticipants,
+						eventsParticipants: eventsParticipants,
 					};
 				}
 				let eventId = availabilities[0].eventId;
@@ -299,7 +299,7 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					allEventsAvailabilities: allEventsAvailabilities,
 					availabilitiesObj: availabilitiesObj,
 					areAvailsObtained: true,
-					eventParticipants: eventParticipants,
+					eventsParticipants: eventsParticipants,
 				};
 			}
 
