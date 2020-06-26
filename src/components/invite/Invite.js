@@ -82,6 +82,7 @@ const Invite = (props) => {
 	};
 
 	const handleBlur = (e) => {
+		console.log("e", e.target);
 		if (!(e.target.id === "dd")) {
 			// Pseudo `onBlur` that only runs if item clicked on isn't part of dropdown
 			setIsDispDropdown(false);
@@ -114,6 +115,14 @@ const Invite = (props) => {
 				/>
 				<S.DropDown display={isDispDropDown ? "block" : "none"}>
 					<div id={"dd"}>
+						{/* If user searched for not found */}
+						{props.searchResult === false && props.searchResult !== null && (
+							<li id="dd" style={{ color: "red" }}>
+								{searchTerm} not found
+							</li>
+						)}
+
+						{/* If search term returned result, show result */}
 						{props.searchResult && (
 							<li
 								style={{ color: "blue" }}
@@ -121,9 +130,12 @@ const Invite = (props) => {
 								key={`${props.searchResult.userName}`}
 								onClick={() => console.log(props.searchResult.userName)}
 							>
-								{props.searchResult.userName}
+								<span id="dd">{props.searchResult.userName}</span>
+								<button id="dd">ADD</button>
 							</li>
 						)}
+
+						{/* Render acquaintances */}
 						{acquaintances.map((acquaintance) => {
 							return (
 								<li
@@ -131,7 +143,8 @@ const Invite = (props) => {
 									key={`${acquaintance.userName}`}
 									onClick={() => console.log(acquaintance.userName)}
 								>
-									{acquaintance.userName}
+									<span>{acquaintance.userName}</span>
+									<button id="dd">ADD</button>
 								</li>
 							);
 						})}

@@ -2,13 +2,14 @@ import {
 	GET_USER_SUCCESS,
 	SAVE_TOKEN,
 	CREATE_USER_SUCCESS,
+	SEARCH_USER_START,
 	SEARCH_USER_SUCCESS,
 	SEARCH_USER_FAILURE,
 } from "../actions";
 
 const initialState = {
 	isUserRetrieved: false,
-	searchResult: false,
+	searchResult: null,
 };
 
 export const userReducer = (state = initialState, { type, payload }) => {
@@ -45,6 +46,11 @@ export const userReducer = (state = initialState, { type, payload }) => {
 				userId: user.id,
 			};
 
+		case SEARCH_USER_START:
+			return {
+				...state,
+				searchResult: null,
+			};
 		case SEARCH_USER_SUCCESS:
 			return {
 				...state,
