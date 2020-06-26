@@ -114,12 +114,22 @@ const Invite = (props) => {
 				/>
 				<S.DropDown display={isDispDropDown ? "block" : "none"}>
 					<div id={"dd"}>
+						{props.searchResult && (
+							<li
+								style={{ color: "blue" }}
+								id="dd"
+								key={`${props.searchResult.userName}`}
+								onClick={() => console.log(props.searchResult.userName)}
+							>
+								{props.searchResult.userName}
+							</li>
+						)}
 						{acquaintances.map((acquaintance) => {
 							return (
 								<li
 									id="dd"
 									key={`${acquaintance.userName}`}
-									onClick={() => console.log("testUser1")}
+									onClick={() => console.log(acquaintance.userName)}
 								>
 									{acquaintance.userName}
 								</li>
@@ -155,6 +165,7 @@ const mapStateToProps = ({ user, events }) => ({
 	eventHashIndexes: events.eventHashIndexes,
 	eventsParticipants: events.eventsParticipants,
 	authToken: user.authToken,
+	searchResult: user.searchResult,
 });
 
 const mapDispatchToProps = (dispatch) =>
