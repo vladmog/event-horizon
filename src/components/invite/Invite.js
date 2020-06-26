@@ -5,6 +5,7 @@ import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
+import { searchUser } from "../../redux/actions";
 
 const S = {
 	InputContainer: styled.form`
@@ -25,12 +26,12 @@ const S = {
 			box-sizing: border-box;
 			border: solid purple 1px;
 			height: 100px;
-			display: ${props => props.display};
+			display: ${(props) => props.display};
 		}
 	`,
 };
 
-const Invite = props => {
+const Invite = (props) => {
 	const [isDispDropDown, setIsDispDropdown] = useState(false);
 	const [isDispLink, setIsDispLink] = useState(false);
 	const [searchTerm, setSearchTerm] = useState("");
@@ -44,7 +45,7 @@ const Invite = props => {
 	// Isolate event participants from all users met. Array for mapping, object for efficient reference
 	let eventParticipants = props.eventsParticipants[event.id];
 	let eventParticipantsObj = {};
-	eventParticipants.forEach(participant => {
+	eventParticipants.forEach((participant) => {
 		eventParticipantsObj[`${participant.userId}`] = true;
 	});
 
@@ -55,7 +56,7 @@ const Invite = props => {
 	// If user met in another event not in this event or not already in acquaintances, add to acquaintances.
 	let eParticipants;
 	for (eParticipants in props.eventsParticipants) {
-		props.eventsParticipants[`${eParticipants}`].forEach(participant => {
+		props.eventsParticipants[`${eParticipants}`].forEach((participant) => {
 			if (
 				!(participant.userId in eventParticipantsObj) &&
 				!(participant.userId in acquaintancesObj)
@@ -80,26 +81,27 @@ const Invite = props => {
 		//   alert("Copied the text: " + copyText.value);
 	};
 
-	const handleBlur = e => {
+	const handleBlur = (e) => {
 		if (!(e.target.id === "dd")) {
 			// Pseudo `onBlur` that only runs if item clicked on isn't part of dropdown
 			setIsDispDropdown(false);
 		}
 	};
 
-	const searchSubmit = e => {
+	const searchSubmit = (e) => {
 		e.preventDefault();
 		console.log("search: ", searchTerm);
+		props.searchUser(props.authToken, searchTerm);
 	};
 
 	return (
-		<div onClick={e => handleBlur(e)}>
+		<div onClick={(e) => handleBlur(e)}>
 			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
 			<h1>INVITE:</h1>
 			{/* usersMet that are not in given event participants */}
 			<S.InputContainer
 				onClick={() => setIsDispDropdown(true)}
-				onSubmit={e => {
+				onSubmit={(e) => {
 					searchSubmit(e);
 				}}
 			>
@@ -107,12 +109,12 @@ const Invite = props => {
 					id="dd"
 					placeholder="search users..."
 					value={searchTerm}
-					onChange={e => setSearchTerm(e.target.value)}
+					onChange={(e) => setSearchTerm(e.target.value)}
 					autocomplete="off"
 				/>
 				<S.DropDown display={isDispDropDown ? "block" : "none"}>
 					<div id={"dd"}>
-						{acquaintances.map(acquaintance => {
+						{acquaintances.map((acquaintance) => {
 							console.log("acquaintance", acquaintance);
 							return (
 								<li
@@ -128,9 +130,7 @@ const Invite = props => {
 				</S.DropDown>
 			</S.InputContainer>
 			<div /> {/* temporary line break */}
-			<button onClick={() => setIsDispLink(true)}>
-				Get shareable link
-			</button>
+			<button onClick={() => setIsDispLink(true)}>Get shareable link</button>
 			{isDispLink && (
 				<div>
 					<input id={"inviteLink"} readOnly value={inviteLink} />
@@ -140,7 +140,7 @@ const Invite = props => {
 			<h2>Invited:</h2>
 			{/* users that are in given event participants */}
 			<ul>
-				{eventParticipants.map(participant => {
+				{eventParticipants.map((participant) => {
 					if (participant.emailAddress !== user.email) {
 						return <li>{participant.userName}</li>;
 						// add remove functionality here
@@ -155,9 +155,11 @@ const mapStateToProps = ({ user, events }) => ({
 	events: events.events,
 	eventHashIndexes: events.eventHashIndexes,
 	eventsParticipants: events.eventsParticipants,
+	authToken: user.authToken,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+	bindActionCreators({ searchUser }, dispatch);
 
 export default compose(
 	withRouter,
