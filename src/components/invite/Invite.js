@@ -5,19 +5,25 @@ import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
+import { searchUser, inviteUser } from "../../redux/actions";
 
 const S = {
-	InputContainer: styled.div`
+	InputContainer: styled.form`
 		border: solid red 1px;
-		width: 60vw;
+		width: 400px;
+		box-sizing: border-box;
 		input {
 			height: 100%;
 			width: 100%;
 			border: solid green 1px;
+			box-sizing: border-box;
 		}
 	`,
 	DropDown: styled.div`
+		box-sizing: border-box;
+
 		div {
+			box-sizing: border-box;
 			border: solid purple 1px;
 			height: 100px;
 			display: ${(props) => props.display};
@@ -27,6 +33,8 @@ const S = {
 
 const Invite = (props) => {
 	const [isDispDropDown, setIsDispDropdown] = useState(false);
+	const [isDispLink, setIsDispLink] = useState(false);
+	const [searchTerm, setSearchTerm] = useState("");
 	const { user } = useAuth0();
 
 	// Get event information on render
@@ -59,9 +67,6 @@ const Invite = (props) => {
 		});
 	}
 
-	console.log("acquaintancesObj", acquaintancesObj);
-	console.log("eventParticipantsObj", eventParticipantsObj);
-
 	// Define invite link
 	let currUrl = window.location.href;
 	// removes `/invite` from current url
@@ -77,10 +82,23 @@ const Invite = (props) => {
 	};
 
 	const handleBlur = (e) => {
+		console.log("e", e.target);
 		if (!(e.target.id === "dd")) {
 			// Pseudo `onBlur` that only runs if item clicked on isn't part of dropdown
 			setIsDispDropdown(false);
 		}
+	};
+
+	const searchSubmit = (e) => {
+		e.preventDefault();
+		console.log("search: ", searchTerm);
+		props.searchUser(props.authToken, searchTerm);
+	};
+
+	const invite = (e, userId) => {
+		e.preventDefault();
+		console.log("event", event);
+		props.inviteUser(props.authToken, event.id, userId);
 	};
 
 	return (
@@ -88,19 +106,63 @@ const Invite = (props) => {
 			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
 			<h1>INVITE:</h1>
 			{/* usersMet that are not in given event participants */}
-			<S.InputContainer onClick={() => setIsDispDropdown(true)}>
-				<input id="dd" placeholder="search users..." />
+			<S.InputContainer
+				onClick={() => setIsDispDropdown(true)}
+				onSubmit={(e) => {
+					searchSubmit(e);
+				}}
+			>
+				<input
+					id="dd"
+					placeholder="search users..."
+					value={searchTerm}
+					onChange={(e) => setSearchTerm(e.target.value)}
+					autoComplete="off"
+				/>
 				<S.DropDown display={isDispDropDown ? "block" : "none"}>
 					<div id={"dd"}>
+						{/* If user searched for not found */}
+						{props.searchResult === false && props.searchResult !== null && (
+							<li id="dd" style={{ color: "red" }}>
+								{searchTerm} not found
+							</li>
+						)}
+
+						{/* If search term returned result, show result */}
+						{props.searchResult && (
+							<li
+								style={{ color: "blue" }}
+								id="dd"
+								key={`${props.searchResult.userName}`}
+								onClick={() => console.log(props.searchResult.userName)}
+							>
+								<span id="dd">{props.searchResult.userName}</span>
+								<button
+									onClick={(e) => invite(e, props.searchResult.id)}
+									id="dd"
+									type="button"
+								>
+									ADD
+								</button>
+							</li>
+						)}
+
+						{/* Render acquaintances */}
 						{acquaintances.map((acquaintance) => {
-							console.log("acquaintance", acquaintance);
 							return (
 								<li
 									id="dd"
 									key={`${acquaintance.userName}`}
-									onClick={() => console.log("testUser1")}
+									onClick={() => console.log(acquaintance.userName)}
 								>
-									{acquaintance.userName}
+									<span>{acquaintance.userName}</span>
+									<button
+										onClick={(e) => invite(e, acquaintance.userId)}
+										id="dd"
+										type="button"
+									>
+										ADD
+									</button>
 								</li>
 							);
 						})}
@@ -108,9 +170,13 @@ const Invite = (props) => {
 				</S.DropDown>
 			</S.InputContainer>
 			<div /> {/* temporary line break */}
-			<button>Get shareable link</button>
-			<input id={"inviteLink"} readOnly value={inviteLink} />
-			<button onClick={() => copyLink()}>Copy invite link</button>
+			<button onClick={() => setIsDispLink(true)}>Get shareable link</button>
+			{isDispLink && (
+				<div>
+					<input id={"inviteLink"} readOnly value={inviteLink} />
+					<button onClick={() => copyLink()}>Copy invite link</button>
+				</div>
+			)}
 			<h2>Invited:</h2>
 			{/* users that are in given event participants */}
 			<ul>
@@ -129,9 +195,13 @@ const mapStateToProps = ({ user, events }) => ({
 	events: events.events,
 	eventHashIndexes: events.eventHashIndexes,
 	eventsParticipants: events.eventsParticipants,
+	authToken: user.authToken,
+	searchResult: user.searchResult,
+	userId: user.userId,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+	bindActionCreators({ searchUser, inviteUser }, dispatch);
 
 export default compose(
 	withRouter,

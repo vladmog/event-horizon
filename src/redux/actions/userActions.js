@@ -13,7 +13,7 @@ export const GET_USER_FAILURE = "GET_USER_FAILURE";
 
 // Retrieves user and user events from DB. Returns false if user not found
 export const getUser = (token, emailAddress) => {
-	return async dispatch => {
+	return async (dispatch) => {
 		dispatch({
 			type: GET_USER_START,
 		});
@@ -46,20 +46,16 @@ export const CREATE_USER_FAILURE = "CREATE_USER_FAILURE";
 
 export const createUser = (token, user) => {
 	console.log("incoming user: ", user);
-	return async dispatch => {
+	return async (dispatch) => {
 		dispatch({
 			type: CREATE_USER_START,
 		});
 		try {
-			const response = await axios.post(
-				`${url}/api/user/create_user`,
-				user,
-				{
-					headers: {
-						Authorization: `Bearer ${token}`,
-					},
-				}
-			);
+			const response = await axios.post(`${url}/api/user/create_user`, user, {
+				headers: {
+					Authorization: `Bearer ${token}`,
+				},
+			});
 			dispatch({
 				type: CREATE_USER_SUCCESS,
 				payload: response.data,
@@ -74,10 +70,45 @@ export const createUser = (token, user) => {
 	};
 };
 //====================================================
+export const SEARCH_USER_START = "SEARCH_USER_START";
+export const SEARCH_USER_SUCCESS = "SEARCH_USER_SUCCESS";
+export const SEARCH_USER_FAILURE = "SEARCH_USER_FAILURE";
+
+export const searchUser = (token, userName) => {
+	console.log("incoming user: ", userName);
+	return async (dispatch) => {
+		dispatch({
+			type: SEARCH_USER_START,
+		});
+		try {
+			const response = await axios.post(
+				`${url}/api/user/search_user`,
+				{ userName },
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			dispatch({
+				type: SEARCH_USER_SUCCESS,
+				payload: response.data,
+			});
+		} catch (err) {
+			console.log(err);
+			dispatch({
+				type: SEARCH_USER_FAILURE,
+				payload: err,
+			});
+		}
+	};
+};
+
+//====================================================
 export const SAVE_TOKEN = "SAVE_TOKEN";
 
-export const saveToken = token => {
-	return dispatch => {
+export const saveToken = (token) => {
+	return (dispatch) => {
 		dispatch({
 			type: SAVE_TOKEN,
 			payload: token,
