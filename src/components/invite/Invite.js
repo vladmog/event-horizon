@@ -115,7 +115,6 @@ const Invite = (props) => {
 				<S.DropDown display={isDispDropDown ? "block" : "none"}>
 					<div id={"dd"}>
 						{acquaintances.map((acquaintance) => {
-							console.log("acquaintance", acquaintance);
 							return (
 								<li
 									id="dd"
