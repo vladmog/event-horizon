@@ -5,7 +5,7 @@ import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
-import { searchUser } from "../../redux/actions";
+import { searchUser, inviteUser } from "../../redux/actions";
 
 const S = {
 	InputContainer: styled.form`
@@ -95,6 +95,12 @@ const Invite = (props) => {
 		props.searchUser(props.authToken, searchTerm);
 	};
 
+	const invite = (e, userId) => {
+		e.preventDefault();
+		console.log("event", event);
+		props.inviteUser(props.authToken, event.id, userId);
+	};
+
 	return (
 		<div onClick={(e) => handleBlur(e)}>
 			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
@@ -111,7 +117,7 @@ const Invite = (props) => {
 					placeholder="search users..."
 					value={searchTerm}
 					onChange={(e) => setSearchTerm(e.target.value)}
-					autocomplete="off"
+					autoComplete="off"
 				/>
 				<S.DropDown display={isDispDropDown ? "block" : "none"}>
 					<div id={"dd"}>
@@ -131,7 +137,13 @@ const Invite = (props) => {
 								onClick={() => console.log(props.searchResult.userName)}
 							>
 								<span id="dd">{props.searchResult.userName}</span>
-								<button id="dd">ADD</button>
+								<button
+									onClick={(e) => invite(e, props.searchResult.id)}
+									id="dd"
+									type="button"
+								>
+									ADD
+								</button>
 							</li>
 						)}
 
@@ -144,7 +156,13 @@ const Invite = (props) => {
 									onClick={() => console.log(acquaintance.userName)}
 								>
 									<span>{acquaintance.userName}</span>
-									<button id="dd">ADD</button>
+									<button
+										onClick={(e) => invite(e, acquaintance.userId)}
+										id="dd"
+										type="button"
+									>
+										ADD
+									</button>
 								</li>
 							);
 						})}
@@ -179,10 +197,11 @@ const mapStateToProps = ({ user, events }) => ({
 	eventsParticipants: events.eventsParticipants,
 	authToken: user.authToken,
 	searchResult: user.searchResult,
+	userId: user.userId,
 });
 
 const mapDispatchToProps = (dispatch) =>
-	bindActionCreators({ searchUser }, dispatch);
+	bindActionCreators({ searchUser, inviteUser }, dispatch);
 
 export default compose(
 	withRouter,
