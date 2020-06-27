@@ -6,6 +6,9 @@ import {
 	UPDATE_AVAILABILITY_SUCCESS,
 	GET_AVAILABILITIES_START,
 	SET_ARE_AVAILS_OBTAINED,
+	INVITE_USER_START,
+	INVITE_USER_SUCCESS,
+	INVITE_USER_FAILURE,
 } from "../actions";
 
 const initialState = {
@@ -103,14 +106,8 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 
 				// UTIL FUNCT for following step
 				const isParticipantAdded = (participant, eventId) => {
-					for (
-						let i = 0;
-						i < eventsParticipants[eventId].length;
-						i++
-					) {
-						if (
-							participant.id === eventsParticipants[eventId][i].id
-						) {
+					for (let i = 0; i < eventsParticipants[eventId].length; i++) {
+						if (participant.id === eventsParticipants[eventId][i].id) {
 							return true;
 						}
 					}
@@ -163,7 +160,7 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				// availabilityObj.eventId.userId.date = true
 				let availabilitiesObj = { ...state.availabilitiesObj }; // experimental
 				// let availabilitiesObj = {}; //original
-				availabilities.forEach(avail => {
+				availabilities.forEach((avail) => {
 					let eventId = avail.eventId;
 					let userId = avail.userId;
 
@@ -196,6 +193,35 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				};
 			}
 
+		case INVITE_USER_START:
+			return {
+				...state,
+			};
+		case INVITE_USER_SUCCESS:
+			// Create object of eventId's paired to participant arrays
+			let participants = payload.usersMet;
+			let eventsParticipants = {};
+			for (let i = 0; i < participants.length; i++) {
+				let participant = participants[i];
+				let eventId = participant.eventId;
+				// Handle placement
+				if (!(eventId in eventsParticipants)) {
+					// If event array not created, create event array
+					eventsParticipants[eventId] = [participant];
+				} else {
+					// If event array created, push participant to event array
+					eventsParticipants[eventId].push(participant);
+				}
+			}
+			return {
+				...state,
+				eventsParticipants: eventsParticipants,
+			};
+		case INVITE_USER_FAILURE:
+			return {
+				...state,
+			};
+
 		case GET_AVAILABILITIES_START:
 			return {
 				...state,
@@ -210,14 +236,8 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 
 				// UTIL FUNCT for following step
 				const isParticipantAdded = (participant, eventId) => {
-					for (
-						let i = 0;
-						i < eventsParticipants[eventId].length;
-						i++
-					) {
-						if (
-							participant.id === eventsParticipants[eventId][i].id
-						) {
+					for (let i = 0; i < eventsParticipants[eventId].length; i++) {
+						if (participant.id === eventsParticipants[eventId][i].id) {
 							return true;
 						}
 					}
@@ -270,7 +290,7 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				// availabilityObj.eventId.userId.date = true
 				let availabilitiesObj = { ...state.availabilitiesObj }; // experimental
 				// let availabilitiesObj = {}; //original
-				availabilities.forEach(avail => {
+				availabilities.forEach((avail) => {
 					let eventId = avail.eventId;
 					let userId = avail.userId;
 

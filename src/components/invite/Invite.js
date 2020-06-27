@@ -98,7 +98,8 @@ const Invite = (props) => {
 	const invite = (e, userId) => {
 		e.preventDefault();
 		console.log("event", event);
-		props.inviteUser(props.authToken, event.id, userId);
+		let adminId = props.userId;
+		props.inviteUser(props.authToken, event.id, userId, adminId);
 	};
 
 	return (
@@ -198,6 +199,7 @@ const mapStateToProps = ({ user, events }) => ({
 	authToken: user.authToken,
 	searchResult: user.searchResult,
 	userId: user.userId,
+	emailAddress: user.emailAddress,
 });
 
 const mapDispatchToProps = (dispatch) =>
