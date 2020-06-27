@@ -5,6 +5,9 @@ import {
 	SEARCH_USER_START,
 	SEARCH_USER_SUCCESS,
 	SEARCH_USER_FAILURE,
+	INVITE_USER_START,
+	INVITE_USER_SUCCESS,
+	INVITE_USER_FAILURE,
 } from "../actions";
 
 const initialState = {
@@ -66,6 +69,18 @@ export const userReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				authToken: payload,
+			};
+		case INVITE_USER_START:
+			return {
+				...state,
+			};
+		case INVITE_USER_SUCCESS:
+			return {
+				...state,
+			};
+		case INVITE_USER_FAILURE:
+			return {
+				...state,
 			};
 
 		default:

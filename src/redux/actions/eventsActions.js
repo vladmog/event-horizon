@@ -155,7 +155,7 @@ export const INVITE_USER_START = "INVITE_USER_START";
 export const INVITE_USER_SUCCESS = "INVITE_USER_SUCCESS";
 export const INVITE_USER_FAILURE = "INVITE_USER_FAILURE";
 
-export const inviteUser = (token, eventId, userId) => {
+export const inviteUser = (token, eventId, userId, adminId) => {
 	console.log(`inviteUser eventId ${eventId} userId ${userId}`);
 	return async (dispatch) => {
 		dispatch({
@@ -164,7 +164,7 @@ export const inviteUser = (token, eventId, userId) => {
 		try {
 			const response = await axios.post(
 				`${url}/api/events/invite`,
-				{ eventId, userId },
+				{ eventId, userId, adminId },
 				{
 					headers: {
 						Authorization: `Bearer ${token}`,
