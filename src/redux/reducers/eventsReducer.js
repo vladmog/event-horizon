@@ -200,6 +200,13 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 		case INVITE_USER_SUCCESS:
 			// Create object of eventId's paired to participant arrays
 			let participants = payload.usersMet;
+
+			// if user being invited already part of event, usersMet === participants === false
+			if (!participants) {
+				return {
+					...state,
+				};
+			}
 			let eventsParticipants = {};
 			for (let i = 0; i < participants.length; i++) {
 				let participant = participants[i];
