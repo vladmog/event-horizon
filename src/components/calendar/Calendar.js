@@ -22,8 +22,25 @@ const S = {
 	`,
 };
 
-const Calendar = props => {
+const Calendar = (props) => {
 	let { years } = props.calendar;
+
+	// updates variables used in calculation of day colors
+	const [availCountRange, setAvailCountRange] = useState(0); // range between leastAvailCount and greatestAvailCount
+	const [leastAvailCount, setLeastAvailCount] = useState(null); // smallest amount of avails in a day
+	const [greatestAvailCount, setGreatestAvailCount] = useState(null); // greatest amount of avails in a day
+	useEffect(() => {
+		console.log("props.calendar.availabilities", props.calendar.availabilities);
+		let availabilityCounts = {};
+		props.calendar.availabilities.forEach((avail) => {
+			if (avail.date in availabilityCounts) {
+				availabilityCounts[`${avail.date}`]++;
+			} else {
+				availabilityCounts[`${avail.date}`] = 1;
+			}
+			console.log("availabilityCounts:", availabilityCounts);
+		});
+	}, []);
 
 	const currDateString = new Date().toDateString();
 	let currDateArr = currDateString.split(" ");
@@ -72,7 +89,7 @@ const Calendar = props => {
 	return (
 		<S.TempContainer>
 			<S.Container>
-				{years.map(year => {
+				{years.map((year) => {
 					return (
 						<Year
 							year={year}

@@ -59,10 +59,6 @@ const Participants = (props) => {
 				let color = "#242424";
 				let font = "Archivo";
 				let fontWeight = "bold";
-				console.log("===================");
-				console.log("truth serum", participant.id in props.dispUserIdsObj);
-				console.log("participant.id", participant.id);
-				console.log("props.dispUserIdsObj", props.dispUserIdsObj);
 
 				// Handles dynamic styling of user names if in showcasing mode
 				if (participant.userId in props.dispUserIdsObj && props.isShowcasing) {
