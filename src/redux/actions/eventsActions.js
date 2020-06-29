@@ -185,3 +185,41 @@ export const inviteUser = (token, eventId, userId, adminId) => {
 		}
 	};
 };
+
+// TURN THIS INTO A DELETE ENDPOINT
+export const UNINVITE_USER_START = "UNINVITE_USER_START";
+export const UNINVITE_USER_SUCCESS = "UNINVITE_USER_SUCCESS";
+export const UNINVITE_USER_FAILURE = "UNINVITE_USER_FAILURE";
+
+export const uninviteUser = (token, eventId, userId, adminId) => {
+	console.log(
+		`uninviteUser eventId ${eventId} userId ${userId} adminId ${adminId}`
+	);
+	return async (dispatch) => {
+		dispatch({
+			type: UNINVITE_USER_START,
+		});
+		try {
+			const response = await axios.post(
+				`${url}/api/events/uninvite`,
+				{ eventId, userId, adminId },
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			dispatch({
+				type: UNINVITE_USER_SUCCESS,
+				payload: response.data,
+			});
+			return true;
+		} catch (err) {
+			dispatch({
+				type: UNINVITE_USER_FAILURE,
+				payload: err,
+			});
+			return false;
+		}
+	};
+};
