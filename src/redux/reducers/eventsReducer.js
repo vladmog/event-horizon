@@ -9,6 +9,9 @@ import {
 	INVITE_USER_START,
 	INVITE_USER_SUCCESS,
 	INVITE_USER_FAILURE,
+	UNINVITE_USER_START,
+	UNINVITE_USER_SUCCESS,
+	UNINVITE_USER_FAILURE,
 } from "../actions";
 
 const initialState = {
@@ -198,33 +201,69 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				...state,
 			};
 		case INVITE_USER_SUCCESS:
-			// Create object of eventId's paired to participant arrays
-			let participants = payload.usersMet;
-
-			// if user being invited already part of event, usersMet === participants === false
-			if (!participants) {
+			// if user being invited already part of event, usersMet will be returned as false
+			if (!payload.usersMet) {
 				return {
 					...state,
 				};
-			}
-			let eventsParticipants = {};
-			for (let i = 0; i < participants.length; i++) {
-				let participant = participants[i];
-				let eventId = participant.eventId;
-				// Handle placement
-				if (!(eventId in eventsParticipants)) {
-					// If event array not created, create event array
-					eventsParticipants[eventId] = [participant];
-				} else {
-					// If event array created, push participant to event array
-					eventsParticipants[eventId].push(participant);
+			} else {
+				let participants = payload.usersMet;
+				let eventsParticipants = {};
+				for (let i = 0; i < participants.length; i++) {
+					let participant = participants[i];
+					let eventId = participant.eventId;
+					// Handle placement
+					if (!(eventId in eventsParticipants)) {
+						// If event array not created, create event array
+						eventsParticipants[eventId] = [participant];
+					} else {
+						// If event array created, push participant to event array
+						eventsParticipants[eventId].push(participant);
+					}
 				}
+				return {
+					...state,
+					eventsParticipants: eventsParticipants,
+				};
 			}
+		case INVITE_USER_FAILURE:
 			return {
 				...state,
-				eventsParticipants: eventsParticipants,
 			};
-		case INVITE_USER_FAILURE:
+
+		case UNINVITE_USER_START:
+			return {
+				...state,
+			};
+		case UNINVITE_USER_SUCCESS:
+			// Create object of eventId's paired to participant arrays
+
+			// if user being uninvited not part of event, usersMet will be returned as false
+			if (!payload.usersMet) {
+				return {
+					...state,
+				};
+			} else {
+				let participants = payload.usersMet;
+				let eventsParticipants = {};
+				for (let i = 0; i < participants.length; i++) {
+					let participant = participants[i];
+					let eventId = participant.eventId;
+					// Handle placement
+					if (!(eventId in eventsParticipants)) {
+						// If event array not created, create event array
+						eventsParticipants[eventId] = [participant];
+					} else {
+						// If event array created, push participant to event array
+						eventsParticipants[eventId].push(participant);
+					}
+				}
+				return {
+					...state,
+					eventsParticipants: eventsParticipants,
+				};
+			}
+		case UNINVITE_USER_FAILURE:
 			return {
 				...state,
 			};

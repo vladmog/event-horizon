@@ -5,7 +5,7 @@ import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
-import { searchUser, inviteUser } from "../../redux/actions";
+import { searchUser, inviteUser, uninviteUser } from "../../redux/actions";
 
 const S = {
 	InputContainer: styled.form`
@@ -102,6 +102,12 @@ const Invite = (props) => {
 		props.inviteUser(props.authToken, event.id, userId, adminId);
 	};
 
+	const remove = (userId) => {
+		console.log("delete userId: ", userId);
+		let adminId = props.userId;
+		props.uninviteUser(props.authToken, event.id, userId, adminId);
+	};
+
 	return (
 		<div onClick={(e) => handleBlur(e)}>
 			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
@@ -183,7 +189,14 @@ const Invite = (props) => {
 			<ul>
 				{eventParticipants.map((participant) => {
 					if (participant.emailAddress !== user.email) {
-						return <li>{participant.userName}</li>;
+						return (
+							<li>
+								<span>{participant.userName}</span>
+								<button onClick={() => remove(participant.userId)}>
+									DELETE
+								</button>
+							</li>
+						);
 						// add remove functionality here
 					}
 				})}
@@ -203,7 +216,7 @@ const mapStateToProps = ({ user, events }) => ({
 });
 
 const mapDispatchToProps = (dispatch) =>
-	bindActionCreators({ searchUser, inviteUser }, dispatch);
+	bindActionCreators({ searchUser, inviteUser, uninviteUser }, dispatch);
 
 export default compose(
 	withRouter,
