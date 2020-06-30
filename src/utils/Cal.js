@@ -23,7 +23,7 @@ export class Cal {
 		// Generates a predefined # of year arrays, each containing month arrays, of day objects
 		let ms = 1577936800000; // Set milliseconds of Jan 01 2020. If date is not Jan 01 of a year, app will break.
 		let yearsToCreate = 3;
-		let daysToCreate = 365 * yearsToCreate;
+		let daysToCreate = 365 * yearsToCreate; // does not account for leap years so an extra missing few days will be present at end of calendar
 
 		let currYear;
 		let currMonth;
@@ -158,7 +158,7 @@ export class Cal {
 			}
 
 			// Remove availability from cache
-			let newAvailabilities = this.availabilities.filter(availability => {
+			let newAvailabilities = this.availabilities.filter((availability) => {
 				return availability.date !== dates[i].availabilityStart;
 			});
 
@@ -183,11 +183,10 @@ export class Cal {
 		// Removes availabilities that do not match input userId
 		console.log("isolateUserAvails");
 		let userAvails = [];
-		this.availabilities.forEach(avail => {
+		this.availabilities.forEach((avail) => {
 			if (avail.userId !== userId) {
-				delete this.years[avail.yearIndex][avail.monthIndex][
-					avail.dayIndex
-				].availabilities[`${avail.userId}`];
+				delete this.years[avail.yearIndex][avail.monthIndex][avail.dayIndex]
+					.availabilities[`${avail.userId}`];
 				this.years[avail.yearIndex][avail.monthIndex][avail.dayIndex]
 					.availabilitiesCount--;
 			} else {
@@ -205,7 +204,7 @@ export class Cal {
 	removeAllAvails() {
 		// Remove all availabilities from calendar
 		console.log("removeAllAvails");
-		this.availabilities.forEach(avail => {
+		this.availabilities.forEach((avail) => {
 			delete this.years[avail.yearIndex][avail.monthIndex][avail.dayIndex]
 				.availabilities[`${avail.userId}`];
 		});

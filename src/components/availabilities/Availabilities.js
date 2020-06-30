@@ -11,12 +11,11 @@ import {
 	getAvailabilities,
 } from "../../redux/actions";
 
-const Availabilities = props => {
+const Availabilities = (props) => {
 	let eventHash = props.match.params.eventHash;
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
 	let eventParticipants = props.eventsParticipants[event.id];
-	console.log("eventParticipants: ", eventParticipants)
 	const [cal, setCal] = useState([[{ date: "blank" }]]); // for methods (methods modify and return a calendar to be passed into dispCal)
 	const [dispCal, setDispCal] = useState([[{ date: "blank" }]]); // for display
 	const [isCalInit, setIsCalInit] = useState(false);
@@ -50,7 +49,7 @@ const Availabilities = props => {
 			// If event has availabilities, render them to the calendar
 			if (avails) {
 				// setDispCal on addAvail
-				avails.forEach(avail => {
+				avails.forEach((avail) => {
 					// console.log("forEach adding avail", avail);
 					setDispCal(
 						calendar.addAvails(
@@ -69,7 +68,6 @@ const Availabilities = props => {
 	// MAINTAINS CALENDAR DISPLAY STATE BASED ON DISPLAYUSERIDS
 	const [dispUserEffectCounter, setDispUserEffectCounter] = useState(0);
 	useEffect(() => {
-		console.log("dispUserIds: ", dispUserIds);
 		let userId;
 		let date;
 
@@ -86,10 +84,7 @@ const Availabilities = props => {
 						for (date in dispCal.availabilitiesObj[`${userId}`]) {
 							// and remove them
 							setDispCal(
-								cal.removeAvails(
-									[{ availabilityStart: date }],
-									userId
-								)
+								cal.removeAvails([{ availabilityStart: date }], userId)
 							);
 						}
 					}
@@ -99,12 +94,7 @@ const Availabilities = props => {
 			// changing the user being displayed when displaying a user and another one is selected
 
 			// adding a user when a user is already being displayed
-			if (
-				!(
-					dispUserIds[dispUserIds.length - 1] in
-					dispCal.availabilitiesObj
-				)
-			) {
+			if (!(dispUserIds[dispUserIds.length - 1] in dispCal.availabilitiesObj)) {
 				// console.log(
 				// 	"adding a user when a user is already being displayed"
 				// );
@@ -113,36 +103,23 @@ const Availabilities = props => {
 					props.availabilitiesObj[`${event.id}`] &&
 					props.availabilitiesObj[`${event.id}`][`${newUserId}`]
 				) {
-					for (date in props.availabilitiesObj[`${event.id}`][
-						`${newUserId}`
-					]) {
-						setDispCal(
-							cal.addAvails(
-								[{ availabilityStart: date }],
-								newUserId
-							)
-						);
+					for (date in props.availabilitiesObj[`${event.id}`][`${newUserId}`]) {
+						setDispCal(cal.addAvails([{ availabilityStart: date }], newUserId));
 					}
 				}
 			}
 
 			// removing a user leaving more than one user
 			if (
-				Object.keys(dispCal.availabilitiesObj).length >
-					dispUserIds.length &&
+				Object.keys(dispCal.availabilitiesObj).length > dispUserIds.length &&
 				dispUserIds.length > 1
 			) {
 				// console.log("removing a user leaving more than on user");
 				for (userId in dispCal.availabilitiesObj) {
 					if (!(userId in dispUserIdsObj)) {
-						for (date in props.availabilitiesObj[`${event.id}`][
-							`${userId}`
-						]) {
+						for (date in props.availabilitiesObj[`${event.id}`][`${userId}`]) {
 							setDispCal(
-								cal.removeAvails(
-									[{ availabilityStart: date }],
-									userId
-								)
+								cal.removeAvails([{ availabilityStart: date }], userId)
 							);
 						}
 					}
@@ -157,15 +134,14 @@ const Availabilities = props => {
 				// If event has availabilities, render them to the calendar
 				if (avails) {
 					// setDispCal on addAvail
-					avails.forEach(avail => {
+					avails.forEach((avail) => {
 						// console.log("dispCal avails: ", dispCal.availabilities);
 						if (avail.userId !== lastDispUserRemoved) {
 							setDispCal(
 								cal.addAvails(
 									[
 										{
-											availabilityStart:
-												avail.availabilityStart,
+											availabilityStart: avail.availabilityStart,
 										},
 									], // this is being handled in the else of the following useEffect, can delete
 									avail.userId
@@ -199,10 +175,7 @@ const Availabilities = props => {
 					`${props.userId}`
 				]) {
 					setDispCal(
-						cal.addAvails(
-							[{ availabilityStart: avail }],
-							props.userId
-						)
+						cal.addAvails([{ availabilityStart: avail }], props.userId)
 					);
 				}
 			}
@@ -214,12 +187,7 @@ const Availabilities = props => {
 					// take all their availabilities
 					for (date in dispCal.availabilitiesObj[`${userId}`]) {
 						// and remove them
-						setDispCal(
-							cal.removeAvails(
-								[{ availabilityStart: date }],
-								userId
-							)
-						);
+						setDispCal(cal.removeAvails([{ availabilityStart: date }], userId));
 					}
 				}
 			}
@@ -229,15 +197,14 @@ const Availabilities = props => {
 			// console.log("update mode false running");
 			let avails = props.allEventsAvailabilities[event.id];
 			if (avails) {
-				avails.forEach(avail => {
+				avails.forEach((avail) => {
 					if (avail.userId !== props.userId) {
 						// re-add other participant avails to cal
 						setDispCal(
 							cal.addAvails(
 								[
 									{
-										availabilityStart:
-											avail.availabilityStart,
+										availabilityStart: avail.availabilityStart,
 									},
 								],
 								avail.userId
@@ -260,7 +227,7 @@ const Availabilities = props => {
 
 	// HANDLES UPDATE MODE SUBMIT
 	const handleSubmit = () => {
-		let add = addedAvailsArr.map(avail => {
+		let add = addedAvailsArr.map((avail) => {
 			return {
 				eventId: event.id,
 				userId: props.userId,
@@ -269,7 +236,7 @@ const Availabilities = props => {
 			};
 		});
 
-		let remove = removedAvailsArr.map(avail => {
+		let remove = removedAvailsArr.map((avail) => {
 			return {
 				eventId: event.id,
 				userId: props.userId,
@@ -283,7 +250,7 @@ const Availabilities = props => {
 
 		props
 			.updateAvailability(props.authToken, event.id, add, remove)
-			.then(res => {
+			.then((res) => {
 				if (res) {
 					setAddedAvailsArr([]);
 					setAddedAvailsObj({});
@@ -306,16 +273,13 @@ const Availabilities = props => {
 
 			// remove avail from cal / display
 			setDispCal(
-				cal.removeAvails(
-					[{ availabilityStart: dateString }],
-					props.userId
-				)
+				cal.removeAvails([{ availabilityStart: dateString }], props.userId)
 			);
 		}
 		if (dateString in addedAvailsObj && action === "remove") {
 			// REMOVING AVAILABILITY THAT WAS JUST ADDED
 			console.log("REMOVING AVAILABILITY THAT WAS JUST ADDED");
-			let newAddedAvailsArr = addedAvailsArr.filter(avail => {
+			let newAddedAvailsArr = addedAvailsArr.filter((avail) => {
 				return avail.date !== dateString;
 			});
 			setAddedAvailsArr(newAddedAvailsArr); // remove avail from addedAvailsArray
@@ -326,10 +290,7 @@ const Availabilities = props => {
 
 			// remove avail from cal / display
 			setDispCal(
-				cal.removeAvails(
-					[{ availabilityStart: dateString }],
-					props.userId
-				)
+				cal.removeAvails([{ availabilityStart: dateString }], props.userId)
 			);
 		}
 		if (!(dateString in removedAvailsObj) && action === "add") {
@@ -346,7 +307,7 @@ const Availabilities = props => {
 		if (dateString in removedAvailsObj && action === "add") {
 			// RE-ADDING AVAILABILITY THAT WAS JUST REMOVED
 			console.log("RE-ADDING AVAILABILITY THAT WAS JUST REMOVED");
-			let newRemovedAvailsArr = removedAvailsArr.filter(avail => {
+			let newRemovedAvailsArr = removedAvailsArr.filter((avail) => {
 				return avail.date !== dateString;
 			});
 			setRemovedAvailsArr(newRemovedAvailsArr); // remove avail from removedAvails array
@@ -407,7 +368,7 @@ const mapStateToProps = ({ user, events, calendar }) => ({
 	areAvailsObtained: events.areAvailsObtained,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
 	bindActionCreators(
 		{
 			setUpdateMode,

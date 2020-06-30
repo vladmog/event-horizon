@@ -33,7 +33,7 @@ const daysToAdd = {
 	Sat: 6,
 };
 
-const Month = props => {
+const Month = (props) => {
 	const monthString = props.month[0].month;
 	const firstWeekDay = props.month[0].weekDay;
 
@@ -56,7 +56,7 @@ const Month = props => {
 				{monthString} {props.yearNumber}
 			</h3>
 			<S.Month>
-				{month.map(day => {
+				{month.map((day) => {
 					// If month occupies 5 weeks, make height of day square 1/5 of 100%
 					let dayHeight = "20%";
 					if (month.length > 35) {
@@ -70,6 +70,8 @@ const Month = props => {
 							dayHeight={dayHeight}
 							key={Math.random()}
 							handleSelect={props.handleSelect}
+							colorKey={props.colorKey}
+							range={props.range}
 						/>
 					);
 				})}
