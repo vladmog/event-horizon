@@ -11,12 +11,12 @@ const S = {
 	`,
 };
 
-const Year = props => {
+const Year = (props) => {
 	const yearNumber = props.year[0][7].year;
 
 	return (
 		<S.Container>
-			{props.year.map(month => {
+			{props.year.map((month) => {
 				return (
 					<Month
 						cal={props.cal}
@@ -25,6 +25,7 @@ const Year = props => {
 						refs={props.refs}
 						key={Math.random()}
 						handleSelect={props.handleSelect}
+						colorKey={props.colorKey}
 					/>
 				);
 			})}

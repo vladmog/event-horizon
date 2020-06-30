@@ -24,13 +24,12 @@ const S = {
 
 const Calendar = (props) => {
 	let { years } = props.calendar;
+	const [colorKey, setColorKey] = useState({});
 
-	// updates variables used in calculation of day colors
-	const [availCountRange, setAvailCountRange] = useState(0); // range between leastAvailCount and greatestAvailCount
-	const [leastAvailCount, setLeastAvailCount] = useState(null); // smallest amount of avails in a day
-	const [greatestAvailCount, setGreatestAvailCount] = useState(null); // greatest amount of avails in a day
+	// creates a color key for use in Day.js
 	useEffect(() => {
 		console.log("props.calendar.availabilities", props.calendar.availabilities);
+		// store date and availability count pairings
 		let availabilityCounts = {};
 		props.calendar.availabilities.forEach((avail) => {
 			if (avail.date in availabilityCounts) {
@@ -38,7 +37,37 @@ const Calendar = (props) => {
 			} else {
 				availabilityCounts[`${avail.date}`] = 1;
 			}
-			console.log("availabilityCounts:", availabilityCounts);
+		});
+
+		// determine leastAvailCount, greatestAvailCount, and range
+		let leastAvailCount;
+		let greatestAvailCount;
+		let isFirst = true;
+		let date;
+		for (date in availabilityCounts) {
+			let availCount = availabilityCounts[date];
+			if (isFirst) {
+				leastAvailCount = availCount;
+				greatestAvailCount = availCount;
+				isFirst = false;
+			} else {
+				if (availCount < leastAvailCount) {
+					leastAvailCount = availCount;
+				}
+				if (availCount > greatestAvailCount) {
+					greatestAvailCount = availCount;
+				}
+			}
+		}
+		let range = greatestAvailCount - leastAvailCount;
+
+		// generate color key used to round availability counts into 4 colors of a gradient
+		setColorKey({
+			percentile0: leastAvailCount,
+			percentile25: leastAvailCount + range * 0.25,
+			percentile50: leastAvailCount + range * 0.5,
+			percentile75: leastAvailCount + range * 0.75,
+			percentile100: greatestAvailCount,
 		});
 	}, []);
 
@@ -96,6 +125,7 @@ const Calendar = (props) => {
 							refs={refs}
 							key={Math.random()}
 							handleSelect={props.handleSelect}
+							colorKey={colorKey}
 						/>
 					);
 				})}
