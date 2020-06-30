@@ -29,7 +29,6 @@ const Calendar = (props) => {
 
 	// creates a color key for use in Day.js
 	useEffect(() => {
-		console.log("props.calendar.availabilities", props.calendar.availabilities);
 		// store date and availability count pairings
 		let availabilityCounts = {};
 		props.calendar.availabilities.forEach((avail) => {

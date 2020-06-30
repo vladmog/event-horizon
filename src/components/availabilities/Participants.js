@@ -6,7 +6,7 @@ import { setUpdateMode } from "../../redux/actions";
 import styled from "styled-components";
 
 const S = {
-	Name: styled.button`
+	Name: styled.div`
 		color: ${(props) => props.color};
 	`,
 };
@@ -73,7 +73,7 @@ const Participants = (props) => {
 					<div key={participant.id}>
 						{user.email === participant.emailAddress ? (
 							// Host availability
-							<div>
+							<div style={{ display: "flex", cursor: "pointer" }}>
 								<S.Name
 									color={color}
 									onClick={() => {
@@ -89,7 +89,11 @@ const Participants = (props) => {
 							</div>
 						) : (
 							// Participant availability
-							<S.Name color={color} onClick={() => clickHandler(participant)}>
+							<S.Name
+								style={{ display: "flex", cursor: "pointer" }}
+								color={color}
+								onClick={() => clickHandler(participant)}
+							>
 								{participant.userName}
 							</S.Name>
 						)}

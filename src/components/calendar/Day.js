@@ -38,7 +38,6 @@ const Day = (props) => {
 		let colorKey = props.colorKey;
 		let count = props.day.availabilitiesCount;
 		let lac = colorKey.leastAvailCount;
-		console.log("range", range);
 
 		// availabilityCount colors are harcoded if the range between greatest and least is <= 2
 		switch (range) {

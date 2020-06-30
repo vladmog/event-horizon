@@ -16,7 +16,6 @@ const Availabilities = (props) => {
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
 	let eventParticipants = props.eventsParticipants[event.id];
-	console.log("eventParticipants: ", eventParticipants);
 	const [cal, setCal] = useState([[{ date: "blank" }]]); // for methods (methods modify and return a calendar to be passed into dispCal)
 	const [dispCal, setDispCal] = useState([[{ date: "blank" }]]); // for display
 	const [isCalInit, setIsCalInit] = useState(false);
