@@ -54,7 +54,28 @@ const Day = (props) => {
 		}
 
 		// availabilityCount colors are formulaic if the range between greatest and least is > 2
+
 		if (range > 2) {
+			let {
+				percentile0,
+				percentile25,
+				percentile50,
+				percentile75,
+				percentile100,
+			} = colorKey;
+
+			if (percentile0 <= count && count < percentile25) {
+				setColor(colors.color1);
+			}
+			if (percentile25 <= count && count < percentile50) {
+				setColor(colors.color2);
+			}
+			if (percentile50 <= count && count < percentile75) {
+				setColor(colors.color3);
+			}
+			if (percentile75 <= count && count <= percentile100) {
+				setColor(colors.color4);
+			}
 		}
 	};
 	useEffect(() => {
