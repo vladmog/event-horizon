@@ -32,10 +32,36 @@ const Day = (props) => {
 		"#FF931F": true,
 		"#E07400": true, // << darkest
 	};
+
+	const setDynamicColor = () => {
+		let range = props.range;
+		let colorKey = props.colorKey;
+		let count = props.day.availabilitiesCount;
+		let lac = colorKey.leastAvailCount;
+		console.log("range", range);
+
+		// availabilityCount colors are harcoded if the range between greatest and least is <= 2
+		switch (range) {
+			case 0:
+				setColor(colors.color3);
+			case 1:
+				if (count === lac) setColor(colors.color2);
+				if (count === lac + 1) setColor(colors.color4);
+			case 2:
+				if (count === lac) setColor(colors.color2);
+				if (count === lac + 1) setColor(colors.color3);
+				if (count === lac + 2) setColor(colors.color4);
+		}
+
+		// availabilityCount colors are formulaic if the range between greatest and least is > 2
+		if (range > 2) {
+		}
+	};
 	useEffect(() => {
 		if (props.day.date !== "blank" && props.day.availabilitiesCount) {
 			// If on render day is not a blank and has availabilities assigned to it, turn day green
-			setColor(colors.color1);
+			// setColor(colors.color1);
+			setDynamicColor();
 		} else if (color in colorsObj && !props.day.availabilitiesCount) {
 			// If on render day is green and has no availabilities assigned to it, turn day white
 			setColor("white");

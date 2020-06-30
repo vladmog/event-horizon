@@ -25,6 +25,7 @@ const S = {
 const Calendar = (props) => {
 	let { years } = props.calendar;
 	const [colorKey, setColorKey] = useState({});
+	const [range, setRange] = useState(0);
 
 	// creates a color key for use in Day.js
 	useEffect(() => {
@@ -59,15 +60,17 @@ const Calendar = (props) => {
 				}
 			}
 		}
-		let range = greatestAvailCount - leastAvailCount;
+		let newRange = greatestAvailCount - leastAvailCount; // just called in newRange to avoid conflict with range
+		setRange(newRange);
 
 		// generate color key used to round availability counts into 4 colors of a gradient
 		setColorKey({
 			percentile0: leastAvailCount,
-			percentile25: leastAvailCount + range * 0.25,
-			percentile50: leastAvailCount + range * 0.5,
-			percentile75: leastAvailCount + range * 0.75,
+			percentile25: leastAvailCount + newRange * 0.25,
+			percentile50: leastAvailCount + newRange * 0.5,
+			percentile75: leastAvailCount + newRange * 0.75,
 			percentile100: greatestAvailCount,
+			leastAvailCount: leastAvailCount,
 		});
 	}, []);
 
@@ -126,6 +129,7 @@ const Calendar = (props) => {
 							key={Math.random()}
 							handleSelect={props.handleSelect}
 							colorKey={colorKey}
+							range={range}
 						/>
 					);
 				})}

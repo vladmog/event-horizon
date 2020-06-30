@@ -26,6 +26,7 @@ const Year = (props) => {
 						key={Math.random()}
 						handleSelect={props.handleSelect}
 						colorKey={props.colorKey}
+						range={props.range}
 					/>
 				);
 			})}
