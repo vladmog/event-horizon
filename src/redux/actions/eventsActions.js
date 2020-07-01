@@ -16,6 +16,20 @@ export const setAreAvailsObtained = (bool) => {
 		});
 	};
 };
+//====================================================
+
+export const SET_IS_EDITING_DATE = "SET_IS_EDITING_DATE";
+
+export const setIsEditingDate = (bool) => {
+	return (dispatch) => {
+		dispatch({
+			type: SET_IS_EDITING_DATE,
+			payload: bool,
+		});
+	};
+};
+
+//====================================================
 
 export const CREATE_EVENT_START = "CREATE_EVENT_START";
 export const CREATE_EVENT_SUCCESS = "CREATE_EVENT_SUCCESS";
@@ -47,6 +61,47 @@ export const createEvent = (token, eventAndUser) => {
 		}
 	};
 };
+
+//====================================================
+
+export const UPDATE_EVENT_START = "UPDATE_EVENT_START";
+export const UPDATE_EVENT_SUCCESS = "UPDATE_EVENT_SUCCESS";
+export const UPDATE_EVENT_FAILURE = "UPDATE_EVENT_FAILURE";
+
+export const updateEvent = (token, updates, eventId, userId) => {
+	console.log("token", token);
+	console.log("updates:", updates);
+	console.log("eventId:", eventId);
+	return async (dispatch) => {
+		dispatch({
+			type: UPDATE_EVENT_START,
+		});
+		try {
+			const response = await axios.put(
+				`${url}/api/events/${eventId}`,
+				{ updates, userId },
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			dispatch({
+				type: UPDATE_EVENT_SUCCESS,
+				payload: response.data,
+			});
+			return true;
+		} catch (err) {
+			dispatch({
+				type: UPDATE_EVENT_FAILURE,
+				payload: err,
+			});
+			return false;
+		}
+	};
+};
+
+//====================================================
 
 export const JOIN_EVENT_START = "JOIN_EVENT_START";
 export const JOIN_EVENT_SUCCESS = "JOIN_EVENT_SUCCESS";

@@ -12,6 +12,10 @@ import {
 	UNINVITE_USER_START,
 	UNINVITE_USER_SUCCESS,
 	UNINVITE_USER_FAILURE,
+	UPDATE_EVENT_START,
+	UPDATE_EVENT_SUCCESS,
+	UPDATE_EVENT_FAILURE,
+	SET_IS_EDITING_DATE,
 } from "../actions";
 
 const initialState = {
@@ -21,6 +25,7 @@ const initialState = {
 	allEventsAvailabilities: {},
 	availabilitiesObj: {},
 	areAvailsObtained: false,
+	isEditingDate: false,
 };
 
 export const eventsReducer = (state = initialState, { type, payload }) => {
@@ -84,6 +89,30 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 					...state,
 				};
 			}
+
+		case UPDATE_EVENT_SUCCESS:
+			if (payload) {
+				let events = payload;
+				//  Create object that maps event hashes to their index in array for efficient access
+				let eventHashIndexes = {};
+				for (let i = 0; i < events.length; i++) {
+					let eventHash = events[i].eventHash;
+					let eventIndex = i;
+					eventHashIndexes[eventHash] = eventIndex;
+				}
+				return {
+					...state,
+					events: events,
+					eventHashIndexes: eventHashIndexes,
+					isEditingDate: false,
+				};
+			}
+
+		case SET_IS_EDITING_DATE:
+			return {
+				...state,
+				isEditingDate: payload,
+			};
 
 		case JOIN_EVENT_SUCCESS:
 			if (payload) {
