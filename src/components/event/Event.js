@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { Link, Redirect } from "react-router-dom";
 
-const Event = props => {
+const Event = (props) => {
 	let eventHash = props.match.params.eventHash;
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
@@ -25,13 +25,8 @@ const Event = props => {
 			<div>
 				Invited:
 				{eventParticipants &&
-					eventParticipants.map(participant => {
-						return (
-							<span key={participant.id}>
-								{" "}
-								{participant.userName},
-							</span>
-						);
+					eventParticipants.map((participant) => {
+						return <span key={participant.id}> {participant.userName},</span>;
 					})}
 			</div>
 			<ul>
@@ -48,9 +43,7 @@ const Event = props => {
 				</li>
 				{event.isAdmin ? (
 					<li>
-						<Link to={`/events/${event.eventHash}/invite`}>
-							Invite
-						</Link>
+						<Link to={`/events/${event.eventHash}/invite`}>Invite</Link>
 					</li>
 				) : (
 					<></>
@@ -66,7 +59,7 @@ const mapStateToProps = ({ user, events }) => ({
 	eventsParticipants: events.eventsParticipants,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 export default compose(
 	withRouter,
