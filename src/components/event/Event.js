@@ -4,12 +4,12 @@ import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { Link, Redirect } from "react-router-dom";
 import DateForm from "./DateForm";
+import { setIsEditingDate } from "../../redux/actions";
 
 const Event = (props) => {
 	let eventHash = props.match.params.eventHash;
 	let eventIndex = props.eventHashIndexes[eventHash];
 	let event = props.events[eventIndex];
-	const [isEditingDate, setIsEditingDate] = useState(false);
 
 	if (!event) {
 		// If user navigated to page and hasn't joined event, prompt to join or leave.
@@ -18,6 +18,7 @@ const Event = (props) => {
 	let eventParticipants = props.eventsParticipants[event.id];
 
 	console.log("event", event);
+	console.log("isEditingDate", props.isEditingDate);
 
 	return (
 		<div>
@@ -25,20 +26,26 @@ const Event = (props) => {
 			<div>{event.name}</div>
 			{event.startDate ? (
 				<div>
-					{!isEditingDate && (
+					{!props.isEditingDate && (
 						<div>
 							<span>Date: {event.startDate}</span>
-							<span onClick={() => setIsEditingDate(true)}>EDIT DATE</span>
+							<span onClick={() => props.setIsEditingDate(true)}>
+								EDIT DATE
+							</span>
 						</div>
 					)}
-					{isEditingDate && <DateForm />}
+					{props.isEditingDate && (
+						<DateForm startDate={event.startDate} eventId={event.id} />
+					)}
 				</div>
 			) : (
 				<div>
-					{!isEditingDate && (
-						<div onClick={() => setIsEditingDate(true)}>ADD DATE</div>
+					{!props.isEditingDate && (
+						<div onClick={() => props.setIsEditingDate(true)}>ADD DATE</div>
 					)}
-					{isEditingDate && <DateForm />}
+					{props.isEditingDate && (
+						<DateForm startDate={event.startDate} eventId={event.id} />
+					)}
 				</div>
 			)}
 			<div>
@@ -80,9 +87,11 @@ const mapStateToProps = ({ user, events }) => ({
 	events: events.events,
 	eventHashIndexes: events.eventHashIndexes,
 	eventsParticipants: events.eventsParticipants,
+	isEditingDate: events.isEditingDate,
 });
 
-const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) =>
+	bindActionCreators({ setIsEditingDate }, dispatch);
 
 export default compose(
 	withRouter,
