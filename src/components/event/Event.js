@@ -55,6 +55,7 @@ const Event = (props) => {
 						return <span key={participant.id}> {participant.userName},</span>;
 					})}
 			</div>
+
 			<ul>
 				<li>
 					<Link to={`/events/${event.eventHash}/availabilities`}>
