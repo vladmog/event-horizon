@@ -34,6 +34,10 @@ const Day = (props) => {
 	};
 
 	const setDynamicColor = () => {
+		if (!props.range && props.range !== 0) {
+			setColor(colors.color3);
+			return;
+		}
 		let range = props.range;
 		let colorKey = props.colorKey;
 		let count = props.day.availabilitiesCount;
@@ -86,7 +90,13 @@ const Day = (props) => {
 			// If on render day is green and has no availabilities assigned to it, turn day white
 			setColor("white");
 		}
-	}, [props.day.availabilitiesCount, props.cal, color, props.day.date]);
+	}, [
+		props.day.availabilitiesCount,
+		props.cal,
+		color,
+		props.day.date,
+		props.updateMode,
+	]);
 
 	if (props.day.date === "blank") {
 		return <S.Blank />;
