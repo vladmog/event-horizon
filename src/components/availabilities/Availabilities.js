@@ -276,6 +276,10 @@ const Availabilities = (props) => {
 				cal.removeAvails([{ availabilityStart: dateString }], props.userId)
 			);
 		}
+		console.log("dateString: ", dateString);
+		console.log("addedAvailsObj: ", addedAvailsObj);
+		console.log("action: ", action);
+		console.log("dispCal", dispCal);
 		if (dateString in addedAvailsObj && action === "remove") {
 			// REMOVING AVAILABILITY THAT WAS JUST ADDED
 			console.log("REMOVING AVAILABILITY THAT WAS JUST ADDED");
