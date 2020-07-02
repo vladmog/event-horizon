@@ -31,6 +31,32 @@ export const setIsEditingDate = (bool) => {
 
 //====================================================
 
+export const SET_IS_DELETING_EVENTS = "SET_IS_DELETING_EVENTS";
+
+export const setIsDeletingEvents = (bool) => {
+	return (dispatch) => {
+		dispatch({
+			type: SET_IS_DELETING_EVENTS,
+			payload: bool,
+		});
+	};
+};
+
+//====================================================
+
+export const SET_IS_LEAVING_EVENTS = "SET_IS_LEAVING_EVENTS";
+
+export const setIsLeavingEvents = (bool) => {
+	return (dispatch) => {
+		dispatch({
+			type: SET_IS_LEAVING_EVENTS,
+			payload: bool,
+		});
+	};
+};
+
+//====================================================
+
 export const CREATE_EVENT_START = "CREATE_EVENT_START";
 export const CREATE_EVENT_SUCCESS = "CREATE_EVENT_SUCCESS";
 export const CREATE_EVENT_FAILURE = "CREATE_EVENT_FAILURE";
@@ -94,6 +120,43 @@ export const updateEvent = (token, updates, eventId, userId) => {
 		} catch (err) {
 			dispatch({
 				type: UPDATE_EVENT_FAILURE,
+				payload: err,
+			});
+			return false;
+		}
+	};
+};
+
+//====================================================
+export const DELETE_EVENT_START = "DELETE_EVENT_START";
+export const DELETE_EVENT_SUCCESS = "DELETE_EVENT_SUCCESS";
+export const DELETE_EVENT_FAILURE = "DELETE_EVENT_FAILURE";
+
+export const deleteEvent = (token, eventId, userId) => {
+	console.log("token: ", token);
+	console.log("eventId: ", eventId);
+	console.log("userId: ", userId);
+	return async (dispatch) => {
+		dispatch({
+			type: DELETE_EVENT_START,
+		});
+		try {
+			const response = await axios.delete(
+				`${url}/api/events/${eventId}/${userId}`,
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			dispatch({
+				type: DELETE_EVENT_SUCCESS,
+				payload: response.data,
+			});
+			return true;
+		} catch (err) {
+			dispatch({
+				type: DELETE_EVENT_FAILURE,
 				payload: err,
 			});
 			return false;
@@ -272,6 +335,43 @@ export const uninviteUser = (token, eventId, userId, adminId) => {
 		} catch (err) {
 			dispatch({
 				type: UNINVITE_USER_FAILURE,
+				payload: err,
+			});
+			return false;
+		}
+	};
+};
+
+//====================================================
+// same api call as above but different actions
+
+export const LEAVE_EVENT_START = "LEAVE_EVENT_START";
+export const LEAVE_EVENT_SUCCESS = "LEAVE_EVENT_SUCCESS";
+export const LEAVE_EVENT_FAILURE = "LEAVE_EVENT_FAILURE";
+
+export const leaveEvent = (token, eventId, userId, adminId) => {
+	return async (dispatch) => {
+		dispatch({
+			type: LEAVE_EVENT_START,
+		});
+		try {
+			const response = await axios.post(
+				`${url}/api/events/uninvite`,
+				{ eventId, userId, adminId },
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+			dispatch({
+				type: LEAVE_EVENT_SUCCESS,
+				payload: response.data,
+			});
+			return true;
+		} catch (err) {
+			dispatch({
+				type: LEAVE_EVENT_FAILURE,
 				payload: err,
 			});
 			return false;

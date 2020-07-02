@@ -16,6 +16,14 @@ import {
 	UPDATE_EVENT_SUCCESS,
 	UPDATE_EVENT_FAILURE,
 	SET_IS_EDITING_DATE,
+	SET_IS_DELETING_EVENTS,
+	DELETE_EVENT_START,
+	DELETE_EVENT_SUCCESS,
+	DELETE_EVENT_FAILURE,
+	SET_IS_LEAVING_EVENTS,
+	LEAVE_EVENT_START,
+	LEAVE_EVENT_SUCCESS,
+	LEAVE_EVENT_FAILURE,
 } from "../actions";
 
 const initialState = {
@@ -26,6 +34,8 @@ const initialState = {
 	availabilitiesObj: {},
 	areAvailsObtained: false,
 	isEditingDate: false,
+	isDeletingEvents: false,
+	isLeavingEvents: false,
 };
 
 export const eventsReducer = (state = initialState, { type, payload }) => {
@@ -38,19 +48,39 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 
 		case CREATE_EVENT_SUCCESS:
 			console.log("Create event payload", payload); // should be events
-			let events = payload;
-			//  Create object that maps event IDs to their index in array for efficient access
-			let eventHashIndexes = {};
-			for (let i = 0; i < events.length; i++) {
-				let eventHash = events[i].eventHash;
-				let eventIndex = i;
-				eventHashIndexes[eventHash] = eventIndex;
+			if (payload) {
+				let { events, usersMet } = payload;
+
+				// parse usersMet into eventParticipants
+				let participants = usersMet;
+				let eventsParticipants = {};
+				for (let i = 0; i < participants.length; i++) {
+					let participant = participants[i];
+					let eventId = participant.eventId;
+					// Handle placement
+					if (!(eventId in eventsParticipants)) {
+						// If event array not created, create event array
+						eventsParticipants[eventId] = [participant];
+					} else {
+						// If event array created, push participant to event array
+						eventsParticipants[eventId].push(participant);
+					}
+				}
+
+				// parse new event hashes
+				let eventHashIndexes = {};
+				for (let i = 0; i < events.length; i++) {
+					let eventHash = events[i].eventHash;
+					let eventIndex = i;
+					eventHashIndexes[eventHash] = eventIndex;
+				}
+				return {
+					...state,
+					events: events,
+					eventHashIndexes: eventHashIndexes,
+					eventsParticipants: eventsParticipants,
+				};
 			}
-			return {
-				...state,
-				events: events,
-				eventHashIndexes: eventHashIndexes,
-			};
 		case GET_USER_SUCCESS:
 			// IF USER IN DB
 			if (payload) {
@@ -112,6 +142,18 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 			return {
 				...state,
 				isEditingDate: payload,
+			};
+
+		case SET_IS_DELETING_EVENTS:
+			return {
+				...state,
+				isDeletingEvents: payload,
+			};
+
+		case SET_IS_LEAVING_EVENTS:
+			return {
+				...state,
+				isLeavingEvents: payload,
 			};
 
 		case JOIN_EVENT_SUCCESS:
@@ -225,6 +267,53 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				};
 			}
 
+		case DELETE_EVENT_START:
+			if (payload) {
+				return {
+					...state,
+				};
+			}
+		case DELETE_EVENT_SUCCESS:
+			if (payload) {
+				let { events, usersMet } = payload;
+
+				// parse usersMet into eventParticipants
+				let participants = usersMet;
+				let eventsParticipants = {};
+				for (let i = 0; i < participants.length; i++) {
+					let participant = participants[i];
+					let eventId = participant.eventId;
+					// Handle placement
+					if (!(eventId in eventsParticipants)) {
+						// If event array not created, create event array
+						eventsParticipants[eventId] = [participant];
+					} else {
+						// If event array created, push participant to event array
+						eventsParticipants[eventId].push(participant);
+					}
+				}
+
+				// parse new event hashes
+				let eventHashIndexes = {};
+				for (let i = 0; i < events.length; i++) {
+					let eventHash = events[i].eventHash;
+					let eventIndex = i;
+					eventHashIndexes[eventHash] = eventIndex;
+				}
+				return {
+					...state,
+					events: events,
+					eventHashIndexes: eventHashIndexes,
+					eventsParticipants: eventsParticipants,
+				};
+			}
+		case DELETE_EVENT_FAILURE:
+			if (payload) {
+				return {
+					...state,
+				};
+			}
+
 		case INVITE_USER_START:
 			return {
 				...state,
@@ -293,6 +382,49 @@ export const eventsReducer = (state = initialState, { type, payload }) => {
 				};
 			}
 		case UNINVITE_USER_FAILURE:
+			return {
+				...state,
+			};
+		case LEAVE_EVENT_START:
+			return {
+				...state,
+			};
+		case LEAVE_EVENT_SUCCESS:
+			if (payload) {
+				let { usersMet, events } = payload;
+				// Create object of eventId's paired to participant arrays
+				let participants = usersMet;
+				let eventsParticipants = {};
+				for (let i = 0; i < participants.length; i++) {
+					let participant = participants[i];
+					let eventId = participant.eventId;
+					// Handle placement
+					if (!(eventId in eventsParticipants)) {
+						// If event array not created, create event array
+						eventsParticipants[eventId] = [participant];
+					} else {
+						// If event array created, push participant to event array
+						eventsParticipants[eventId].push(participant);
+					}
+				}
+
+				// parse new event hashes
+				let eventHashIndexes = {};
+				for (let i = 0; i < events.length; i++) {
+					let eventHash = events[i].eventHash;
+					let eventIndex = i;
+					eventHashIndexes[eventHash] = eventIndex;
+				}
+
+				return {
+					...state,
+					eventsParticipants: eventsParticipants,
+					events: events,
+					eventHashIndexes: eventHashIndexes,
+				};
+			}
+
+		case LEAVE_EVENT_FAILURE:
 			return {
 				...state,
 			};
