@@ -17,6 +17,7 @@ import Invite from "./components/invite/Invite";
 import Join from "./components/invite/Join";
 import FirstLogin from "./components/events/FirstLogin";
 import Availabilities from "./components/availabilities/Availabilities";
+import styled from "styled-components";
 
 function App(props) {
 	const { user, loading, getTokenSilently, logout } = useAuth0();
@@ -25,7 +26,7 @@ function App(props) {
 
 	useEffect(() => {
 		if (user) {
-			getTokenSilently().then(token => {
+			getTokenSilently().then((token) => {
 				getUser(token, user.email);
 				saveToken(token);
 			});
@@ -53,7 +54,7 @@ function App(props) {
 	}
 
 	return (
-		<div className="App">
+		<S.Container className="App">
 			<button onClick={() => logout()}>LOGOUT</button>
 			<Router history={history}>
 				<header>{/* <NavBar /> */}</header>
@@ -61,38 +62,33 @@ function App(props) {
 					<Route path="/" exact component={Landing} />
 					{/* <Route path="/" exact component={Calendar} /> */}
 					<PrivateRoute path="/events" exact component={Events} />
-					<PrivateRoute
-						path="/events/create"
-						component={CreateEvent}
-					/>
-					<PrivateRoute
-						exact
-						path="/events/:eventHash"
-						component={Event}
-					/>
-					<PrivateRoute
-						exact
-						path="/events/join/:eventHash"
-						component={Join}
-					/>
-					<PrivateRoute
-						path="/events/:eventHash/invite"
-						component={Invite}
-					/>
+					<PrivateRoute path="/events/create" component={CreateEvent} />
+					<PrivateRoute exact path="/events/:eventHash" component={Event} />
+					<PrivateRoute exact path="/events/join/:eventHash" component={Join} />
+					<PrivateRoute path="/events/:eventHash/invite" component={Invite} />
 					<PrivateRoute
 						path="/events/:eventHash/availabilities"
 						component={Availabilities}
 					/>
 					<PrivateRoute path="/profile" component={Profile} />
-					<PrivateRoute
-						path="/external-api"
-						component={ExternalApi}
-					/>
+					<PrivateRoute path="/external-api" component={ExternalApi} />
 				</Switch>
 			</Router>
-		</div>
+		</S.Container>
 	);
 }
+
+const S = {
+	Container: styled.div`
+		width: 100vw;
+		box-sizing: border-box;
+		border: solid blue 1px;
+		margin: 0px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	`,
+};
 
 const mapStateToProps = ({ user, events }) => ({
 	isUserRetrieved: user.isUserRetrieved,
@@ -100,7 +96,7 @@ const mapStateToProps = ({ user, events }) => ({
 	events: events.events,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
 	bindActionCreators(
 		{
 			getUser,

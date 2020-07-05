@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { useAuth0 } from "../../react-auth0-spa";
 import { Link } from "react-router-dom";
+import styled from "styled-components";
 
 import {
 	getUser,
@@ -87,6 +88,13 @@ const Events = (props) => {
 				})}
 		</div>
 	);
+};
+
+const S = {
+	Container: styled.div`
+		width: 90vw;
+		max-width: 375px;
+	`,
 };
 
 const mapStateToProps = ({ user, events }) => ({
