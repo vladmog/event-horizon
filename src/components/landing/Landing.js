@@ -6,6 +6,7 @@ import { bindActionCreators, compose } from "redux";
 import { Cal } from "../../utils/Cal";
 import { getUser } from "../../redux/actions";
 import styled from "styled-components";
+import logo from "../../media/logo.svg";
 
 const S = {
 	Container: styled.div`
@@ -30,22 +31,8 @@ const S = {
 			font-weight: 600;
 		}
 	`,
-	Title: styled.div`
-		height: 280px;
+	Logo: styled.img`
 		width: 90%;
-		border: solid brown 1px;
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-		color: #fbf6ef;
-		background-color: #242424;
-		font-family: "Archivo Black", sans-serif;
-		font-size: 25px;
-
-		h1 {
-			margin: 0px;
-		}
 	`,
 };
 
@@ -55,14 +42,7 @@ const Landing = (props) => {
 
 	return (
 		<S.Container>
-			<S.Title>
-				<h1>
-					<u>EVENT</u>
-				</h1>
-				<h1>
-					<u>HORIZON</u>
-				</h1>
-			</S.Title>
+			<S.Logo src={logo} />
 			{/* <h2>an event planner</h2>
 			<section>
 				<h3>AVAILABILITY</h3>
