@@ -82,7 +82,7 @@ const S = {
 	Container: styled.div`
 		width: 100vw;
 		box-sizing: border-box;
-		border: solid blue 1px;
+		// border: solid blue 1px;
 		margin: 0px;
 		display: flex;
 		flex-direction: column;
