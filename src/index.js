@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import "./index.css";
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
@@ -12,7 +13,7 @@ import { store } from "./redux/reducers";
 
 // A function that routes the user to the right place
 // after login
-const onRedirectCallback = appState => {
+const onRedirectCallback = (appState) => {
 	history.push(
 		appState && appState.targetUrl
 			? appState.targetUrl

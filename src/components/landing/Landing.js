@@ -4,17 +4,66 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { Cal } from "../../utils/Cal";
-
 import { getUser } from "../../redux/actions";
+import styled from "styled-components";
 
-const Landing = props => {
+const S = {
+	Container: styled.div`
+		width: 90vw;
+		max-width: 375px;
+		box-sizing: border-box;
+		// border: solid green 2px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		min-height: 100vh;
+
+		button {
+			background-color: #fbf6ef;
+			border: none;
+			// border: solid black 1px;
+			color: #c36400;
+			width: 70%;
+			height: 80px;
+			font-size: 38px;
+			font-weight: 600;
+		}
+	`,
+	Title: styled.div`
+		height: 280px;
+		width: 90%;
+		border: solid brown 1px;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		color: #fbf6ef;
+		background-color: #242424;
+		font-family: "Archivo Black", sans-serif;
+		font-size: 25px;
+
+		h1 {
+			margin: 0px;
+		}
+	`,
+};
+
+const Landing = (props) => {
 	const { loginWithRedirect } = useAuth0();
 	const currentUrl = window.location.href;
 
 	return (
-		<div>
-			<h1>EVENT HORIZON</h1>
-			<h2>an event planner</h2>
+		<S.Container>
+			<S.Title>
+				<h1>
+					<u>EVENT</u>
+				</h1>
+				<h1>
+					<u>HORIZON</u>
+				</h1>
+			</S.Title>
+			{/* <h2>an event planner</h2>
 			<section>
 				<h3>AVAILABILITY</h3>
 				<div>See days where everyone is free at a glance</div>
@@ -26,7 +75,8 @@ const Landing = props => {
 			<section>
 				<h3>CHECKLIST</h3>
 				<div>Ensure nothing is forgotten</div>
-			</section>
+			</section> */}
+			<h3>A damn simple event planner</h3>
 			<button
 				onClick={() =>
 					loginWithRedirect({
@@ -34,9 +84,9 @@ const Landing = props => {
 					})
 				}
 			>
-				SIGN IN
+				<u>SIGN IN</u>
 			</button>
-		</div>
+		</S.Container>
 	);
 };
 
@@ -44,7 +94,7 @@ const mapStateToProps = ({ user, events }) => ({
 	isUserRetrieved: user.isUserRetrieved,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
 	bindActionCreators(
 		{
 			getUser,
