@@ -5,11 +5,13 @@ import thunk from "redux-thunk";
 import { userReducer } from "./userReducer";
 import { eventsReducer } from "./eventsReducer";
 import { calendarReducer } from "./calendarReducer";
+import { displayReducer } from "./displayReducer";
 
 const rootReducer = combineReducers({
 	user: userReducer,
 	events: eventsReducer,
 	calendar: calendarReducer,
+	display: displayReducer,
 });
 
 let store;

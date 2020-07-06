@@ -6,6 +6,8 @@ import { useAuth0 } from "../../react-auth0-spa";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+import Nav from "../nav/Nav";
+
 import {
 	getUser,
 	saveToken,
@@ -14,6 +16,7 @@ import {
 	deleteEvent,
 	setIsLeavingEvents,
 	leaveEvent,
+	setNavState,
 } from "../../redux/actions";
 
 const Events = (props) => {
@@ -21,7 +24,9 @@ const Events = (props) => {
 	console.log("user", user);
 
 	useEffect(() => {
+		// resets avails obtained when returning from Availability page
 		props.setAreAvailsObtained(false);
+		props.setNavState({});
 	}, []);
 
 	const handleDelete = (eventId) => {
@@ -34,66 +39,163 @@ const Events = (props) => {
 	};
 
 	return (
-		<div>
-			<h1>Events</h1>
-			<h2>Hello {user.name}</h2>
-			<Link to="/events/create">+NEW EVENT</Link>
-			<h3>Your events:</h3>
-			<button
-				onClick={() => props.setIsDeletingEvents(!props.isDeletingEvents)}
-			>
-				edit
-			</button>
-			{props.events
-				.filter((event) => {
-					return event.isAdmin == true;
-				})
-				.map((event) => {
-					return (
-						<div key={event.id}>
-							<Link to={`/events/${event.eventHash}`}>
-								{/* <Link
-								to={`/events/${event.eventHash}/availabilities`}
-							> */}
-								{event.name}
-							</Link>
-							{props.isDeletingEvents && (
-								<button onClick={() => handleDelete(event.id)}>x</button>
-							)}
-						</div>
-					);
-				})}
-			<h3>Other's events:</h3>
-			<button onClick={() => props.setIsLeavingEvents(!props.isLeavingEvents)}>
-				edit
-			</button>
-			{props.events
-				.filter((event) => {
-					return event.isAdmin == false;
-				})
-				.map((event) => {
-					return (
-						<div key={event.id}>
-							<Link to={`/events/${event.eventHash}`}>
-								{/* <Link
-								to={`/events/${event.eventHash}/availabilities`}
-							> */}
-								{event.name}
-							</Link>
-							{props.isLeavingEvents && ( // make this conditional off of a different state machine variable indicating leaving others' events
-								<button onClick={() => handleLeave(event.id)}>x</button>
-							)}
-						</div>
-					);
-				})}
-		</div>
+		<S.Container>
+			<Nav />
+			<S.Content>
+				<S.Half>
+					<div className={"cardHeader"}>
+						<h3>Your events:</h3>
+						<button
+							onClick={() => props.setIsDeletingEvents(!props.isDeletingEvents)}
+						>
+							edit
+						</button>
+					</div>
+					<ul>
+						{props.events
+							.filter((event) => {
+								return event.isAdmin == true;
+							})
+							.map((event) => {
+								return (
+									<li key={event.id}>
+										<div className={"linkContainer"}>
+											<S.Link to={`/events/${event.eventHash}`}>
+												{/* <Link
+											to={`/events/${event.eventHash}/availabilities`}
+										> */}
+												{event.name}
+											</S.Link>
+										</div>
+										{props.isDeletingEvents && (
+											<button onClick={() => handleDelete(event.id)}>x</button>
+										)}
+									</li>
+								);
+							})}
+					</ul>
+				</S.Half>
+				<S.Half>
+					<div className={"cardHeader"}>
+						<h3>Others' events:</h3>
+						<button
+							onClick={() => props.setIsLeavingEvents(!props.isLeavingEvents)}
+						>
+							edit
+						</button>
+					</div>
+					<ul>
+						{props.events
+							.filter((event) => {
+								return event.isAdmin == false;
+							})
+							.map((event) => {
+								return (
+									<li key={event.id}>
+										<div className={"linkContainer"}>
+											<S.Link to={`/events/${event.eventHash}`}>
+												{/* <Link
+												to={`/events/${event.eventHash}/availabilities`}
+											> */}
+												{event.name}
+											</S.Link>
+										</div>
+										{props.isLeavingEvents && ( // make this conditional off of a different state machine variable indicating leaving others' events
+											<button onClick={() => handleLeave(event.id)}>x</button>
+										)}
+									</li>
+								);
+							})}
+					</ul>
+				</S.Half>
+			</S.Content>
+		</S.Container>
 	);
 };
 
 const S = {
 	Container: styled.div`
-		width: 90vw;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		height: 80vh;
+	`,
+	Content: styled.div`
+		display: flex;
+		flex-direction: column;
+		// border: solid black 1px;
+		width: 100%;
 		max-width: 375px;
+		height: 100%;
+
+		@media (min-width: 750px) {
+			flex-direction: row;
+			max-width: 1000px;
+			width: 80vw;
+			justify-content: space-between;
+		}
+	`,
+	Half: styled.div`
+		width: 100%;
+		// border: solid purple 1px;
+
+		@media (min-width: 750px) {
+			max-width: 300px;
+		}
+
+		.cardHeader {
+			display: flex;
+			width: 100%;
+			box-sizing: border-box;
+			// border: solid pink 1px;
+			justify-content: space-between;
+
+			h3 {
+				margin: 0px;
+				text-transform: uppercase;
+				// border: solid green 1px;
+				width: calc(100% - 35px);
+				font-size: 50px;
+				color: #242424;
+			}
+
+			button {
+				text-decoration: underline;
+				background-color: #fbf6ef;
+				border: none;
+			}
+		}
+
+		ul {
+			width: 100%;
+			padding: 0px;
+			list-style: none;
+
+			li {
+				width: 100%;
+				min-height: 30px;
+				display: flex;
+
+				.linkContainer {
+					width: calc(100% - 35px);
+					border-bottom: solid #676767 1px;
+					display: flex;
+					align-items: center;
+				}
+
+				button {
+					width: 27px;
+					height: 27px;
+					margin: 0px;
+				}
+			}
+		}
+	`,
+
+	Link: styled((props) => <Link {...props} />)`
+		text-decoration: none;
+		color: #242424;
 	`,
 };
 
@@ -117,6 +219,7 @@ const mapDispatchToProps = (dispatch) =>
 			deleteEvent,
 			setIsLeavingEvents,
 			leaveEvent,
+			setNavState,
 		},
 		dispatch
 	);
