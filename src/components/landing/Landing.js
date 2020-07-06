@@ -37,11 +37,13 @@ const S = {
 };
 
 const Landing = (props) => {
-	const { loginWithRedirect } = useAuth0();
+	const { loginWithRedirect, logout } = useAuth0();
 	const currentUrl = window.location.href;
 
 	return (
 		<S.Container>
+			<button onClick={() => logout()}>LOGOUT</button>
+
 			<S.Logo src={logo} />
 			{/* <h2>an event planner</h2>
 			<section>

@@ -55,7 +55,6 @@ function App(props) {
 
 	return (
 		<S.Container className="App">
-			<button onClick={() => logout()}>LOGOUT</button>
 			<Router history={history}>
 				<header>{/* <NavBar /> */}</header>
 				<Switch>
@@ -81,12 +80,14 @@ function App(props) {
 const S = {
 	Container: styled.div`
 		width: 100vw;
+		height: 100vh;
 		box-sizing: border-box;
 		// border: solid blue 1px;
 		margin: 0px;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		justify-content: center;
 	`,
 };
 
