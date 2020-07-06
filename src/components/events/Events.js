@@ -157,6 +157,7 @@ const S = {
 				// border: solid green 1px;
 				width: calc(100% - 35px);
 				font-size: 50px;
+				color: #242424;
 			}
 
 			button {
@@ -178,7 +179,7 @@ const S = {
 
 				.linkContainer {
 					width: calc(100% - 35px);
-					border-bottom: solid black 1px;
+					border-bottom: solid #676767 1px;
 					display: flex;
 					align-items: center;
 				}
@@ -194,6 +195,7 @@ const S = {
 
 	Link: styled((props) => <Link {...props} />)`
 		text-decoration: none;
+		color: #242424;
 	`,
 };
 
