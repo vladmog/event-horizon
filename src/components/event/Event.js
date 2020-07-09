@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { Link, Redirect } from "react-router-dom";
 import DateForm from "./DateForm";
 import { setIsEditingDate } from "../../redux/actions";
+import Nav from "../nav/Nav";
 
 const Event = (props) => {
 	let eventHash = props.match.params.eventHash;
@@ -22,6 +23,7 @@ const Event = (props) => {
 
 	return (
 		<div>
+			<Nav navState={"event"} />
 			<Link to={"/events"}>BACK</Link>
 			<div>{event.name}</div>
 			{event.startDate ? (

@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
 import { Link } from "react-router-dom";
 import Calendar from "../calendar/Calendar";
+import Nav from "../nav/Nav";
 import Participants from "./Participants";
 import { Cal } from "../../utils/Cal";
 import {
@@ -329,6 +330,7 @@ const Availabilities = (props) => {
 
 	return (
 		<div>
+			<Nav navState={"toolNav"} />
 			<Link
 				to={`/events/${event.eventHash}`}
 				// to={"/events"}
@@ -378,7 +380,6 @@ const mapDispatchToProps = (dispatch) =>
 			setUpdateMode,
 			updateAvailability,
 			getAvailabilities,
-			setUpdateMode,
 		},
 		dispatch
 	);

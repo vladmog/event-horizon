@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
@@ -11,7 +11,7 @@ import Step1 from "./Step1";
 import Step2 from "./Step2";
 import Step3 from "./Step3";
 
-const CreateEvent = props => {
+const CreateEvent = (props) => {
 	const [step, setStep] = useState(1);
 	const [eventName, setEventName] = useState("");
 	const [isDateKnown, setIsDateKnown] = useState(false);
@@ -22,12 +22,12 @@ const CreateEvent = props => {
 	let auth0User = user;
 
 	// Call to advance through user flow
-	const incrementStep = e => {
+	const incrementStep = (e) => {
 		e.preventDefault();
 		setStep(step + 1);
 	};
 	// Call to go back in user flow
-	const decrementStep = e => {
+	const decrementStep = (e) => {
 		e.preventDefault();
 		setStep(step - 1);
 	};
@@ -60,7 +60,7 @@ const CreateEvent = props => {
 			event.endDate = endDate;
 		}
 
-		props.createEvent(props.authToken, { event, user }).then(res => {
+		props.createEvent(props.authToken, { event, user }).then((res) => {
 			if (res) {
 				props.history.push("/events");
 			} else {
@@ -117,7 +117,7 @@ const mapStateToProps = ({ user, events }) => ({
 	authToken: user.authToken,
 });
 
-const mapDispatchToProps = dispatch =>
+const mapDispatchToProps = (dispatch) =>
 	bindActionCreators(
 		{
 			createEvent,

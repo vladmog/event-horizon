@@ -2,12 +2,18 @@ import React from "react";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { bindActionCreators, compose } from "redux";
+import Nav from "../nav/Nav";
 
-const Step3 = props => {
+const Step3 = (props) => {
 	return (
 		<div>
+			<Nav
+				navState={"createEvent"}
+				decrementStep={props.decrementStep}
+				setIsDateKnown={props.setIsDateKnown}
+			/>
 			<button
-				onClick={e => {
+				onClick={(e) => {
 					props.decrementStep(e);
 					props.setIsDateKnown(false);
 				}}
@@ -41,14 +47,14 @@ const Step3 = props => {
 						type="date"
 						name="startDate"
 						value={props.startDate}
-						onChange={e => props.setStartDate(e.target.value)}
+						onChange={(e) => props.setStartDate(e.target.value)}
 					/>
 					<label>End-date:</label>
 					<input
 						type="date"
 						name="endDate"
 						value={props.endDate}
-						onChange={e => props.setEndDate(e.target.value)}
+						onChange={(e) => props.setEndDate(e.target.value)}
 					/>
 				</div>
 			) : (
@@ -58,18 +64,18 @@ const Step3 = props => {
 						type="date"
 						name="startDate"
 						value={props.startDate}
-						onChange={e => props.setStartDate(e.target.value)}
+						onChange={(e) => props.setStartDate(e.target.value)}
 					/>
 				</div>
 			)}
-			<button onClick={e => props.createEvent(e)}>CREATE EVENT</button>
+			<button onClick={(e) => props.createEvent(e)}>CREATE EVENT</button>
 		</div>
 	);
 };
 
 const mapStateToProps = ({ user, events }) => ({});
 
-const mapDispatchToProps = dispatch => bindActionCreators({}, dispatch);
+const mapDispatchToProps = (dispatch) => bindActionCreators({}, dispatch);
 
 export default compose(
 	withRouter,

@@ -16,7 +16,6 @@ import {
 	deleteEvent,
 	setIsLeavingEvents,
 	leaveEvent,
-	setNavState,
 } from "../../redux/actions";
 
 const Events = (props) => {
@@ -26,7 +25,6 @@ const Events = (props) => {
 	useEffect(() => {
 		// resets avails obtained when returning from Availability page
 		props.setAreAvailsObtained(false);
-		props.setNavState({});
 	}, []);
 
 	const handleDelete = (eventId) => {
@@ -40,7 +38,7 @@ const Events = (props) => {
 
 	return (
 		<S.Container>
-			<Nav />
+			<Nav navState={"events"} />
 			<S.Content>
 				<S.Half>
 					<div className={"cardHeader"}>
@@ -219,7 +217,6 @@ const mapDispatchToProps = (dispatch) =>
 			deleteEvent,
 			setIsLeavingEvents,
 			leaveEvent,
-			setNavState,
 		},
 		dispatch
 	);
