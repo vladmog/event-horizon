@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
 import { searchUser, inviteUser, uninviteUser } from "../../redux/actions";
+import Nav from "../nav/Nav";
 
 const S = {
 	InputContainer: styled.form`
@@ -110,6 +111,14 @@ const Invite = (props) => {
 
 	return (
 		<div onClick={(e) => handleBlur(e)}>
+			<Nav
+				navState={"tool"}
+				tool={"invite"}
+				backPath={`/events/${eventHash}`}
+				navFuncts={function () {}}
+				navFunctsValues={false}
+				eventName={event.name}
+			/>
 			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
 			<h1>INVITE:</h1>
 			{/* usersMet that are not in given event participants */}
