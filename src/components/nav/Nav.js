@@ -26,7 +26,7 @@ const EventsNav = (props) => {
 	if (navState === "event") {
 		return (
 			<S.Container>
-				<button onClick={(e) => {}}>BACK</button>
+				<Link to={"/events"}>BACK</Link>
 			</S.Container>
 		);
 	}
@@ -60,6 +60,7 @@ const EventsNav = (props) => {
 		}
 	}
 	if (navState === "tool") {
+		console.log("Tool: ", tool);
 		return (
 			<S.Container>
 				<Link
@@ -70,7 +71,7 @@ const EventsNav = (props) => {
 					}}
 				>{`< ${eventName}`}</Link>
 
-				<div>{tool}</div>
+				<span>{tool}</span>
 			</S.Container>
 		);
 	}
@@ -91,7 +92,7 @@ const S = {
 		justify-content: space-between;
 		padding: 1vw;
 		border: solid red 1px;
-		width: 100%;
+		width: 100vw;
 		position: fixed;
 		top: 0;
 		background-color: yellow;
