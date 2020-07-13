@@ -5,7 +5,16 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 const EventsNav = (props) => {
-	const { navState, backPath, tool, decrementStep, setIsDateKnown } = props;
+	const {
+		navState,
+		backPath,
+		tool,
+		decrementStep,
+		setIsDateKnown,
+		navFuncts,
+		navFunctsValues,
+		eventName,
+	} = props;
 
 	if (navState === "events") {
 		return (
@@ -53,7 +62,14 @@ const EventsNav = (props) => {
 	if (navState === "tool") {
 		return (
 			<S.Container>
-				<button>BACK</button>
+				<Link
+					to={backPath}
+					// to={"/events"}
+					onClick={() => {
+						navFuncts(navFunctsValues);
+					}}
+				>{`< ${eventName}`}</Link>
+
 				<div>{tool}</div>
 			</S.Container>
 		);
@@ -65,7 +81,8 @@ const EventsNav = (props) => {
 	// navState: "",
 	// navFuncts: [],
 	// backPath: "",
-	// tool: ""
+	// tool: "",
+	// eventName: ""
 };
 
 const S = {

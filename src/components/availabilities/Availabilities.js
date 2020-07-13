@@ -330,14 +330,21 @@ const Availabilities = (props) => {
 
 	return (
 		<div>
-			<Nav navState={"toolNav"} />
-			<Link
+			<Nav
+				navState={"tool"}
+				tool={"availabilities"}
+				backPath={`/events/${event.eventHash}`}
+				navFuncts={props.setUpdateMode}
+				navFunctsValues={false}
+				eventName={event.name}
+			/>
+			{/* <Link
 				to={`/events/${event.eventHash}`}
 				// to={"/events"}
 				onClick={() => {
 					props.setUpdateMode(false);
 				}}
-			>{`< ${event.name}`}</Link>
+			>{`< ${event.name}`}</Link> */}
 
 			<h1>Availabilities</h1>
 			<Calendar calendar={dispCal} handleSelect={handleSelect} />
