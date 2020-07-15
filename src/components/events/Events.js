@@ -117,7 +117,8 @@ const S = {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		height: 80vh;
+		// height: 80vh;
+		// border: solid green 1px;
 	`,
 	Content: styled.div`
 		display: flex;
@@ -125,13 +126,14 @@ const S = {
 		// border: solid black 1px;
 		width: 100%;
 		max-width: 375px;
-		height: 100%;
+		margin-top: 20vh;
 
 		@media (min-width: 750px) {
 			flex-direction: row;
 			max-width: 1000px;
 			width: 80vw;
 			justify-content: space-between;
+			margin-top: 30vh;
 		}
 	`,
 	Half: styled.div`

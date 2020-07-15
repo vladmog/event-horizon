@@ -1,6 +1,7 @@
 import React from "react";
 import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
+import logo from "../../media/logo.svg";
 
 import { Link } from "react-router-dom";
 
@@ -19,6 +20,7 @@ const EventsNav = (props) => {
 	if (navState === "events") {
 		return (
 			<S.Container>
+				<S.Logo src={logo} />
 				<Link to="/events/create">+NEW EVENT</Link>
 			</S.Container>
 		);
@@ -26,7 +28,8 @@ const EventsNav = (props) => {
 	if (navState === "event") {
 		return (
 			<S.Container>
-				<Link to={"/events"}>BACK</Link>
+				<Link to={"/events"}>{`< BACK`}</Link>
+				<S.Logo src={logo} />
 			</S.Container>
 		);
 	}
@@ -90,12 +93,19 @@ const S = {
 	Container: styled.nav`
 		display: flex;
 		justify-content: space-between;
-		padding: 1vw;
-		border: solid red 1px;
+		align-items: center;
+		// border: solid red 1px;
+		padding: 5px;
 		width: 100vw;
 		position: fixed;
 		top: 0;
-		background-color: yellow;
+		// background-color: yellow;
+		height: 7vh;
+		min-height: 30px;
+		box-sizing: border-box;
+	`,
+	Logo: styled.img`
+		height: 100%;
 	`,
 };
 

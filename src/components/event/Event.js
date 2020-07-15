@@ -6,6 +6,7 @@ import { Link, Redirect } from "react-router-dom";
 import DateForm from "./DateForm";
 import { setIsEditingDate } from "../../redux/actions";
 import Nav from "../nav/Nav";
+import styled from "styled-components";
 
 const Event = (props) => {
 	let eventHash = props.match.params.eventHash;
@@ -22,10 +23,10 @@ const Event = (props) => {
 	console.log("isEditingDate", props.isEditingDate);
 
 	return (
-		<div>
+		<S.Container>
 			<Nav navState={"event"} />
-			<Link to={"/events"}>BACK</Link>
-			<div>{event.name}</div>
+			{/* <Link to={"/events"}>BACK</Link> */}
+			<div className={"eventName"}>{event.name}</div>
 			{event.startDate ? (
 				<div>
 					{!props.isEditingDate && (
@@ -82,8 +83,24 @@ const Event = (props) => {
 					<></>
 				)}
 			</ul>
-		</div>
+		</S.Container>
 	);
+};
+
+const S = {
+	Container: styled.div`
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		// height: 80vh;
+		// border: solid green 1px;
+		margin-top: 10vh;
+
+		.eventName {
+			text-transform: uppercase;
+		}
+	`,
 };
 
 const mapStateToProps = ({ user, events }) => ({
