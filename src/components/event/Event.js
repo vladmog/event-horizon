@@ -8,6 +8,9 @@ import { setIsEditingDate } from "../../redux/actions";
 import Nav from "../nav/Nav";
 import styled from "styled-components";
 import availabilities from "../../media/availabilities.svg";
+import dollar from "../../media/dollar.svg";
+import checklist from "../../media/checklist.svg";
+import invite from "../../media/invite.svg";
 
 const Event = (props) => {
 	let eventHash = props.match.params.eventHash;
@@ -46,7 +49,12 @@ const Event = (props) => {
 				) : (
 					<div>
 						{!props.isEditingDate && (
-							<div onClick={() => props.setIsEditingDate(true)}>ADD DATE</div>
+							<div
+								className={"addDateButton"}
+								onClick={() => props.setIsEditingDate(true)}
+							>
+								ADD DATE
+							</div>
 						)}
 						{props.isEditingDate && (
 							<DateForm startDate={event.startDate} eventId={event.id} />
@@ -74,7 +82,7 @@ const Event = (props) => {
 				<li>
 					<S.Link>
 						<div className={"imgContainer"}>
-							<img src={availabilities} />
+							<img src={dollar} />
 						</div>
 						<div>Cost Split</div>
 					</S.Link>
@@ -84,7 +92,7 @@ const Event = (props) => {
 				<li>
 					<S.Link>
 						<div className={"imgContainer"}>
-							<img src={availabilities} />
+							<img src={checklist} />
 						</div>
 						<div>Check-list</div>
 					</S.Link>
@@ -95,7 +103,7 @@ const Event = (props) => {
 					<li>
 						<S.Link to={`/events/${event.eventHash}/invite`}>
 							<div className={"imgContainer"}>
-								<img src={availabilities} />
+								<img src={invite} />
 							</div>
 							<div>Invite</div>
 						</S.Link>
@@ -115,7 +123,7 @@ const S = {
 		flex-direction: column;
 		align-items: center;
 		// height: 80vh;
-		border: solid red 1px;
+		// border: solid red 1px;
 		margin-top: 10vh;
 		box-sizing: border-box;
 
@@ -127,12 +135,14 @@ const S = {
 
 		.eventName {
 			text-transform: uppercase;
+			font-family: "Archivo", sans-serif;
+			font-size: 50px;
 		}
 
 		.firstHalf {
-			border: solid green 1px;
+			// border: solid green 1px;
 			min-height: 300px;
-			width: 400px;
+			width: 350px;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
@@ -141,11 +151,19 @@ const S = {
 			h1 {
 				margin: 0px;
 			}
+
+			.addDateButton {
+				font-family: "Archivo Black", sans-serif;
+				color: red;
+				text-transform: uppercase;
+				text-decoration: underline;
+				font-size: 18px;
+			}
 		}
 		.secondHalf {
-			border: solid blue 1px;
+			// border: solid blue 1px;
 			min-height: 300px;
-			width: 400px;
+			width: 350px;
 			list-style-type: none;
 			padding: 0px;
 
@@ -170,6 +188,10 @@ const S = {
 		justify-content: center;
 		height: 100%;
 		width: 100%;
+		font-family: "Archivo Black", sans-serif;
+		text-transform: uppercase;
+		color: #242424;
+		text-decoration: none;
 
 		.imgContainer {
 			height: 80%;
@@ -179,6 +201,7 @@ const S = {
 			flex-direction: column;
 			justify-content: space-around;
 			align-items: center;
+			margin-bottom: 3px;
 		}
 	`,
 };
