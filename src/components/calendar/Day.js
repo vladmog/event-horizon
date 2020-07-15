@@ -5,21 +5,27 @@ import { bindActionCreators, compose } from "redux";
 
 const S = {
 	Container: styled.div`
-		width: 14.2%;
-		height: ${(props) => props.dayHeight};
-		border: solid black 1px;
+		width: 100%;
+		height: 100%;
+		// height: ${(props) => props.dayHeight};
+		// border: solid black 1px;
 		box-sizing: border-box;
 		background-color: ${(props) => props.backgroundColor};
+
+		span {
+			font-family: "Archivo Black", sans-serif;
+		}
 	`,
 	Blank: styled.div`
-		width: 14.2%;
-		height: ${(props) => props.dayHeight};
+		width: 100%;
+		height: 100%;
+		// height: ${(props) => props.dayHeight};
 		box-sizing: border-box;
 	`,
 };
 
 const Day = (props) => {
-	const [color, setColor] = useState("white");
+	const [color, setColor] = useState("#DCE0D9");
 	const colors = {
 		color1: "#FFCE99", // << lightest
 		color2: "#FFB05C",
@@ -87,8 +93,8 @@ const Day = (props) => {
 			// setColor(colors.color1);
 			setDynamicColor();
 		} else if (color in colorsObj && !props.day.availabilitiesCount) {
-			// If on render day is green and has no availabilities assigned to it, turn day white
-			setColor("white");
+			// If on render day is green and has no availabilities assigned to it, turn day #DCE0D9
+			setColor("#DCE0D9");
 		}
 	}, [
 		props.day.availabilitiesCount,
@@ -108,7 +114,7 @@ const Day = (props) => {
 		if (props.updateMode) {
 			console.log();
 			let action;
-			if (color === "white") {
+			if (color === "#DCE0D9") {
 				action = "add";
 			} else if (color in colorsObj) {
 				action = "remove";
@@ -124,7 +130,7 @@ const Day = (props) => {
 			onClick={() => handleClick(props.day)}
 		>
 			<span>{dayNumber}</span>
-			<div>{props.day.availabilitiesCount}</div>
+			{/* <div>{props.day.availabilitiesCount}</div> */}
 		</S.Container>
 	);
 };
