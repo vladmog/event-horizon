@@ -12,6 +12,14 @@ const S = {
 		flex-direction: column;
 		justify-content: space-between;
 		align-items: center;
+
+		h3 {
+			align-self: flex-start;
+			text-transform: uppercase;
+			font-family: "Archivo", sans-serif;
+			font-weight: 400;
+			font-size: 30px;
+		}
 	`,
 	Month: styled.div`
 		width: 100%;
@@ -50,11 +58,24 @@ const Month = (props) => {
 		blankId++;
 	}
 
+	let abrevToFullMonth = {
+		Jan: "January",
+		Feb: "February",
+		Mar: "March",
+		Apr: "April",
+		May: "May",
+		Jun: "June",
+		Jul: "July",
+		Aug: "August",
+		Sep: "September",
+		Oct: "October",
+		Nov: "November",
+		Dec: "December",
+	};
+
 	return (
 		<S.Container ref={props.refs[`${monthYearString}`]}>
-			<h3>
-				{monthString} {props.yearNumber}
-			</h3>
+			<h3>{abrevToFullMonth[`${monthString}`]}</h3>
 			<S.Month>
 				{month.map((day) => {
 					// If month occupies 5 weeks, make height of day square 1/5 of 100%

@@ -11,6 +11,7 @@ import {
 	updateAvailability,
 	getAvailabilities,
 } from "../../redux/actions";
+import styled from "styled-components";
 
 const Availabilities = (props) => {
 	let eventHash = props.match.params.eventHash;
@@ -329,7 +330,7 @@ const Availabilities = (props) => {
 	};
 
 	return (
-		<div>
+		<S.Container>
 			<Nav
 				navState={"tool"}
 				tool={"availabilities"}
@@ -346,7 +347,6 @@ const Availabilities = (props) => {
 				}}
 			>{`< ${event.name}`}</Link> */}
 
-			<h1>Availabilities</h1>
 			<Calendar calendar={dispCal} handleSelect={handleSelect} />
 			{props.updateMode ? (
 				<div>
@@ -365,8 +365,18 @@ const Availabilities = (props) => {
 					setIsShowcasing={setIsShowcasing}
 				/>
 			)}
-		</div>
+		</S.Container>
 	);
+};
+
+const S = {
+	Container: styled.div`
+		margin-top: 10vh;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+	`,
 };
 
 const mapStateToProps = ({ user, events, calendar }) => ({
