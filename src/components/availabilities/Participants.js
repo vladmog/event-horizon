@@ -53,7 +53,6 @@ const Participants = (props) => {
 	};
 	return (
 		<div>
-			<h1>Participants</h1>
 			{props.eventParticipants.map((participant) => {
 				// Default username styling
 				let color = "#242424";

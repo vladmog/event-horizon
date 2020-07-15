@@ -25,8 +25,10 @@ const S = {
 		width: 100%;
 		height: 90%;
 		box-sizing: border-box;
-		display: flex;
-		flex-wrap: wrap;
+		display: grid;
+		grid-gap: 3px;
+		grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
 	`,
 };
 
