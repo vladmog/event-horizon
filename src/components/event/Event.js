@@ -26,40 +26,42 @@ const Event = (props) => {
 		<S.Container>
 			<Nav navState={"event"} />
 			{/* <Link to={"/events"}>BACK</Link> */}
-			<div className={"eventName"}>{event.name}</div>
-			{event.startDate ? (
-				<div>
-					{!props.isEditingDate && (
-						<div>
-							<span>Date: {event.startDate}</span>
-							<span onClick={() => props.setIsEditingDate(true)}>
-								EDIT DATE
-							</span>
-						</div>
-					)}
-					{props.isEditingDate && (
-						<DateForm startDate={event.startDate} eventId={event.id} />
-					)}
-				</div>
-			) : (
-				<div>
-					{!props.isEditingDate && (
-						<div onClick={() => props.setIsEditingDate(true)}>ADD DATE</div>
-					)}
-					{props.isEditingDate && (
-						<DateForm startDate={event.startDate} eventId={event.id} />
-					)}
-				</div>
-			)}
-			<div>
-				Invited:
-				{eventParticipants &&
-					eventParticipants.map((participant) => {
-						return <span key={participant.id}> {participant.userName},</span>;
-					})}
+			<div className={"firstHalf"}>
+				<h1 className={"eventName"}>{event.name}</h1>
+				{event.startDate ? (
+					<div>
+						{!props.isEditingDate && (
+							<div>
+								<span>Date: {event.startDate}</span>
+								<span onClick={() => props.setIsEditingDate(true)}>
+									EDIT DATE
+								</span>
+							</div>
+						)}
+						{props.isEditingDate && (
+							<DateForm startDate={event.startDate} eventId={event.id} />
+						)}
+					</div>
+				) : (
+					<div>
+						{!props.isEditingDate && (
+							<div onClick={() => props.setIsEditingDate(true)}>ADD DATE</div>
+						)}
+						{props.isEditingDate && (
+							<DateForm startDate={event.startDate} eventId={event.id} />
+						)}
+					</div>
+				)}
+				{/* <div>
+					Invited:
+					{eventParticipants &&
+						eventParticipants.map((participant) => {
+							return <span key={participant.id}> {participant.userName},</span>;
+						})}
+				</div> */}
 			</div>
 
-			<ul>
+			<ul className={"secondHalf"}>
 				<li>
 					<Link to={`/events/${event.eventHash}/availabilities`}>
 						Availabilities
@@ -94,11 +96,47 @@ const S = {
 		flex-direction: column;
 		align-items: center;
 		// height: 80vh;
-		// border: solid green 1px;
+		border: solid red 1px;
 		margin-top: 10vh;
+		box-sizing: border-box;
+
+		@media (min-width: 750px) {
+			flex-direction: row;
+			justify-content: space-around;
+			margin-top: 30vh;
+		}
 
 		.eventName {
 			text-transform: uppercase;
+		}
+
+		.firstHalf {
+			border: solid green 1px;
+			min-height: 300px;
+			width: 400px;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
+			align-items: flex-start;
+
+			h1 {
+				margin: 0px;
+			}
+		}
+		.secondHalf {
+			border: solid blue 1px;
+			min-height: 300px;
+			width: 400px;
+			list-style-type: none;
+			padding: 0px;
+
+			display: grid;
+			grid-template-columns: 1fr 1fr;
+			grid-template-rows: 1fr 1fr;
+
+			li {
+				border: solid black 1px;
+			}
 		}
 	`,
 };
