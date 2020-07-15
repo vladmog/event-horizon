@@ -7,6 +7,7 @@ import DateForm from "./DateForm";
 import { setIsEditingDate } from "../../redux/actions";
 import Nav from "../nav/Nav";
 import styled from "styled-components";
+import availabilities from "../../media/availabilities.svg";
 
 const Event = (props) => {
 	let eventHash = props.match.params.eventHash;
@@ -63,23 +64,41 @@ const Event = (props) => {
 
 			<ul className={"secondHalf"}>
 				<li>
-					<Link to={`/events/${event.eventHash}/availabilities`}>
-						Availabilities
-					</Link>
+					<S.Link to={`/events/${event.eventHash}/availabilities`}>
+						<div className={"imgContainer"}>
+							<img src={availabilities} />
+						</div>
+						<div>Availabilities</div>
+					</S.Link>
 				</li>
 				<li>
-					<Link>Cost Split</Link>
-					{/* <Link to={``}>Cost Split</Link>  */}{" "}
+					<S.Link>
+						<div className={"imgContainer"}>
+							<img src={availabilities} />
+						</div>
+						<div>Cost Split</div>
+					</S.Link>
+					{/* <S.Link to={``}>Cost Split</S.Link>  */}{" "}
 					{/* uncoment once a view is created for the link to direct to */}
 				</li>
 				<li>
-					<Link>Check-list</Link>
-					{/* <Link to={``}>Check-list</Link> */}{" "}
+					<S.Link>
+						<div className={"imgContainer"}>
+							<img src={availabilities} />
+						</div>
+						<div>Check-list</div>
+					</S.Link>
+					{/* <S.Link to={``}>Check-list</S.Link> */}{" "}
 					{/* uncoment once a view is created for the link to direct to */}
 				</li>
 				{event.isAdmin ? (
 					<li>
-						<Link to={`/events/${event.eventHash}/invite`}>Invite</Link>
+						<S.Link to={`/events/${event.eventHash}/invite`}>
+							<div className={"imgContainer"}>
+								<img src={availabilities} />
+							</div>
+							<div>Invite</div>
+						</S.Link>
 					</li>
 				) : (
 					<></>
@@ -131,12 +150,35 @@ const S = {
 			padding: 0px;
 
 			display: grid;
+			grid-gap: 20px;
 			grid-template-columns: 1fr 1fr;
 			grid-template-rows: 1fr 1fr;
 
 			li {
-				border: solid black 1px;
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				// border: solid black 1px;
 			}
+		}
+	`,
+	Link: styled((props) => <Link {...props} />)`
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		height: 100%;
+		width: 100%;
+
+		.imgContainer {
+			height: 80%;
+			width: 100%;
+			background-color: #242424;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-around;
+			align-items: center;
 		}
 	`,
 };

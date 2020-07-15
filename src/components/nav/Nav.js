@@ -2,6 +2,7 @@ import React from "react";
 import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
 import logo from "../../media/logo.svg";
+import availabilities from "../../media/availabilities.svg";
 
 import { Link } from "react-router-dom";
 
