@@ -6,8 +6,20 @@ import { setUpdateMode } from "../../redux/actions";
 import styled from "styled-components";
 
 const S = {
+	Container: styled.ul`
+		list-style-type: none;
+		padding: 0px;
+
+		.nameRow {
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+		}
+	`,
 	Name: styled.div`
 		color: ${(props) => props.color};
+		font-family: "Archivo", sans-serif;
+		font-weight: bold;
 	`,
 };
 
@@ -52,7 +64,7 @@ const Participants = (props) => {
 		}
 	};
 	return (
-		<div>
+		<S.Container>
 			{props.eventParticipants.map((participant) => {
 				// Default username styling
 				let color = "#242424";
@@ -69,10 +81,13 @@ const Participants = (props) => {
 					color = "#959494";
 				}
 				return (
-					<div key={participant.id}>
+					<li key={participant.id}>
 						{user.email === participant.emailAddress ? (
 							// Host availability
-							<div style={{ display: "flex", cursor: "pointer" }}>
+							<div
+								className={"nameRow"}
+								style={{ display: "flex", cursor: "pointer" }}
+							>
 								<S.Name
 									color={color}
 									onClick={() => {
@@ -80,7 +95,7 @@ const Participants = (props) => {
 										clickHandler(participant);
 									}}
 								>
-									{participant.userName} - you
+									{participant.userName}
 								</S.Name>
 								<button onClick={() => props.setUpdateMode(true)}>
 									update
@@ -96,10 +111,10 @@ const Participants = (props) => {
 								{participant.userName}
 							</S.Name>
 						)}
-					</div>
+					</li>
 				);
 			})}
-		</div>
+		</S.Container>
 	);
 };
 

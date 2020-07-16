@@ -6,9 +6,13 @@ import styled from "styled-components";
 
 const S = {
 	TempContainer: styled.div`
-		height: 35vh;
-		width: 35vh;
+		height: 50vh;
+		width: 100%;
 		box-sizing: border-box;
+
+		@media (min-width: 750px) {
+			width: 300px;
+		}
 	`,
 	Container: styled.div`
 		// border: solid red 5px;
