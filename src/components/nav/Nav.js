@@ -97,10 +97,9 @@ const S = {
 		align-items: center;
 		// border: solid red 1px;
 		padding: 5px;
-		width: 100vw;
+		width: 100%;
 		position: fixed;
 		top: 0;
-		// background-color: yellow;
 		height: 7vh;
 		min-height: 30px;
 		box-sizing: border-box;

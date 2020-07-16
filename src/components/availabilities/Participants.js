@@ -6,8 +6,12 @@ import { setUpdateMode } from "../../redux/actions";
 import styled from "styled-components";
 
 const S = {
+	Container: styled.div`
+		border: solid red 2px;
+	`,
 	Name: styled.div`
 		color: ${(props) => props.color};
+		border: solid green 1px;
 	`,
 };
 
@@ -52,7 +56,7 @@ const Participants = (props) => {
 		}
 	};
 	return (
-		<div>
+		<S.Container>
 			{props.eventParticipants.map((participant) => {
 				// Default username styling
 				let color = "#242424";
@@ -99,7 +103,7 @@ const Participants = (props) => {
 					</div>
 				);
 			})}
-		</div>
+		</S.Container>
 	);
 };
 

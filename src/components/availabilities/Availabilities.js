@@ -346,25 +346,30 @@ const Availabilities = (props) => {
 					props.setUpdateMode(false);
 				}}
 			>{`< ${event.name}`}</Link> */}
+			<div className={"content"}>
+				<Calendar calendar={dispCal} handleSelect={handleSelect} />
 
-			<Calendar calendar={dispCal} handleSelect={handleSelect} />
-			{props.updateMode ? (
-				<div>
-					<h3>Select days you're available</h3>
-					<button onClick={() => handleSubmit()}>SAVE</button>
-				</div>
-			) : (
-				<Participants
-					eventParticipants={eventParticipants}
-					dispUserIds={dispUserIds}
-					setDispUserIds={setDispUserIds}
-					dispUserIdsObj={dispUserIdsObj}
-					setDispUserIdsObj={setDispUserIdsObj}
-					setLastDispUserRemoved={setLastDispUserRemoved}
-					isShowcasing={isShowcasing}
-					setIsShowcasing={setIsShowcasing}
-				/>
-			)}
+				{props.updateMode ? (
+					<div>
+						<h3>Select days you're available</h3>
+						<button onClick={() => handleSubmit()}>SAVE</button>
+					</div>
+				) : (
+					<div className={"secondHalf"}>
+						<h3>Select name to see individual availability</h3>
+						<Participants
+							eventParticipants={eventParticipants}
+							dispUserIds={dispUserIds}
+							setDispUserIds={setDispUserIds}
+							dispUserIdsObj={dispUserIdsObj}
+							setDispUserIdsObj={setDispUserIdsObj}
+							setLastDispUserRemoved={setLastDispUserRemoved}
+							isShowcasing={isShowcasing}
+							setIsShowcasing={setIsShowcasing}
+						/>
+					</div>
+				)}
+			</div>
 		</S.Container>
 	);
 };
@@ -376,6 +381,46 @@ const S = {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
+		border: solid black 3px;
+		box-sizing: border-box;
+
+		@media (min-width: 750px) {
+			flex-direction: row;
+			margin-top: 30vh;
+		}
+
+		.content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			// margin-top: 10vh;
+			border: solid green 1px;
+			box-sizing: border-box;
+
+			width: 90%;
+
+			@media (min-width: 750px) {
+				flex-direction: row;
+				justify-content: space-around;
+				width: 100%;
+			}
+
+			.secondHalf {
+				border: solid red 2px;
+				box-sizing: border-box;
+				width: 100%;
+
+				h3 {
+					color: #464646;
+					font-weight: 400;
+				}
+
+				@media (min-width: 750px) {
+					min-height: 50vh;
+					width: 300px;
+				}
+			}
+		}
 	`,
 };
 
