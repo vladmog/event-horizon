@@ -381,7 +381,6 @@ const S = {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		border: solid black 3px;
 		box-sizing: border-box;
 
 		@media (min-width: 750px) {
@@ -394,7 +393,6 @@ const S = {
 			flex-direction: column;
 			align-items: center;
 			// margin-top: 10vh;
-			border: solid green 1px;
 			box-sizing: border-box;
 
 			width: 90%;
@@ -406,10 +404,9 @@ const S = {
 			}
 
 			.secondHalf {
-				border: solid red 2px;
 				box-sizing: border-box;
 				width: 100%;
-
+				margin-top: 2vh;
 				h3 {
 					color: #464646;
 					font-weight: 400;
@@ -418,6 +415,7 @@ const S = {
 				@media (min-width: 750px) {
 					min-height: 50vh;
 					width: 300px;
+					padding: 0px;
 				}
 			}
 		}
