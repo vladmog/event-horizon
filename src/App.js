@@ -80,7 +80,7 @@ function App(props) {
 const S = {
 	Container: styled.div`
 		width: 100vw;
-		height: 100vh;
+		// height: 100vh;
 		box-sizing: border-box;
 		// border: solid blue 1px;
 		margin: 0px;

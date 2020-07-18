@@ -382,6 +382,7 @@ const S = {
 		flex-direction: column;
 		align-items: center;
 		box-sizing: border-box;
+		border: solid black 4px;
 
 		@media (min-width: 750px) {
 			flex-direction: row;
