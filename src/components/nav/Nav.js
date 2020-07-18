@@ -97,6 +97,7 @@ const S = {
 		align-items: center;
 		// border: solid red 1px;
 		padding: 5px;
+		background-color: #fbf6ef;
 		width: 100%;
 		position: fixed;
 		top: 0;

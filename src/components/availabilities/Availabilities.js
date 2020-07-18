@@ -394,7 +394,7 @@ const S = {
 			align-items: center;
 			// margin-top: 10vh;
 			box-sizing: border-box;
-
+			border: solid red 1px;
 			width: 90%;
 
 			@media (min-width: 750px) {
