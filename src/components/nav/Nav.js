@@ -1,8 +1,13 @@
 import React from "react";
 import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
+// import availabilities from "../../media/availabilities.svg";
+
 import logo from "../../media/logo.svg";
-import availabilities from "../../media/availabilities.svg";
+import availabilities from "../../media/availabilitiesDark.svg";
+import checklist from "../../media/checklistDark.svg";
+import dollar from "../../media/dollarDark.svg";
+import invite from "../../media/inviteDark.svg";
 
 import { Link } from "react-router-dom";
 
@@ -17,6 +22,19 @@ const EventsNav = (props) => {
 		navFunctsValues,
 		eventName,
 	} = props;
+
+	const returnToolSvg = (tool) => {
+		switch (tool) {
+			case "availabilities":
+				return availabilities;
+			case "invite":
+				return invite;
+			case "checklist":
+				return checklist;
+			case "costSplit":
+				return dollar;
+		}
+	};
 
 	if (navState === "events") {
 		return (
@@ -67,15 +85,20 @@ const EventsNav = (props) => {
 		console.log("Tool: ", tool);
 		return (
 			<S.Container>
-				<Link
+				<S.Link
 					to={backPath}
 					// to={"/events"}
 					onClick={() => {
 						navFuncts(navFunctsValues);
 					}}
-				>{`< ${eventName}`}</Link>
+				>
+					<div className={"arrow"}>{`<`}</div>
+					<div className={"eventName"}>{eventName}</div>
+				</S.Link>
 
-				<span>{tool}</span>
+				{/* <span>{tool}</span> */}
+				<img className={"svg"} src={returnToolSvg(tool)} />
+				{/* <Availabilities fill="242424" /> */}
 			</S.Container>
 		);
 	}
@@ -98,15 +121,42 @@ const S = {
 		// border: solid red 1px;
 		padding: 5px;
 		background-color: #fbf6ef;
+		// background-color: black;
 		width: 100%;
 		position: fixed;
 		top: 0;
 		height: 7vh;
-		min-height: 30px;
+		// min-height: 30px;
 		box-sizing: border-box;
+
+		.svg g {
+			fill: #242424;
+		}
 	`,
 	Logo: styled.img`
 		height: 100%;
+	`,
+	Link: styled((props) => <Link {...props} />)`
+		text-transform: uppercase;
+		width: 80px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		text-decoration: none;
+		color: #242424;
+
+		div {
+			box-sizing: border-box;
+		}
+
+		.arrow {
+			width: 20%;
+		}
+
+		.eventName {
+			width: 80%;
+			line-height: 90%;
+		}
 	`,
 };
 
