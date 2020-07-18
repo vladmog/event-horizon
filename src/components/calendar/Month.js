@@ -19,6 +19,9 @@ const S = {
 			font-family: "Archivo", sans-serif;
 			font-weight: 400;
 			font-size: 30px;
+			margin: 0px;
+
+			border: solid green 1px;
 		}
 	`,
 	Month: styled.div`
