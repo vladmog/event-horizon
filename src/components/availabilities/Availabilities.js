@@ -382,7 +382,7 @@ const S = {
 		flex-direction: column;
 		align-items: center;
 		box-sizing: border-box;
-		border: solid black 4px;
+		// border: solid black 4px;
 
 		@media (min-width: 750px) {
 			flex-direction: row;
@@ -395,7 +395,7 @@ const S = {
 			align-items: center;
 			margin-top: 5vh;
 			box-sizing: border-box;
-			border: solid red 1px;
+			// border: solid red 1px;
 			width: 90%;
 
 			@media (min-width: 750px) {

@@ -4,6 +4,7 @@ import styled from "styled-components";
 
 const S = {
 	Container: styled.div`
+		padding: 5% 0%;
 		height: 8.3%;
 		width: 100%;
 		// border: solid green 5px;
@@ -18,20 +19,25 @@ const S = {
 			text-transform: uppercase;
 			font-family: "Archivo", sans-serif;
 			font-weight: 400;
-			font-size: 30px;
+			font-size: 40px;
 			margin: 0px;
+			height: 20%;
+			display: flex;
+			align-items: center;
+			box-sizing: border-box;
 
-			border: solid green 1px;
+			// border: solid green 1px;
 		}
 	`,
 	Month: styled.div`
 		width: 100%;
-		height: 90%;
+		height: 70%;
 		box-sizing: border-box;
 		display: grid;
 		grid-gap: 3px;
 		grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
 		grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+		// border: solid red 1px;
 	`,
 };
 
