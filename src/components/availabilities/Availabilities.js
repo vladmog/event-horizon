@@ -392,7 +392,7 @@ const S = {
 			display: flex;
 			flex-direction: column;
 			align-items: center;
-			// margin-top: 10vh;
+			margin-top: 5vh;
 			box-sizing: border-box;
 			border: solid red 1px;
 			width: 90%;
@@ -401,6 +401,7 @@ const S = {
 				flex-direction: row;
 				justify-content: space-around;
 				width: 100%;
+				margin-top: 0px;
 			}
 
 			.secondHalf {
