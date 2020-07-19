@@ -7,6 +7,8 @@ import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
 import { searchUser, inviteUser, uninviteUser } from "../../redux/actions";
 import Nav from "../nav/Nav";
+import searchIcon from "../../media/search.svg";
+import deleteIcon from "../../media/delete.svg";
 
 const S = {
 	Container: styled.div`
@@ -16,31 +18,124 @@ const S = {
 		align-items: center;
 
 		.content {
-			border: solid red 1px;
+			// border: solid red 1px;
 			display: flex;
 			flex-direction: column;
-			margin-top: 20vh;
 			width: 100%;
+			margin-top: 15vh;
 
 			@media (min-width: 750px) {
 				flex-direction: row;
 				justify-content: space-around;
+				margin-top: 30vh;
+			}
+
+			.firstHalf {
+				min-height: 200px;
+				// border: solid red 1px;
+
+				.getLinkButton {
+					border: none;
+					background-color: transparent;
+					text-decoration: underline;
+					font-family: "Archivo", sans-serif;
+					font-size: 24px;
+					font-weight: 400;
+				}
+
+				h1 {
+					text-transform: uppercase;
+					font-family: "Archivo", sans-serif;
+					font-size: 48px;
+				}
+
+				@media (min-width: 750px) {
+					min-height: 300px;
+					min-width: 350px;
+				}
+			}
+			.secondHalf {
+				min-height: 200px;
+				// border: solid red 1px;
+				h1 {
+					text-transform: uppercase;
+					font-family: "Archivo", sans-serif;
+					font-size: 48px;
+				}
+				@media (min-width: 750px) {
+					min-height: 300px;
+					width: 350px;
+				}
+				ul {
+					// border: solid black 1px;
+					list-style-type: none;
+					padding: 0px;
+					li {
+						// border: solid red 1px;
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						height: 30px;
+						font-size: 24px;
+						button {
+							background-color: transparent;
+							border: none;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							box-sizing: border-box;
+							// border: solid purple 1px;
+							img {
+								width: 80%;
+								// border: solid green 1px;
+								box-sizing: border-box;
+								cursor: pointer;
+							}
+						}
+					}
+				}
 			}
 		}
 	`,
 	InputContainer: styled.form`
-		border: solid red 1px;
-		width: 80%;
+		// border: solid red 1px;
+		width: 100%;
+		height: 44px;
 		box-sizing: border-box;
-		input {
-			height: 100%;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		margin-top: 3vh;
+
+		.svgAndInput {
+			height: 44px;
 			width: 100%;
-			border: solid green 1px;
 			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			border: solid black 1px;
+
+			img {
+				height: 60%;
+				margin: 0px 5px;
+				box-sizing: border-box;
+			}
+
+			input {
+				height: 100%;
+				width: 100%;
+				// border: solid green 1px;
+				border: none;
+				box-sizing: border-box;
+				background-color: transparent;
+				font-size: 24px;
+			}
 		}
 	`,
 	DropDown: styled.div`
 		box-sizing: border-box;
+		width: 100%;
+		// background-color: yellow;
 
 		div {
 			box-sizing: border-box;
@@ -142,19 +237,35 @@ const Invite = (props) => {
 				<div className={"firstHalf"}>
 					<h1>INVITE:</h1>
 					{/* usersMet that are not in given event participants */}
+					<div /> {/* temporary line break */}
+					<button
+						className={"getLinkButton"}
+						onClick={() => setIsDispLink(true)}
+					>
+						Get shareable link
+					</button>
+					{isDispLink && (
+						<div>
+							<input id={"inviteLink"} readOnly value={inviteLink} />
+							<button onClick={() => copyLink()}>Copy invite link</button>
+						</div>
+					)}
 					<S.InputContainer
 						onClick={() => setIsDispDropdown(true)}
 						onSubmit={(e) => {
 							searchSubmit(e);
 						}}
 					>
-						<input
-							id="dd"
-							placeholder="search users..."
-							value={searchTerm}
-							onChange={(e) => setSearchTerm(e.target.value)}
-							autoComplete="off"
-						/>
+						<div className={"svgAndInput"}>
+							<img src={searchIcon} />
+							<input
+								id="dd"
+								placeholder="search users..."
+								value={searchTerm}
+								onChange={(e) => setSearchTerm(e.target.value)}
+								autoComplete="off"
+							/>
+						</div>
 						<S.DropDown display={isDispDropDown ? "block" : "none"}>
 							<div id={"dd"}>
 								{/* If user searched for not found */}
@@ -205,20 +316,10 @@ const Invite = (props) => {
 							</div>
 						</S.DropDown>
 					</S.InputContainer>
-					<div /> {/* temporary line break */}
-					<button onClick={() => setIsDispLink(true)}>
-						Get shareable link
-					</button>
-					{isDispLink && (
-						<div>
-							<input id={"inviteLink"} readOnly value={inviteLink} />
-							<button onClick={() => copyLink()}>Copy invite link</button>
-						</div>
-					)}
 				</div>
 
 				<div className={"secondHalf"}>
-					<h2>Invited:</h2>
+					<h1>Invited:</h1>
 					{/* users that are in given event participants */}
 					<ul>
 						{eventParticipants.map((participant) => {
@@ -227,7 +328,7 @@ const Invite = (props) => {
 									<li>
 										<span>{participant.userName}</span>
 										<button onClick={() => remove(participant.userId)}>
-											DELETE
+											<img src={deleteIcon} />
 										</button>
 									</li>
 								);
