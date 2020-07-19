@@ -40,14 +40,19 @@ const EventsNav = (props) => {
 		return (
 			<S.Container>
 				<S.Logo src={logo} />
-				<S.NewEventLink to="/events/create">+NEW EVENT</S.NewEventLink>
+				<S.NewEventLink to="/events/create">
+					<div className={"arrow"}>{`+`}</div>
+					{/* // using irrelevant classnames 
+					because reusing a different styled component that worked here*/}
+					<div className={"eventName"}>NEW EVENT</div>
+				</S.NewEventLink>
 			</S.Container>
 		);
 	}
 	if (navState === "event") {
 		return (
 			<S.Container>
-				<S.Link to={"/events"}>{`< BACK`}</S.Link>
+				<S.BackLink to={"/events"}>{`< BACK`}</S.BackLink>
 				<S.Logo src={logo} />
 			</S.Container>
 		);
@@ -164,7 +169,17 @@ const S = {
 S.NewEventLink = styled(S.Link)`
 	color: #c36400;
 	// border: solid green 1px;
-	width: 75px;
+	width: 90px;
+
+	.eventName {
+		text-align: center;
+		text-decoration: underline;
+		line-height: 120%;
+	}
+`;
+
+S.BackLink = styled(S.Link)`
+	font-size: 28px;
 `;
 
 export default EventsNav;

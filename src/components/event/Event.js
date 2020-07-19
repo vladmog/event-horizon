@@ -138,6 +138,8 @@ const S = {
 			text-transform: uppercase;
 			font-family: "Archivo", sans-serif;
 			font-size: 50px;
+			// border: solid red 1px;
+			width: 90%;
 		}
 
 		.firstHalf {
@@ -146,7 +148,7 @@ const S = {
 			width: 100%;
 			display: flex;
 			flex-direction: column;
-			justify-content: space-between;
+			justify-content: space-around;
 			align-items: flex-start;
 
 			@media (min-width: 750px) {
@@ -164,6 +166,7 @@ const S = {
 				text-transform: uppercase;
 				text-decoration: underline;
 				font-size: 18px;
+				margin-top: 3vh;
 			}
 		}
 		.secondHalf {
@@ -172,9 +175,11 @@ const S = {
 			width: 100%;
 			list-style-type: none;
 			padding: 0px;
+			margin-top: 5vh;
 
 			@media (min-width: 750px) {
 				width: 350px;
+				margin: 0px;
 			}
 
 			display: grid;
