@@ -140,6 +140,7 @@ const S = {
 			font-size: 50px;
 			// border: solid red 1px;
 			width: 90%;
+			line-height: 0.9;
 		}
 
 		.firstHalf {
