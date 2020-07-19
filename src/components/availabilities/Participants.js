@@ -9,6 +9,7 @@ const S = {
 	Container: styled.ul`
 		list-style-type: none;
 		padding: 0px;
+		// border: solid black 1px;
 
 		.nameRow {
 			width: 100%;

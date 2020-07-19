@@ -166,9 +166,10 @@ const S = {
 
 			button {
 				text-decoration: underline;
-				background-color: #fbf6ef;
+				background-color: transparent;
 				border: none;
 				font-size: 24px;
+				color: #676767;
 			}
 		}
 

@@ -17,11 +17,16 @@ const S = {
 	Container: styled.div`
 		// border: solid red 5px;
 		height: 100%;
+
 		width: 100%;
 		box-sizing: border-box;
 		overflow: scroll;
 		::-webkit-scrollbar {
 			display: none;
+		}
+
+		@media (min-width: 750px) {
+			height: 400px;
 		}
 	`,
 };

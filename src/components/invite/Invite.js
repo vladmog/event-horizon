@@ -7,21 +7,135 @@ import { useAuth0 } from "../../react-auth0-spa";
 import styled from "styled-components";
 import { searchUser, inviteUser, uninviteUser } from "../../redux/actions";
 import Nav from "../nav/Nav";
+import searchIcon from "../../media/search.svg";
+import deleteIcon from "../../media/delete.svg";
 
 const S = {
-	InputContainer: styled.form`
-		border: solid red 1px;
-		width: 400px;
-		box-sizing: border-box;
-		input {
-			height: 100%;
+	Container: styled.div`
+		width: 90%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.content {
+			// border: solid red 1px;
+			display: flex;
+			flex-direction: column;
 			width: 100%;
-			border: solid green 1px;
+			margin-top: 15vh;
+
+			@media (min-width: 750px) {
+				flex-direction: row;
+				justify-content: space-around;
+				margin-top: 30vh;
+			}
+
+			.firstHalf {
+				min-height: 200px;
+				// border: solid red 1px;
+
+				.getLinkButton {
+					border: none;
+					background-color: transparent;
+					text-decoration: underline;
+					font-family: "Archivo", sans-serif;
+					font-size: 24px;
+					font-weight: 400;
+				}
+
+				h1 {
+					text-transform: uppercase;
+					font-family: "Archivo", sans-serif;
+					font-size: 48px;
+				}
+
+				@media (min-width: 750px) {
+					min-height: 300px;
+					min-width: 350px;
+				}
+			}
+			.secondHalf {
+				min-height: 200px;
+				// border: solid red 1px;
+				h1 {
+					text-transform: uppercase;
+					font-family: "Archivo", sans-serif;
+					font-size: 48px;
+				}
+				@media (min-width: 750px) {
+					min-height: 300px;
+					width: 350px;
+				}
+				ul {
+					// border: solid black 1px;
+					list-style-type: none;
+					padding: 0px;
+					li {
+						// border: solid red 1px;
+						display: flex;
+						justify-content: space-between;
+						align-items: center;
+						height: 30px;
+						font-size: 24px;
+						button {
+							background-color: transparent;
+							border: none;
+							display: flex;
+							justify-content: center;
+							align-items: center;
+							box-sizing: border-box;
+							// border: solid purple 1px;
+							img {
+								width: 80%;
+								// border: solid green 1px;
+								box-sizing: border-box;
+								cursor: pointer;
+							}
+						}
+					}
+				}
+			}
+		}
+	`,
+	InputContainer: styled.form`
+		// border: solid red 1px;
+		width: 100%;
+		height: 44px;
+		box-sizing: border-box;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		margin-top: 3vh;
+
+		.svgAndInput {
+			height: 44px;
+			width: 100%;
 			box-sizing: border-box;
+			display: flex;
+			align-items: center;
+			border: solid black 1px;
+
+			img {
+				height: 60%;
+				margin: 0px 5px;
+				box-sizing: border-box;
+			}
+
+			input {
+				height: 100%;
+				width: 100%;
+				// border: solid green 1px;
+				border: none;
+				box-sizing: border-box;
+				background-color: transparent;
+				font-size: 24px;
+			}
 		}
 	`,
 	DropDown: styled.div`
 		box-sizing: border-box;
+		width: 100%;
+		// background-color: yellow;
 
 		div {
 			box-sizing: border-box;
@@ -110,7 +224,7 @@ const Invite = (props) => {
 	};
 
 	return (
-		<div onClick={(e) => handleBlur(e)}>
+		<S.Container onClick={(e) => handleBlur(e)}>
 			<Nav
 				navState={"tool"}
 				tool={"invite"}
@@ -119,98 +233,112 @@ const Invite = (props) => {
 				navFunctsValues={false}
 				eventName={event.name}
 			/>
-			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
-			<h1>INVITE:</h1>
-			{/* usersMet that are not in given event participants */}
-			<S.InputContainer
-				onClick={() => setIsDispDropdown(true)}
-				onSubmit={(e) => {
-					searchSubmit(e);
-				}}
-			>
-				<input
-					id="dd"
-					placeholder="search users..."
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-					autoComplete="off"
-				/>
-				<S.DropDown display={isDispDropDown ? "block" : "none"}>
-					<div id={"dd"}>
-						{/* If user searched for not found */}
-						{props.searchResult === false && props.searchResult !== null && (
-							<li id="dd" style={{ color: "red" }}>
-								{searchTerm} not found
-							</li>
-						)}
-
-						{/* If search term returned result, show result */}
-						{props.searchResult && (
-							<li
-								style={{ color: "blue" }}
+			<div className={"content"}>
+				<div className={"firstHalf"}>
+					<h1>INVITE:</h1>
+					{/* usersMet that are not in given event participants */}
+					<div /> {/* temporary line break */}
+					<button
+						className={"getLinkButton"}
+						onClick={() => setIsDispLink(true)}
+					>
+						Get shareable link
+					</button>
+					{isDispLink && (
+						<div>
+							<input id={"inviteLink"} readOnly value={inviteLink} />
+							<button onClick={() => copyLink()}>Copy invite link</button>
+						</div>
+					)}
+					<S.InputContainer
+						onClick={() => setIsDispDropdown(true)}
+						onSubmit={(e) => {
+							searchSubmit(e);
+						}}
+					>
+						<div className={"svgAndInput"}>
+							<img src={searchIcon} />
+							<input
 								id="dd"
-								key={`${props.searchResult.userName}`}
-								onClick={() => console.log(props.searchResult.userName)}
-							>
-								<span id="dd">{props.searchResult.userName}</span>
-								<button
-									onClick={(e) => invite(e, props.searchResult.id)}
-									id="dd"
-									type="button"
-								>
-									ADD
-								</button>
-							</li>
-						)}
+								placeholder="search users..."
+								value={searchTerm}
+								onChange={(e) => setSearchTerm(e.target.value)}
+								autoComplete="off"
+							/>
+						</div>
+						<S.DropDown display={isDispDropDown ? "block" : "none"}>
+							<div id={"dd"}>
+								{/* If user searched for not found */}
+								{props.searchResult === false && props.searchResult !== null && (
+									<li id="dd" style={{ color: "red" }}>
+										{searchTerm} not found
+									</li>
+								)}
 
-						{/* Render acquaintances */}
-						{acquaintances.map((acquaintance) => {
-							return (
-								<li
-									id="dd"
-									key={`${acquaintance.userName}`}
-									onClick={() => console.log(acquaintance.userName)}
-								>
-									<span>{acquaintance.userName}</span>
-									<button
-										onClick={(e) => invite(e, acquaintance.userId)}
+								{/* If search term returned result, show result */}
+								{props.searchResult && (
+									<li
+										style={{ color: "blue" }}
 										id="dd"
-										type="button"
+										key={`${props.searchResult.userName}`}
+										onClick={() => console.log(props.searchResult.userName)}
 									>
-										ADD
-									</button>
-								</li>
-							);
-						})}
-					</div>
-				</S.DropDown>
-			</S.InputContainer>
-			<div /> {/* temporary line break */}
-			<button onClick={() => setIsDispLink(true)}>Get shareable link</button>
-			{isDispLink && (
-				<div>
-					<input id={"inviteLink"} readOnly value={inviteLink} />
-					<button onClick={() => copyLink()}>Copy invite link</button>
+										<span id="dd">{props.searchResult.userName}</span>
+										<button
+											onClick={(e) => invite(e, props.searchResult.id)}
+											id="dd"
+											type="button"
+										>
+											ADD
+										</button>
+									</li>
+								)}
+
+								{/* Render acquaintances */}
+								{acquaintances.map((acquaintance) => {
+									return (
+										<li
+											id="dd"
+											key={`${acquaintance.userName}`}
+											onClick={() => console.log(acquaintance.userName)}
+										>
+											<span>{acquaintance.userName}</span>
+											<button
+												onClick={(e) => invite(e, acquaintance.userId)}
+												id="dd"
+												type="button"
+											>
+												ADD
+											</button>
+										</li>
+									);
+								})}
+							</div>
+						</S.DropDown>
+					</S.InputContainer>
 				</div>
-			)}
-			<h2>Invited:</h2>
-			{/* users that are in given event participants */}
-			<ul>
-				{eventParticipants.map((participant) => {
-					if (participant.emailAddress !== user.email) {
-						return (
-							<li>
-								<span>{participant.userName}</span>
-								<button onClick={() => remove(participant.userId)}>
-									DELETE
-								</button>
-							</li>
-						);
-						// add remove functionality here
-					}
-				})}
-			</ul>
-		</div>
+
+				<div className={"secondHalf"}>
+					<h1>Invited:</h1>
+					{/* users that are in given event participants */}
+					<ul>
+						{eventParticipants.map((participant) => {
+							if (participant.emailAddress !== user.email) {
+								return (
+									<li>
+										<span>{participant.userName}</span>
+										<button onClick={() => remove(participant.userId)}>
+											<img src={deleteIcon} />
+										</button>
+									</li>
+								);
+								// add remove functionality here
+							}
+						})}
+					</ul>
+				</div>
+			</div>
+		</S.Container>
 	);
 };
 

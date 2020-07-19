@@ -396,27 +396,33 @@ const S = {
 			box-sizing: border-box;
 			// border: solid red 1px;
 			width: 90%;
+			min-height: 300px;
 
 			@media (min-width: 750px) {
 				flex-direction: row;
 				justify-content: space-around;
 				width: 100%;
 				margin-top: 0px;
+				align-items: flex-start;
 			}
 
 			.secondHalf {
 				box-sizing: border-box;
 				width: 100%;
 				margin-top: 2vh;
+				// border: solid red 1px;
+
 				h3 {
 					color: #464646;
 					font-weight: 400;
 				}
 
 				@media (min-width: 750px) {
-					min-height: 50vh;
+					// min-height: 50vh;
+					// height: 100%;
 					width: 300px;
 					padding: 0px;
+					margin-top: 0px;
 				}
 			}
 		}
