@@ -130,7 +130,7 @@ const S = {
 		position: fixed;
 		margin-top: 1vh;
 		top: 0;
-		height: 58px;
+		min-height: 58px;
 		// min-height: 30px;
 		box-sizing: border-box;
 
@@ -139,7 +139,7 @@ const S = {
 		}
 	`,
 	Logo: styled.img`
-		height: 100%;
+		height: 58px;
 	`,
 	Link: styled((props) => <Link {...props} />)`
 		text-transform: uppercase;

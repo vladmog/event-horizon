@@ -13,7 +13,8 @@ const S = {
 		background-color: ${(props) => props.backgroundColor};
 
 		span {
-			font-family: "Archivo Black", sans-serif;
+			font-family: "Archivo", sans-serif;
+			font-weight: 700;
 		}
 	`,
 	Blank: styled.div`
