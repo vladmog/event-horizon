@@ -41,6 +41,7 @@ const S = {
 					font-family: "Archivo", sans-serif;
 					font-size: 24px;
 					font-weight: 400;
+					margin-top: 3vh;
 				}
 
 				h1 {
@@ -105,7 +106,6 @@ const S = {
 		display: flex;
 		align-items: center;
 		flex-direction: column;
-		margin-top: 3vh;
 
 		.svgAndInput {
 			height: 44px;
@@ -237,19 +237,6 @@ const Invite = (props) => {
 				<div className={"firstHalf"}>
 					<h1>INVITE:</h1>
 					{/* usersMet that are not in given event participants */}
-					<div /> {/* temporary line break */}
-					<button
-						className={"getLinkButton"}
-						onClick={() => setIsDispLink(true)}
-					>
-						Get shareable link
-					</button>
-					{isDispLink && (
-						<div>
-							<input id={"inviteLink"} readOnly value={inviteLink} />
-							<button onClick={() => copyLink()}>Copy invite link</button>
-						</div>
-					)}
 					<S.InputContainer
 						onClick={() => setIsDispDropdown(true)}
 						onSubmit={(e) => {
@@ -266,56 +253,69 @@ const Invite = (props) => {
 								autoComplete="off"
 							/>
 						</div>
-						<S.DropDown display={isDispDropDown ? "block" : "none"}>
-							<div id={"dd"}>
-								{/* If user searched for not found */}
-								{props.searchResult === false && props.searchResult !== null && (
-									<li id="dd" style={{ color: "red" }}>
-										{searchTerm} not found
-									</li>
-								)}
+					</S.InputContainer>
+					<S.DropDown display={isDispDropDown ? "block" : "none"}>
+						<div id={"dd"}>
+							{/* If user searched for not found */}
+							{props.searchResult === false && props.searchResult !== null && (
+								<li id="dd" style={{ color: "red" }}>
+									{searchTerm} not found
+								</li>
+							)}
 
-								{/* If search term returned result, show result */}
-								{props.searchResult && (
-									<li
-										style={{ color: "blue" }}
+							{/* If search term returned result, show result */}
+							{props.searchResult && (
+								<li
+									style={{ color: "blue" }}
+									id="dd"
+									key={`${props.searchResult.userName}`}
+									onClick={() => console.log(props.searchResult.userName)}
+								>
+									<span id="dd">{props.searchResult.userName}</span>
+									<button
+										onClick={(e) => invite(e, props.searchResult.id)}
 										id="dd"
-										key={`${props.searchResult.userName}`}
-										onClick={() => console.log(props.searchResult.userName)}
+										type="button"
 									>
-										<span id="dd">{props.searchResult.userName}</span>
+										ADD
+									</button>
+								</li>
+							)}
+
+							{/* Render acquaintances */}
+							{acquaintances.map((acquaintance) => {
+								return (
+									<li
+										id="dd"
+										key={`${acquaintance.userName}`}
+										onClick={() => console.log(acquaintance.userName)}
+									>
+										<span>{acquaintance.userName}</span>
 										<button
-											onClick={(e) => invite(e, props.searchResult.id)}
+											onClick={(e) => invite(e, acquaintance.userId)}
 											id="dd"
 											type="button"
 										>
 											ADD
 										</button>
 									</li>
-								)}
-
-								{/* Render acquaintances */}
-								{acquaintances.map((acquaintance) => {
-									return (
-										<li
-											id="dd"
-											key={`${acquaintance.userName}`}
-											onClick={() => console.log(acquaintance.userName)}
-										>
-											<span>{acquaintance.userName}</span>
-											<button
-												onClick={(e) => invite(e, acquaintance.userId)}
-												id="dd"
-												type="button"
-											>
-												ADD
-											</button>
-										</li>
-									);
-								})}
-							</div>
-						</S.DropDown>
-					</S.InputContainer>
+								);
+							})}
+						</div>
+					</S.DropDown>
+					<div /> {/* temporary line break */}
+					<button
+						className={"getLinkButton"}
+						onClick={() => setIsDispLink(true)}
+					>
+						Get shareable link
+					</button>
+					{isDispLink && (
+						<div>
+							<input id={"inviteLink"} readOnly value={inviteLink} />
+							<button onClick={() => copyLink()}>Copy invite link</button>
+						</div>
+					)}
 				</div>
 
 				<div className={"secondHalf"}>
