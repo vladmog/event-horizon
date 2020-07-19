@@ -73,7 +73,7 @@ const Events = (props) => {
 							})}
 					</ul>
 				</S.Half>
-				<S.Half>
+				<S.SecondHalf>
 					<div className={"cardHeader"}>
 						<h3>Others' events:</h3>
 						<button
@@ -105,7 +105,7 @@ const Events = (props) => {
 								);
 							})}
 					</ul>
-				</S.Half>
+				</S.SecondHalf>
 			</S.Content>
 		</S.Container>
 	);
@@ -127,9 +127,9 @@ const S = {
 		// border: solid black 1px;
 		width: 100%;
 		max-width: 375px;
-		margin-top: 20vh;
 		// padding: 10px;
 		box-sizing: border-box;
+		margin-top: 20vh;
 
 		@media (min-width: 750px) {
 			flex-direction: row;
@@ -201,6 +201,13 @@ const S = {
 		color: #242424;
 	`,
 };
+
+S.SecondHalf = styled(S.Half)`
+	margin-top: 5vh;
+	@media (min-width: 750px) {
+		margin-top: 0px;
+	}
+`;
 
 const mapStateToProps = ({ user, events }) => ({
 	isUserRetrieved: user.isUserRetrieved,
