@@ -118,16 +118,17 @@ const Event = (props) => {
 
 const S = {
 	Container: styled.div`
-		width: 100%;
+		width: 90%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		// height: 80vh;
 		// border: solid red 1px;
-		margin-top: 10vh;
+		margin-top: 15vh;
 		box-sizing: border-box;
 
 		@media (min-width: 750px) {
+			width: 100%;
 			flex-direction: row;
 			justify-content: space-around;
 			margin-top: 30vh;
@@ -141,12 +142,17 @@ const S = {
 
 		.firstHalf {
 			// border: solid green 1px;
-			min-height: 300px;
-			width: 350px;
+			min-height: 200px;
+			width: 100%;
 			display: flex;
 			flex-direction: column;
 			justify-content: space-between;
 			align-items: flex-start;
+
+			@media (min-width: 750px) {
+				width: 350px;
+				min-height: 300px;
+			}
 
 			h1 {
 				margin: 0px;
@@ -162,10 +168,14 @@ const S = {
 		}
 		.secondHalf {
 			// border: solid blue 1px;
-			min-height: 300px;
-			width: 350px;
+			min-height: 275px;
+			width: 100%;
 			list-style-type: none;
 			padding: 0px;
+
+			@media (min-width: 750px) {
+				width: 350px;
+			}
 
 			display: grid;
 			grid-gap: 20px;
@@ -202,6 +212,7 @@ const S = {
 			justify-content: space-around;
 			align-items: center;
 			margin-bottom: 3px;
+			border-radius: 5px;
 		}
 	`,
 };

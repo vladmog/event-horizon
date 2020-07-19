@@ -113,7 +113,7 @@ const Events = (props) => {
 
 const S = {
 	Container: styled.div`
-		width: 100%;
+		width: 90%;
 		box-sizing: border-box;
 		display: flex;
 		flex-direction: column;
@@ -128,7 +128,7 @@ const S = {
 		width: 100%;
 		max-width: 375px;
 		margin-top: 20vh;
-		padding: 10px;
+		// padding: 10px;
 		box-sizing: border-box;
 
 		@media (min-width: 750px) {
