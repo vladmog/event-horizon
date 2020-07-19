@@ -12,14 +12,28 @@ const S = {
 
 		.nameRow {
 			width: 100%;
+			height: 30px;
 			display: flex;
 			justify-content: space-between;
+			// border: solid green 1px;
+			align-items; center; 
+
+			button {
+				border: none;
+				background-color: transparent;
+				text-transform: uppercase;
+				cursor: pointer;
+			}
 		}
 	`,
 	Name: styled.div`
 		color: ${(props) => props.color};
 		font-family: "Archivo", sans-serif;
 		font-weight: bold;
+		// font-size: 20px;
+		// border: solid blue 1px;
+		display: flex;
+		align-items: center;
 	`,
 };
 
@@ -103,13 +117,15 @@ const Participants = (props) => {
 							</div>
 						) : (
 							// Participant availability
-							<S.Name
-								style={{ display: "flex", cursor: "pointer" }}
-								color={color}
-								onClick={() => clickHandler(participant)}
-							>
-								{participant.userName}
-							</S.Name>
+							<div className={"nameRow"}>
+								<S.Name
+									style={{ display: "flex", cursor: "pointer" }}
+									color={color}
+									onClick={() => clickHandler(participant)}
+								>
+									{participant.userName}
+								</S.Name>
+							</div>
 						)}
 					</li>
 				);

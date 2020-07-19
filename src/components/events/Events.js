@@ -42,7 +42,7 @@ const Events = (props) => {
 			<S.Content>
 				<S.Half>
 					<div className={"cardHeader"}>
-						<h3>Your events:</h3>
+						<h3>Your events</h3>
 						<button
 							onClick={() => props.setIsDeletingEvents(!props.isDeletingEvents)}
 						>
@@ -75,7 +75,7 @@ const Events = (props) => {
 				</S.Half>
 				<S.SecondHalf>
 					<div className={"cardHeader"}>
-						<h3>Others' events:</h3>
+						<h3>Others' events</h3>
 						<button
 							onClick={() => props.setIsLeavingEvents(!props.isLeavingEvents)}
 						>
@@ -159,14 +159,16 @@ const S = {
 				text-transform: uppercase;
 				// border: solid green 1px;
 				width: calc(100% - 35px);
-				font-size: 50px;
+				font-size: 45px;
 				color: #242424;
+				line-height: 1;
 			}
 
 			button {
 				text-decoration: underline;
 				background-color: #fbf6ef;
 				border: none;
+				font-size: 24px;
 			}
 		}
 
@@ -185,6 +187,7 @@ const S = {
 					border-bottom: solid #676767 1px;
 					display: flex;
 					align-items: center;
+					height: 50px;
 				}
 
 				button {
@@ -199,6 +202,7 @@ const S = {
 	Link: styled((props) => <Link {...props} />)`
 		text-decoration: none;
 		color: #242424;
+		font-size: 24px;
 	`,
 };
 

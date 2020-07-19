@@ -385,7 +385,6 @@ const S = {
 		// border: solid black 4px;
 
 		@media (min-width: 750px) {
-			flex-direction: row;
 			margin-top: 30vh;
 		}
 
