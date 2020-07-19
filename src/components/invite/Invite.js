@@ -9,9 +9,28 @@ import { searchUser, inviteUser, uninviteUser } from "../../redux/actions";
 import Nav from "../nav/Nav";
 
 const S = {
+	Container: styled.div`
+		width: 90%;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+
+		.content {
+			border: solid red 1px;
+			display: flex;
+			flex-direction: column;
+			margin-top: 20vh;
+			width: 100%;
+
+			@media (min-width: 750px) {
+				flex-direction: row;
+				justify-content: space-around;
+			}
+		}
+	`,
 	InputContainer: styled.form`
 		border: solid red 1px;
-		width: 400px;
+		width: 80%;
 		box-sizing: border-box;
 		input {
 			height: 100%;
@@ -110,7 +129,7 @@ const Invite = (props) => {
 	};
 
 	return (
-		<div onClick={(e) => handleBlur(e)}>
+		<S.Container onClick={(e) => handleBlur(e)}>
 			<Nav
 				navState={"tool"}
 				tool={"invite"}
@@ -119,98 +138,106 @@ const Invite = (props) => {
 				navFunctsValues={false}
 				eventName={event.name}
 			/>
-			<Link to={`/events/${event.eventHash}`}>{`< ${event.name}`}</Link>
-			<h1>INVITE:</h1>
-			{/* usersMet that are not in given event participants */}
-			<S.InputContainer
-				onClick={() => setIsDispDropdown(true)}
-				onSubmit={(e) => {
-					searchSubmit(e);
-				}}
-			>
-				<input
-					id="dd"
-					placeholder="search users..."
-					value={searchTerm}
-					onChange={(e) => setSearchTerm(e.target.value)}
-					autoComplete="off"
-				/>
-				<S.DropDown display={isDispDropDown ? "block" : "none"}>
-					<div id={"dd"}>
-						{/* If user searched for not found */}
-						{props.searchResult === false && props.searchResult !== null && (
-							<li id="dd" style={{ color: "red" }}>
-								{searchTerm} not found
-							</li>
-						)}
+			<div className={"content"}>
+				<div className={"firstHalf"}>
+					<h1>INVITE:</h1>
+					{/* usersMet that are not in given event participants */}
+					<S.InputContainer
+						onClick={() => setIsDispDropdown(true)}
+						onSubmit={(e) => {
+							searchSubmit(e);
+						}}
+					>
+						<input
+							id="dd"
+							placeholder="search users..."
+							value={searchTerm}
+							onChange={(e) => setSearchTerm(e.target.value)}
+							autoComplete="off"
+						/>
+						<S.DropDown display={isDispDropDown ? "block" : "none"}>
+							<div id={"dd"}>
+								{/* If user searched for not found */}
+								{props.searchResult === false && props.searchResult !== null && (
+									<li id="dd" style={{ color: "red" }}>
+										{searchTerm} not found
+									</li>
+								)}
 
-						{/* If search term returned result, show result */}
-						{props.searchResult && (
-							<li
-								style={{ color: "blue" }}
-								id="dd"
-								key={`${props.searchResult.userName}`}
-								onClick={() => console.log(props.searchResult.userName)}
-							>
-								<span id="dd">{props.searchResult.userName}</span>
-								<button
-									onClick={(e) => invite(e, props.searchResult.id)}
-									id="dd"
-									type="button"
-								>
-									ADD
-								</button>
-							</li>
-						)}
-
-						{/* Render acquaintances */}
-						{acquaintances.map((acquaintance) => {
-							return (
-								<li
-									id="dd"
-									key={`${acquaintance.userName}`}
-									onClick={() => console.log(acquaintance.userName)}
-								>
-									<span>{acquaintance.userName}</span>
-									<button
-										onClick={(e) => invite(e, acquaintance.userId)}
+								{/* If search term returned result, show result */}
+								{props.searchResult && (
+									<li
+										style={{ color: "blue" }}
 										id="dd"
-										type="button"
+										key={`${props.searchResult.userName}`}
+										onClick={() => console.log(props.searchResult.userName)}
 									>
-										ADD
-									</button>
-								</li>
-							);
-						})}
-					</div>
-				</S.DropDown>
-			</S.InputContainer>
-			<div /> {/* temporary line break */}
-			<button onClick={() => setIsDispLink(true)}>Get shareable link</button>
-			{isDispLink && (
-				<div>
-					<input id={"inviteLink"} readOnly value={inviteLink} />
-					<button onClick={() => copyLink()}>Copy invite link</button>
+										<span id="dd">{props.searchResult.userName}</span>
+										<button
+											onClick={(e) => invite(e, props.searchResult.id)}
+											id="dd"
+											type="button"
+										>
+											ADD
+										</button>
+									</li>
+								)}
+
+								{/* Render acquaintances */}
+								{acquaintances.map((acquaintance) => {
+									return (
+										<li
+											id="dd"
+											key={`${acquaintance.userName}`}
+											onClick={() => console.log(acquaintance.userName)}
+										>
+											<span>{acquaintance.userName}</span>
+											<button
+												onClick={(e) => invite(e, acquaintance.userId)}
+												id="dd"
+												type="button"
+											>
+												ADD
+											</button>
+										</li>
+									);
+								})}
+							</div>
+						</S.DropDown>
+					</S.InputContainer>
+					<div /> {/* temporary line break */}
+					<button onClick={() => setIsDispLink(true)}>
+						Get shareable link
+					</button>
+					{isDispLink && (
+						<div>
+							<input id={"inviteLink"} readOnly value={inviteLink} />
+							<button onClick={() => copyLink()}>Copy invite link</button>
+						</div>
+					)}
 				</div>
-			)}
-			<h2>Invited:</h2>
-			{/* users that are in given event participants */}
-			<ul>
-				{eventParticipants.map((participant) => {
-					if (participant.emailAddress !== user.email) {
-						return (
-							<li>
-								<span>{participant.userName}</span>
-								<button onClick={() => remove(participant.userId)}>
-									DELETE
-								</button>
-							</li>
-						);
-						// add remove functionality here
-					}
-				})}
-			</ul>
-		</div>
+
+				<div className={"secondHalf"}>
+					<h2>Invited:</h2>
+					{/* users that are in given event participants */}
+					<ul>
+						{eventParticipants.map((participant) => {
+							if (participant.emailAddress !== user.email) {
+								return (
+									<li>
+										<span>{participant.userName}</span>
+										<button onClick={() => remove(participant.userId)}>
+											DELETE
+										</button>
+									</li>
+								);
+								// add remove functionality here
+							}
+						})}
+					</ul>
+				</div>
+			</div>
+		</S.Container>
 	);
 };
 
