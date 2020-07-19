@@ -40,14 +40,14 @@ const EventsNav = (props) => {
 		return (
 			<S.Container>
 				<S.Logo src={logo} />
-				<Link to="/events/create">+NEW EVENT</Link>
+				<S.NewEventLink to="/events/create">+NEW EVENT</S.NewEventLink>
 			</S.Container>
 		);
 	}
 	if (navState === "event") {
 		return (
 			<S.Container>
-				<Link to={"/events"}>{`< BACK`}</Link>
+				<S.Link to={"/events"}>{`< BACK`}</S.Link>
 				<S.Logo src={logo} />
 			</S.Container>
 		);
@@ -119,13 +119,13 @@ const S = {
 		justify-content: space-between;
 		align-items: center;
 		// border: solid red 1px;
-		padding: 5px;
 		background-color: #fbf6ef;
 		// background-color: black;
-		width: 100%;
+		width: 90%;
 		position: fixed;
+		margin-top: 1vh;
 		top: 0;
-		height: 7vh;
+		height: 58px;
 		// min-height: 30px;
 		box-sizing: border-box;
 
@@ -138,12 +138,13 @@ const S = {
 	`,
 	Link: styled((props) => <Link {...props} />)`
 		text-transform: uppercase;
-		width: 80px;
+		width: 100px;
 		box-sizing: border-box;
 		display: flex;
 		align-items: center;
 		text-decoration: none;
 		color: #242424;
+		font-size: 22px;
 
 		div {
 			box-sizing: border-box;
@@ -159,5 +160,11 @@ const S = {
 		}
 	`,
 };
+
+S.NewEventLink = styled(S.Link)`
+	color: #c36400;
+	// border: solid green 1px;
+	width: 75px;
+`;
 
 export default EventsNav;
