@@ -57,6 +57,7 @@ const S = {
 			}
 			.secondHalf {
 				min-height: 200px;
+				margin-top: 4vh;
 				// border: solid red 1px;
 				h1 {
 					text-transform: uppercase;
@@ -66,6 +67,7 @@ const S = {
 				@media (min-width: 750px) {
 					min-height: 300px;
 					width: 350px;
+					margin-top: 0px;
 				}
 				ul {
 					// border: solid black 1px;

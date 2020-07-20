@@ -5,6 +5,7 @@ import { bindActionCreators, compose } from "redux";
 import { useAuth0 } from "../../react-auth0-spa";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import deleteIcon from "../../media/delete.svg";
 
 import Nav from "../nav/Nav";
 
@@ -66,7 +67,9 @@ const Events = (props) => {
 											</S.Link>
 										</div>
 										{props.isDeletingEvents && (
-											<button onClick={() => handleDelete(event.id)}>x</button>
+											<button onClick={() => handleDelete(event.id)}>
+												<img src={deleteIcon} />
+											</button>
 										)}
 									</li>
 								);
@@ -99,7 +102,9 @@ const Events = (props) => {
 											</S.Link>
 										</div>
 										{props.isLeavingEvents && ( // make this conditional off of a different state machine variable indicating leaving others' events
-											<button onClick={() => handleLeave(event.id)}>x</button>
+											<button onClick={() => handleLeave(event.id)}>
+												<img src={deleteIcon} />
+											</button>
 										)}
 									</li>
 								);
@@ -129,7 +134,7 @@ const S = {
 		// max-width: 375px;
 		// padding: 10px;
 		box-sizing: border-box;
-		margin-top: 15vh;
+		margin-top: 20vh;
 
 		@media (min-width: 750px) {
 			flex-direction: row;
@@ -192,9 +197,13 @@ const S = {
 				}
 
 				button {
-					width: 27px;
-					height: 27px;
 					margin: 0px;
+					border: none;
+					background-color: transparent;
+					box-sizing: border-box;
+					img {
+						box-sizing: border-box;
+					}
 				}
 			}
 		}
