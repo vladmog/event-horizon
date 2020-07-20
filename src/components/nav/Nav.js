@@ -62,26 +62,28 @@ const EventsNav = (props) => {
 			console.log("last step");
 			return (
 				<S.Container>
-					<button
+					<S.BackLink
 						onClick={(e) => {
 							decrementStep(e);
 							setIsDateKnown(false);
 						}}
 					>
-						BACK
-					</button>
+						{`< BACK`}
+					</S.BackLink>
+					<S.Logo src={logo} />
 				</S.Container>
 			);
 		} else {
 			return (
 				<S.Container>
-					<button
+					<S.BackLink
 						onClick={(e) => {
 							decrementStep(e);
 						}}
 					>
-						BACK
-					</button>
+						{`< BACK`}
+					</S.BackLink>
+					<S.Logo src={logo} />
 				</S.Container>
 			);
 		}
@@ -120,6 +122,7 @@ const EventsNav = (props) => {
 
 const S = {
 	Container: styled.nav`
+		font-family: "Archivo", sans-serif;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;
@@ -143,7 +146,7 @@ const S = {
 	`,
 	Link: styled((props) => <Link {...props} />)`
 		text-transform: uppercase;
-		width: 100px;
+		width: 110px;
 		box-sizing: border-box;
 		display: flex;
 		align-items: center;
@@ -179,6 +182,7 @@ S.NewEventLink = styled(S.Link)`
 `;
 
 S.BackLink = styled(S.Link)`
+	// border: solid green 2px;
 	font-size: 28px;
 `;
 

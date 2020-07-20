@@ -64,6 +64,7 @@ const S = {
 const Step1 = (props) => {
 	return (
 		<S.Container>
+			<Nav navState={"event"} />
 			<div className={"content"}>
 				<form onSubmit={(e) => props.incrementStep(e)}>
 					<h1>What is the name of this event?</h1>
