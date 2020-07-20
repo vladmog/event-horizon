@@ -18,7 +18,11 @@ const S = {
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		min-height: 100vh;
+		margin-top: 25vh;
+
+		@media (min-width: 750px) {
+			margin-top: 30vh;
+		}
 
 		button {
 			background-color: #fbf6ef;
