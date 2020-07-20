@@ -126,16 +126,16 @@ const S = {
 		flex-direction: column;
 		// border: solid black 1px;
 		width: 100%;
-		max-width: 375px;
+		// max-width: 375px;
 		// padding: 10px;
 		box-sizing: border-box;
-		margin-top: 20vh;
+		margin-top: 15vh;
 
 		@media (min-width: 750px) {
 			flex-direction: row;
-			max-width: 1000px;
-			width: 80vw;
-			justify-content: space-between;
+			// max-width: 1000px;
+			width: 100%;
+			justify-content: space-around;
 			margin-top: 30vh;
 		}
 	`,
