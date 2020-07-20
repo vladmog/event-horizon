@@ -65,6 +65,7 @@ const S = {
 						background-color: transparent;
 						border: solid #242424 1px;
 						height: 42px;
+						width: 60%;
 					}
 				}
 

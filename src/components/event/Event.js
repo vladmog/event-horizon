@@ -82,26 +82,22 @@ const Event = (props) => {
 						<div>Availabilities</div>
 					</S.Link>
 				</li>
-				<li>
+				{/* <li>
 					<S.Link>
 						<div className={"imgContainer"}>
 							<img src={dollar} />
 						</div>
 						<div>Cost Split</div>
 					</S.Link>
-					{/* <S.Link to={``}>Cost Split</S.Link>  */}{" "}
-					{/* uncoment once a view is created for the link to direct to */}
-				</li>
-				<li>
+				</li> */}
+				{/* <li>
 					<S.Link>
 						<div className={"imgContainer"}>
 							<img src={checklist} />
 						</div>
 						<div>Check-list</div>
 					</S.Link>
-					{/* <S.Link to={``}>Check-list</S.Link> */}{" "}
-					{/* uncoment once a view is created for the link to direct to */}
-				</li>
+				</li> */}
 				{event.isAdmin ? (
 					<li>
 						<S.Link to={`/events/${event.eventHash}/invite`}>
