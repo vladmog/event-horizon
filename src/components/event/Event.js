@@ -82,22 +82,22 @@ const Event = (props) => {
 						<div>Availabilities</div>
 					</S.Link>
 				</li>
-				{/* <li>
+				<li>
 					<S.Link>
 						<div className={"imgContainer"}>
 							<img src={dollar} />
 						</div>
 						<div>Cost Split</div>
 					</S.Link>
-				</li> */}
-				{/* <li>
+				</li>
+				<li>
 					<S.Link>
 						<div className={"imgContainer"}>
 							<img src={checklist} />
 						</div>
 						<div>Check-list</div>
 					</S.Link>
-				</li> */}
+				</li>
 				{event.isAdmin ? (
 					<li>
 						<S.Link to={`/events/${event.eventHash}/invite`}>
