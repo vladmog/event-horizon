@@ -9,6 +9,7 @@ import { searchUser, inviteUser, uninviteUser } from "../../redux/actions";
 import Nav from "../nav/Nav";
 import searchIcon from "../../media/search.svg";
 import deleteIcon from "../../media/delete.svg";
+import inviteIcon from "../../media/inviteGreen.svg";
 
 const S = {
 	Container: styled.div`
@@ -44,6 +45,30 @@ const S = {
 					margin-top: 3vh;
 				}
 
+				.inviteLinkCont {
+					margin-top: 2vh;
+					// border: solid red 3px;
+					box-sizing: border-box;
+					display: flex;
+					flex-direction: column;
+
+					input {
+						height: 44px%;
+						width: 100%;
+						// border: solid green 1px;
+						border: solid #242424 1px;
+						box-sizing: border-box;
+						background-color: transparent;
+						font-size: 24px;
+					}
+
+					button {
+						margin-top: 1vh;
+						width: 60%;
+						font-size: 24px;
+					}
+				}
+
 				h1 {
 					text-transform: uppercase;
 					font-family: "Archivo", sans-serif;
@@ -57,6 +82,7 @@ const S = {
 			}
 			.secondHalf {
 				min-height: 200px;
+				margin-top: 4vh;
 				// border: solid red 1px;
 				h1 {
 					text-transform: uppercase;
@@ -66,6 +92,7 @@ const S = {
 				@media (min-width: 750px) {
 					min-height: 300px;
 					width: 350px;
+					margin-top: 0px;
 				}
 				ul {
 					// border: solid black 1px;
@@ -136,12 +163,35 @@ const S = {
 		box-sizing: border-box;
 		width: 100%;
 		// background-color: yellow;
+		// border: solid green 1px;
 
 		div {
 			box-sizing: border-box;
-			border: solid purple 1px;
-			height: 100px;
+			border: solid #242424 1px;
+			height: 150px;
 			display: ${(props) => props.display};
+			list-style-type: none;
+			padding: 5px;
+			overflow: scroll;
+			::-webkit-scrollbar {
+				display: none;
+			}
+
+			li {
+				// border: solid red 3px;
+				box-sizing: border-box;
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				height: 30px;
+				font-size: 24px;
+
+				button {
+					background-color: transparent;
+					border: none;
+					cursor: pointer;
+				}
+			}
 		}
 	`,
 };
@@ -277,7 +327,7 @@ const Invite = (props) => {
 										id="dd"
 										type="button"
 									>
-										ADD
+										<img src={inviteIcon} />
 									</button>
 								</li>
 							)}
@@ -296,7 +346,7 @@ const Invite = (props) => {
 											id="dd"
 											type="button"
 										>
-											ADD
+											<img src={inviteIcon} />
 										</button>
 									</li>
 								);
@@ -311,7 +361,7 @@ const Invite = (props) => {
 						Get shareable link
 					</button>
 					{isDispLink && (
-						<div>
+						<div className={"inviteLinkCont"}>
 							<input id={"inviteLink"} readOnly value={inviteLink} />
 							<button onClick={() => copyLink()}>Copy invite link</button>
 						</div>

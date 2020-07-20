@@ -33,13 +33,16 @@ const Event = (props) => {
 			<div className={"firstHalf"}>
 				<h1 className={"eventName"}>{event.name}</h1>
 				{event.startDate ? (
-					<div>
+					<div className={"dateTools"}>
 						{!props.isEditingDate && (
-							<div>
-								<span>Date: {event.startDate}</span>
-								<span onClick={() => props.setIsEditingDate(true)}>
+							<div className={"dateContainer"}>
+								<div>
+									<span>Date:</span>
+									<span>{event.startDate}</span>
+								</div>
+								<button onClick={() => props.setIsEditingDate(true)}>
 									EDIT DATE
-								</span>
+								</button>
 							</div>
 						)}
 						{props.isEditingDate && (
@@ -47,7 +50,7 @@ const Event = (props) => {
 						)}
 					</div>
 				) : (
-					<div>
+					<div className={"dateTools"}>
 						{!props.isEditingDate && (
 							<div
 								className={"addDateButton"}
@@ -79,26 +82,22 @@ const Event = (props) => {
 						<div>Availabilities</div>
 					</S.Link>
 				</li>
-				<li>
+				{/* <li>
 					<S.Link>
 						<div className={"imgContainer"}>
 							<img src={dollar} />
 						</div>
 						<div>Cost Split</div>
 					</S.Link>
-					{/* <S.Link to={``}>Cost Split</S.Link>  */}{" "}
-					{/* uncoment once a view is created for the link to direct to */}
-				</li>
-				<li>
+				</li> */}
+				{/* <li>
 					<S.Link>
 						<div className={"imgContainer"}>
 							<img src={checklist} />
 						</div>
 						<div>Check-list</div>
 					</S.Link>
-					{/* <S.Link to={``}>Check-list</S.Link> */}{" "}
-					{/* uncoment once a view is created for the link to direct to */}
-				</li>
+				</li> */}
 				{event.isAdmin ? (
 					<li>
 						<S.Link to={`/events/${event.eventHash}/invite`}>
@@ -141,6 +140,7 @@ const S = {
 			// border: solid red 1px;
 			width: 90%;
 			line-height: 0.9;
+			color: #242424;
 		}
 
 		.firstHalf {
@@ -159,6 +159,47 @@ const S = {
 
 			h1 {
 				margin: 0px;
+			}
+
+			.dateTools {
+				width: 100%;
+			}
+
+			.dateContainer {
+				width: 100%;
+				display: flex;
+				justify-content: space-between;
+				align-items: flex-end;
+
+				div {
+					display: flex;
+					flex-direction: column;
+					span:nth-child(1) {
+						text-transform: uppercase;
+						font-family: "Archivo Black", sans-serif;
+					}
+					span:nth-child(2) {
+					}
+				}
+
+				button {
+					font-family: "Archivo Black", sans-serif;
+					color: #676767;
+					background-color: transparent;
+					border: none;
+					text-decoration: underline;
+					padding: 0px;
+
+					@media (min-width: 750px) {
+						margin-top: 2vh;
+					}
+				}
+
+				@media (min-width: 750px) {
+					flex-direction: column;
+					align-items: flex-start;
+					justify-content: flex-start;
+				}
 			}
 
 			.addDateButton {
