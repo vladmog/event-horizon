@@ -40,7 +40,12 @@ function App(props) {
 
 	// If logged in via auth but user data not pulled from BE
 	if (user && !props.isUserRetrieved) {
-		return <div>Getting user info</div>;
+		return (
+			<div>
+				Sorry the database is waking up because I'm too cheap to pay for one.
+				Give me 8 secs...
+			</div>
+		);
 	}
 
 	// If logged in via auth but user hasn't created an account
