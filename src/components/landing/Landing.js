@@ -7,6 +7,7 @@ import { Cal } from "../../utils/Cal";
 import { getUser } from "../../redux/actions";
 import styled from "styled-components";
 import logo from "../../media/logo.svg";
+import { Link } from "react-router-dom";
 
 const S = {
 	Container: styled.div`
@@ -40,9 +41,10 @@ const S = {
 	`,
 };
 
-const Landing = (props) => {
+const Landing = props => {
 	const { loginWithRedirect, logout, user } = useAuth0();
 	const currentUrl = window.location.href;
+	console.log("user", user);
 
 	return (
 		<S.Container>
@@ -63,15 +65,19 @@ const Landing = (props) => {
 				<div>Ensure nothing is forgotten</div>
 			</section> */}
 			<h3>A damn simple event planner</h3>
-			<button
-				onClick={() =>
-					loginWithRedirect({
-						redirect_uri: `${currentUrl}events`,
-					})
-				}
-			>
-				<u>SIGN IN</u>
-			</button>
+			{!user ? (
+				<button
+					onClick={() =>
+						loginWithRedirect({
+							redirect_uri: `${currentUrl}events`,
+						})
+					}
+				>
+					<u>SIGN IN</u>
+				</button>
+			) : (
+				<Link to={"/events"}>ENTER</Link>
+			)}
 		</S.Container>
 	);
 };
@@ -80,7 +86,7 @@ const mapStateToProps = ({ user, events }) => ({
 	isUserRetrieved: user.isUserRetrieved,
 });
 
-const mapDispatchToProps = (dispatch) =>
+const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
 			getUser,
